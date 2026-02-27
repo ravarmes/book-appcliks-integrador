@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 7 — Listas Dinâmicas e Mapeamento de Telas</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem7'>SEMANA 7 – Listas Dinâmicas e Mapeamento de Telas</h1>
+            <p class='lead'>Nesta semana, você irá mapear todas as telas do seu aplicativo, construir
+                o diagrama de navegação completo e implementar as listas dinâmicas que exibem dados
+                do banco em tempo real — conectando tudo que foi criado nas semanas anteriores.</p>
+        </header>
+        <hr />
+
+        <p>Na <strong>Semana 6</strong> você usou <em>Navigate Back</em> e <em>Navigate To</em> dentro
+            dos fluxos de Create, Update e Delete — apenas para redirecionar o usuário após uma operação
+            (ex.: voltar à listagem após salvar). Essa é uma navegação <strong>pontual e funcional</strong>,
+            embutida em uma Action.</p>
+
+        <p>Agora, na <strong>Semana 7</strong>, o foco é diferente: você vai <strong>arquitetar a
+                navegação do app como um todo</strong>. Isso significa decidir quantas telas o app terá,
+            como elas se organizam (Bottom Navigation Bar, fluxo de autenticação, telas de detalhe),
+            e desenhar um diagrama que representa todos esses caminhos. Em seguida, você implementa
+            as <strong>listas dinâmicas</strong> — telas que buscam e exibem dados do banco em
+            tempo real usando <em>ListView</em> com <em>Backend Query</em>.</p>
+
+        <p>Um app com boa experiência de usuário precisa ter uma <strong>navegação clara e previsível</strong>.
+            Mapear todas as telas antes de implementar evita problemas de fluxo e garante que o usuário
+            sempre saiba onde está e como chegar onde quer.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s7">
+                    <div id="curiosity-s7" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Apps de sucesso têm em média <strong>3 a 5 telas principais</strong> acessíveis
+                                com no máximo 2 toques a partir da tela inicial.</li>
+                            <li>O <strong>Bottom Navigation Bar</strong> (barra inferior de navegação) é
+                                o padrão mais usado em apps Android modernos segundo o Material Design.</li>
+                            <li>Listas dinâmicas com lazy loading melhoram o desempenho ao carregar
+                                apenas os dados visíveis na tela.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            Google Material Design Guidelines; Nielsen Norman Group.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec7-1'>
+            <h2>7.1 Mapeamento de Telas</h2>
+            <p>O <strong>mapeamento de telas</strong> é um inventário de todas as páginas do aplicativo,
+                organizadas por categoria ou fluxo. Ele serve como referência para toda a equipe e
+                facilita a implementação no FlutterFlow.</p>
+
+            <h3>Categorias de Telas</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 7.1 - </strong>Categorias típicas de telas em um app mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Exemplos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Onboarding / Autenticação</strong></td>
+                        <td>Splash, Boas-vindas, Login, Cadastro, Recuperar Senha</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Navegação Principal</strong></td>
+                        <td>Home, Dashboard, Menu Principal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Listagens</strong></td>
+                        <td>Lista de Despesas, Lista de Produtos, Histórico</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Detalhe / Edição</strong></td>
+                        <td>Detalhe do Item, Editar Perfil, Editar Despesa</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Criação</strong></td>
+                        <td>Nova Despesa, Adicionar Produto, Criar Evento</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Configurações / Perfil</strong></td>
+                        <td>Perfil do Usuário, Configurações, Notificações</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec7-2'>
+            <h2>7.2 Criando o Diagrama de Navegação</h2>
+            <p>O <strong>diagrama de navegação</strong> mapeia todas as telas do app e as conexões
+                entre elas. É o equivalente a um mapa do seu app — antes de construir, você precisa
+                saber para onde cada botão leva. A <strong>Figura 7.1</strong> ilustra um exemplo
+                de diagrama de navegação para o app FinanCampus com suas principais telas e fluxos.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig07_1_navegacao.png' alt='Diagrama de navegação entre telas do app FinanCampus'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 7.1 — </strong>Diagrama de navegação do app
+                    FinanCampus: telas e fluxos de transição.</figcaption>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s7-nav">
+                        <div id="def-s7-nav" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>User Flow (Fluxo do Usuário)</strong> é um
+                                <strong>conceito</strong> de UX, não uma ferramenta. Ele representa
+                                visualmente os caminhos que um usuário pode percorrer dentro do app
+                                para completar uma tarefa — mostrando todas as telas e as transições
+                                entre elas, incluindo decisões (ex.: logado / não logado). O
+                                <strong>Diagrama de Navegação</strong> é o documento que representa
+                                esse User Flow graficamente.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s7-whimsical">
+                        <div id="tip-s7-whimsical" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Ferramentas para criar o Diagrama de
+                                Navegação</strong></div>
+                        <div>
+                            <p><strong>Opção 1 — <a href="https://whimsical.com" target="_blank">Whimsical</a></strong>
+                                (whimsical.com): ferramenta online, gratuita e criada especificamente para
+                                flowcharts e User Flows. Basta criar uma conta, escolher o template
+                                <em>Flowchart</em> e começar a adicionar retângulos (telas) e setas
+                                (navegações). Não requer instalação e funciona direto no navegador.
+                                <strong>Recomendada por ser a mais simples e intuitiva para esta tarefa.</strong>
+                            </p>
+                            <p><strong>Opção 2 — <a href="https://balsamiq.com" target="_blank">Balsamiq</a></strong>
+                                (balsamiq.com): embora seja uma ferramenta projetada principalmente para
+                                <em>wireframes</em> de telas (como utilizado na Semana 3), o Balsamiq
+                                possui formas básicas e conectores que permitem criar um diagrama de
+                                navegação simples. Se você já tem familiaridade com ele, pode aproveitá-lo
+                                aqui — apenas saiba que esta não é sua função principal e os recursos de
+                                flowchart são mais limitados do que no Whimsical.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <h3>Elementos do Diagrama de Navegação</h3>
+            <ul>
+                <li><strong>Retângulo:</strong> representa uma tela (página).</li>
+                <li><strong>Seta:</strong> representa a navegação entre telas.</li>
+                <li><strong>Losango:</strong> representa uma decisão (ex: usuário está logado?).</li>
+                <li><strong>Rótulo na seta:</strong> descreve a ação que aciona a navegação.</li>
+            </ul>
+
+            <h3>Padrões de Navegação no FlutterFlow</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 7.2 - </strong>Tipos de navegação disponíveis no FlutterFlow.</caption>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Comportamento</th>
+                        <th>Quando Usar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Navigate To</strong></td>
+                        <td>Vai para uma nova tela, mantendo histórico</td>
+                        <td>Navegação normal (lista → detalhe)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Navigate Back</strong></td>
+                        <td>Volta para a tela anterior</td>
+                        <td>Botão "Voltar"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Navigate & Remove All</strong></td>
+                        <td>Vai para uma tela limpando o histórico</td>
+                        <td>Após login; após logout</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bottom Nav Bar</strong></td>
+                        <td>Navegação por abas na parte inferior</td>
+                        <td>Seções principais do app</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec7-3'>
+            <h2>7.3 Listas Dinâmicas no FlutterFlow</h2>
+            <p>Uma <strong>lista dinâmica</strong> exibe dados vindos do banco em um componente de lista
+                (ListView, GridView). No FlutterFlow, você configura a fonte de dados da lista via
+                <em>Backend Query</em> e mapeia os campos para os elementos visuais.
+            </p>
+
+            <h3>Criando uma Lista Dinâmica</h3>
+            <ol>
+                <li>Adicione um <strong>ListView</strong> ou <strong>GridView</strong> à tela.</li>
+                <li>Configure o <strong>Backend Query</strong>: selecione a tabela e os filtros desejados.</li>
+                <li>Crie um <strong>Card componente</strong> para representar cada item da lista.</li>
+                <li>Mapeie os campos do banco para os textos e imagens do Card.</li>
+                <li>Configure a <strong>ação de clique</strong> para navegar ao detalhe do item.</li>
+            </ol>
+
+            <h3>Filtros e Ordenação</h3>
+            <p>No Query Builder do FlutterFlow, você pode adicionar:</p>
+            <ul>
+                <li><strong>Filtros (<em>where</em>):</strong> exibir apenas registros do usuário logado
+                    (<code>usuario_id == currentUserUid</code>).</li>
+                <li><strong>Ordenação (<em>order</em>):</strong> ordenar por data, valor ou nome.</li>
+                <li><strong>Paginação (<em>limit</em>):</strong> carregar apenas os primeiros N registros
+                    para melhorar o desempenho.</li>
+            </ul>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s7-fk">
+                        <div id="tip-s7-fk" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Foreign Keys já carregadas pelo Get Schema</strong></div>
+                        <div>
+                            <p>Quando o FlutterFlow importou o schema do Supabase via <em>Get Schema</em>
+                                na Semana 6, ele também reconheceu as <strong>Foreign Keys</strong>
+                                definidas entre as tabelas. Isso significa que, ao configurar o
+                                <em>Backend Query</em> do ListView de Despesas, você pode acessar
+                                diretamente os campos da tabela relacionada — por exemplo:
+                            </p>
+                            <ul>
+                                <li><code>despesa.categoria.nome</code> — exibe o nome da categoria
+                                    sem precisar fazer uma segunda query.</li>
+                                <li><code>despesa.categoria.cor</code> — usa a cor da categoria para
+                                    colorir o ícone do card, mantendo coerência visual com o banco.</li>
+                            </ul>
+                            <p>Esse acesso via FK é possível porque o Supabase retorna os dados
+                                já com os relacionamentos resolvidos quando configurado corretamente
+                                na query. Explore esses campos ao mapear os widgets do Card para
+                                enriquecer a listagem com dados reais relacionados.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s7">
+                        <div id="warn-s7" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Sempre filtre os dados pelo <strong>usuário logado</strong> em listas que
+                                exibem informações pessoais. Use <code>auth.uid()</code> no filtro do Supabase
+                                ou <code>currentUserUid</code> no FlutterFlow para garantir que cada usuário
+                                veja apenas seus próprios dados.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec7-4'>
+            <h2>7.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s7">
+                        <div id="resumo-s7" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Mapa de telas</strong> completo do app (tabela com nome, categoria
+                                    e descrição de cada tela).</li>
+                                <li><strong>Diagrama de navegação</strong> mostrando os fluxos entre as telas.</li>
+                                <li><strong>Listas dinâmicas implementadas</strong> para as entidades principais
+                                    do projeto.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá construir a identidade visual do app: logo, ícone, paleta
+                de cores e splash screen.</p>
+        </section>
+
+        <section id='caso-sem7'>
+            <h2>7.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja o mapeamento completo de telas que o grupo do <strong>FinanCampus</strong>
+                elaborou nesta semana.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem7-label">
+                        <div id="caso-sem7-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 7</strong>
+                        </div>
+                        <div>
+                            <p><strong>Mapa de telas — FinanCampus (11 telas):</strong></p>
+                            <ul>
+                                <li><strong>Autenticação:</strong> Splash | Login | Cadastro | Recuperar Senha</li>
+                                <li><strong>Principal (Bottom Nav — 4 abas):</strong> Home/Dashboard |
+                                    Lista de Despesas | Nova Despesa | Perfil</li>
+                                <li><strong>Detalhes/Edição:</strong> Detalhe da Despesa | Editar Despesa |
+                                    Definir Orçamento</li>
+                            </ul>
+                            <p><strong>Diagrama de navegação</strong> criado no
+                                <a href="https://whimsical.com" target="_blank">Whimsical</a>. Fluxo principal:
+                                <em>Splash → [usuário logado?] → sim: Home / não: Login → Home</em>.
+                                A partir do <em>Home</em>, o usuário acessa as 4 abas pelo Bottom
+                                Navigation Bar. O botão flutuante (+) no Home navega diretamente para
+                                <em>Nova Despesa</em>. Toque em um item da lista navega para
+                                <em>Detalhe da Despesa</em>, que dá acesso a <em>Editar Despesa</em>
+                                pelo botão de edição.
+                            </p>
+                            <p><strong>Lista dinâmica implementada</strong> na tela "Lista de Despesas":
+                                widget <em>ListView</em> com <em>Backend Query</em> no Supabase,
+                                filtrado por <code>usuario_id = auth.uid()</code>, ordenado por
+                                <code>data DESC</code>, limite de 50 registros. Cada item exibe um
+                                widget <em>Card</em> com <em>Row</em> contendo: ícone da categoria,
+                                descrição, valor e data — todos vinculados via <em>Set from Variable</em>
+                                ao resultado da query.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 7</div>
+
+    </div>
+</body>
+
+</html>

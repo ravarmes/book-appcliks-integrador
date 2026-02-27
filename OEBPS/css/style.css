@@ -1,0 +1,644 @@
+:root {
+    --bg: #ffffff;
+    --text: #0b2b2b;
+    --muted: #4b5b56;
+    --accent-1: #0f6b5f;
+    /* verde escuro (para Exercício) */
+    --accent-2: #7fc6a7;
+    /* verde claro */
+    --accent-3: #1f4f8b;
+    /* azul (para Estudo de Caso) */
+    --accent-4: #8b5fbf;
+    /* roxo (para Integrados / Código) */
+    --danger-color: #d23f3f;
+    /* Vermelho (para Aviso) */
+    --max-width: 720px;
+    --warn-color: #e67e22; /* Laranja para Observação */
+    --tip-bg: #e5e5e5ef;     /* Cinza claro para Dica */
+    --warning-bg: #fff1e6; /* Fundo laranja claro para Observação */
+
+    /* Novas variantes escuras e cores de faixa para borda lateral grossa */
+    --accent-1-dark: #0b564d;
+    --accent-3-dark: #153a66;
+    --accent-4-dark: #6f48a3;
+    --warn-color-dark: #c55d16;
+    --danger-color-dark: #a62828;
+    --tip-border: #cfcfcf;
+    --tip-stripe: #8f8f8f;
+    /* Gabarito (Magenta) */
+    --gabarito-color: #b54886;      
+    --gabarito-color-dark: #8b376a; 
+}
+
+/* Tipografia básica */
+html {
+    font-family: "Georgia", "Times New Roman", serif;
+    color: var(--text);
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+    padding: 1.0rem;
+    line-height: 1.55;
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Headings */
+h1 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    color: var(--accent-1);
+    font-size: 2.0rem;
+    margin: 0.5rem 0 0.75rem;
+}
+
+h2 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: var(--accent-1);
+    font-size: 1.25rem;
+    margin: 1.0rem 0 0.5rem;
+}
+
+h3 {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: var(--accent-2);
+    font-size: 1.0rem;
+    margin: 0.75rem 0 0.5rem;
+}
+
+p {
+    margin: 0 0 1rem 0;
+    color: var(--text);
+    font-size: 1rem;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+}
+
+/* Sublinhado que preserva o caractere underscore em snake_case (robusto) */
+u {
+    /* Usar sublinhado nativo com maior deslocamento para não encobrir "_" */
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1.75px;
+    text-underline-offset: 0.30em; /* sublinhado mais abaixo */
+    text-decoration-skip-ink: none; /* não pular traços/underline */
+    /* Sem alteração de cor ou peso: manter somente o sublinhado */
+}
+/* Fallback: leitores sem suporte ao offset do sublinhado */
+@supports not (text-underline-offset: 0.30em) {
+    u { text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 0.22em; }
+}
+
+/* Justificar itens de lista (opcional) */
+li {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+}
+
+/* Lead / resumo curto */
+.lead {
+    font-style: normal;
+    color: var(--muted);
+    margin-bottom: 1rem;
+}
+
+/* Figura com legenda */
+figure {
+    margin: 1rem 0;
+}
+
+figure img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+figcaption {
+    font-size: 0.95rem;
+    color: #333;
+    font-style: italic;
+    margin-top: 0.25rem;
+}
+/* Versão compacta para legendas próximas à imagem */
+.tight-caption { margin-top: 0.10rem; }
+
+/* Figuras didáticas dos capítulos */
+figure.figure {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+figure.figure .figure-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+figure.figure .figure-caption {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Prefixo de figura incorporado diretamente no HTML para compatibilidade com Kindle */
+/* figcaption[data-sec]::before {
+    content: "Figura " attr(data-sec) " - ";
+    font-weight: bold;
+} */
+/* Tabela para Simular a Caixa (Abordagem de Alta Compatibilidade) */
+.box-table {
+    margin: 0.9rem 0;
+    width: 100%;
+    border-collapse: collapse; /* Remove espaçamento entre bordas */
+}
+
+/* Estudo de Caso (Azul) - NOVO CSS PARA A TABELA */
+.case-table {
+    border: 1px solid #1f4f8b; border: 1px solid var(--accent-3);
+}
+/* Exercício (Verde) - NOVO CSS PARA A TABELA */
+.exercise-table {
+    border: 1px solid #0f6b5f; border: 1px solid var(--accent-1);
+}
+/* Observação (Laranja claro) - NOVO CSS PARA A TABELA */
+/* removed: answer-table not used */
+/* Dica (Cinza) */
+.definition-table, .tip-table { border: 1px solid var(--tip-border); }
+/* Aviso (Vermelho) */
+.warning-table { border: 1px solid #d23f3f; }
+.complementary-table {
+    border: 1px solid #7fc6a7;
+}
+.integrated-table {
+    border: 1px solid var(--accent-2);
+}
+.code-table {
+    border: 1px solid #8b5fbf;
+}
+/* Gabarito (Magenta) - NOVO CSS PARA A TABELA */
+.gabarito-table { border: 1px solid var(--gabarito-color); }
+
+/* Estilização interna da célula que contém o conteúdo da caixa */
+.box-content {
+    padding: 0.9rem 0.9rem 0.9rem 1.3rem;
+    /* Borda esquerda mais grossa para o "efeito de cor" */
+    /* border-left: 6px solid; */ /* removido: usar faixa interna via box-shadow */
+}
+
+/* Títulos dos Blocos (Garantir que o STRONG dentro do HTML pegue a cor de destaque) */
+.box-title {
+    margin-bottom: 0.5rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    /* O negrito é garantido pelo uso da tag <strong> no HTML */
+}
+
+/* Ícones com Cores de Destaque */
+.integrated .box-title strong { color: var(--accent-2); }
+/* Importante (compat: .warning) */
+.important .box-title strong { color: var(--danger-color); }
+.case .box-title strong { color: var(--accent-3); }
+.exercise .box-title strong { color: var(--accent-1); }
+/* removed: answer .box-title strong */
+.complementary .box-title strong { color: var(--accent-1); }
+.integrated .box-title strong { color: var(--accent-2); }
+.codeblock .box-title strong { color: var(--accent-4); }
+.warning .box-title strong { color: var(--danger-color); }
+/* Novo: título Gabarito com cor distinta */
+.gabarito .box-title strong { color: var(--gabarito-color); }
+
+/* Pseudo-elementos (Ícones de texto) */
+.case .box-title::before {
+    content: "\2605 "; /* Estrela simples */
+    color: var(--accent-3);
+    margin-right: 0.25em;
+}
+.exercise .box-title::before {
+    content: "\1F4DD "; /* Bloco de notas */
+    color: var(--accent-1);
+    margin-right: 0.25em;
+}
+.answer .box-title::before {
+    content: "\2139 "; /* Símbolo de Informação */
+    color: var(--warn-color);
+    margin-right: 0.25em;
+}
+.complementary .box-title::before {
+    content: "\2714 "; /* check */
+    color: var(--accent-2);
+    margin-right: 0.25em;
+}
+.integrated .box-title::before {
+    content: "\25A0";
+    color: var(--accent-2);
+    margin-right: 0.25em;
+}
+.codeblock .box-title::before {
+    content: "\1F4C4 "; /* documento */
+    color: var(--accent-4);
+    margin-right: 0.25em;
+}
+
+/* Código de exemplo */
+pre.code {
+    background: #f7f9f7;
+    border-radius: 6px;
+    padding: 0.6rem;
+    overflow: auto;
+    font-family: "Courier New", monospace;
+    font-size: 0.9rem;
+    /* Borda simples reforçada */
+    border: 0.8px solid #999999;
+}
+
+/* Exemplo de código dentro de bloco com borda fixa para Kindle */
+pre.code, code.inline {
+    /* Remover background para compatibilidade com Kindle (alguns temas ignoram) */
+    background: transparent;
+    border-radius: 0;
+    padding: 0.6rem;
+    overflow: auto;
+    font-family: "Courier New", monospace;
+    font-size: 0.9rem;
+    border: 1px solid #999999; /* manter borda visível */
+}
+
+/* Pequeno separador visual */
+hr.section-sep {
+    border: none;
+    height: 1px;
+    background: #e8ece9;
+    margin: 1.25rem 0;
+}
+
+/* Navegação interna (TOC leve para EPUB) */
+nav.toc {
+    margin: 0 0 1rem 0;
+    padding: 0.6rem;
+    border-radius: 6px;
+    background: #f6f7f6;
+    font-size: 0.95rem;
+}
+
+nav.toc a {
+    color: var(--accent-1);
+    text-decoration: none;
+}
+
+/* Rodapé de página (não garantido em EPUB) */
+.page-foot {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 1.25rem;
+}
+
+/* Pequena estilização para listas */
+ul {
+    margin: 0 0 1rem 1.25rem;
+}
+
+ol {
+    margin: 0 0 1rem 1.25rem;
+}
+
+/* Links */
+a {
+    color: var(--accent-1);
+}
+
+/* Responsividade simples (EPUB readers redimensionam): */
+@media (max-width:420px) {
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .container {
+        padding: 0 0.75rem;
+    }
+}
+
+/* Modo escuro (Se o leitor respeitar prefers-color-scheme) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0b0b0b;
+        --text: #e8f6f2;
+        --muted: #a8bdb6;
+        --accent-1: #38b47e; /* Ajuste para melhor contraste no dark mode */
+        --accent-3: #4a8cd2; /* Ajuste para melhor contraste no dark mode */
+        --danger-color: #ff8e8e; /* Ajuste para melhor contraste no dark mode */
+        /* tons mais escuros para a barra interna de destaque */
+        --accent-1-dark: #0b504a;
+        --accent-2-dark: #66b090;
+        --accent-3-dark: #163b6c;
+        --accent-4-dark: #744aa6;
+        --danger-color-dark: #b23232;
+        --warn-color-dark: #cc6f1d;
+        --tip-border: #999999;
+        --tip-stripe: #a8a8a8;
+        --gabarito-color: #d166a0;    /* ajuste para contraste no dark */
+        --gabarito-color-dark: #a74b7e;
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+    }
+
+    nav.toc {
+        background: #07120f;
+    }
+
+    pre.code {
+        background: #0b1110;
+        color: #e6f7f0;
+        border: 1px solid #12221d;
+    }
+    .box { border: 1px solid #ddd; }
+    .case .box, .box.case { border-color: var(--accent-3); }
+    .exercise .box, .box.exercise { border-color: var(--accent-1); }
+    .answer .box, .box.answer { border-color: var(--warn-color); }
+    .complementary .box, .box.complementary { border-color: var(--accent-1); }
+    .integrated .box, .box.integrated { border-color: var(--accent-2); }
+    .codeblock .box, .box.codeblock { border-color: var(--accent-4); }
+    .tip .box { border-color: var(--tip-border); }
+    .warning .box { border-color: var(--danger-color); }
+    .case .box-title strong { color: var(--accent-3); }
+    .exercise .box-title strong { color: var(--accent-1); }
+    .answer .box-title strong { color: var(--accent-2); }
+    .complementary .box-title strong { color: var(--accent-1); }
+    .integrated .box-title strong { color: var(--accent-2); }
+    .codeblock .box-title strong { color: var(--accent-4); }
+    .gabarito .box-title strong { color: var(--gabarito-color); }
+    
+    .case .box-title::before { color: var(--accent-3); }
+    .exercise .box-title::before { color: var(--accent-1); }
+    .answer .box-title::before { color: var(--danger-color); }
+    .complementary .box-title::before { color: var(--accent-2); }
+    .integrated .box-title::before { color: var(--accent-2); }
+    .codeblock .box-title::before { color: var(--accent-4); }
+    .gabarito .box-title::before { color: var(--gabarito-color); }
+    
+
+}
+
+/* Ícone explícito dentro do título da caixa (evitar pseudo-elementos em Kindle) */
+.box-title .icon {
+    display: inline-block;
+    margin-right: 0.4em;
+}
+/* Ícones PNG padronizados */
+.box-title .icon-img {
+    display: inline-block;
+    height: 1.2em;
+    width: 1.2em;
+    margin-right: 0.5em;
+    vertical-align: text-bottom;
+    object-fit: contain;
+}
+.tip .box-title strong { color: #555555; }
+.warning .box-title strong { color: var(--warn-color); }
+
+/* Componente de Listagem de Código: legenda acima do bloco */
+figure.listing {
+    background: #f7f7f7; /* pode ser ignorado em alguns leitores, borda garante aparência */
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    padding: 0.6rem;
+    margin: 1rem 0;
+}
+figcaption.listing-title {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0 0 0.5rem 0;
+}
+
+/* Evitar duplo fundo na listagem quando o leitor altera o tema */
+figure.listing pre.code {
+    background: transparent;
+}
+
+/* Ajuste de bordas das tabelas para refletir os novos significados */
+.answer-table { border: 1px solid #e67e22; }
+.case-table { border: 1px solid #1f4f8b; }
+.exercise-table { border: 1px solid #0f6b5f; }
+.complementary-table { border: 1px solid #7fc6a7; }
+.integrated-table { border: 1px solid var(--accent-2); }
+.code-table { border: 1px solid #8b5fbf; }
+
+/* Removido: pseudo-elementos não são mais necessários com imagens PNG */
+/* Cor de destaque aplicada ao título da caixa (para SVG herdar via currentColor) */
+.case .box-title { color: var(--accent-3); }
+.exercise .box-title { color: var(--accent-1); }
+.answer .box-title { color: var(--warn-color); }
+.complementary .box-title { color: var(--accent-1); }
+.integrated .box-title { color: var(--accent-2); }
+.codeblock .box-title { color: var(--accent-4); }
+.warning .box-title { color: var(--danger-color); }
+.tip .box-title { color: #555555; }
+
+/* Override: desativar pseudo‑elementos (::before) para ícones — compatibilidade Kindle */
+.case .box-title::before,
+.exercise .box-title::before,
+.answer .box-title::before,
+.complementary .box-title::before,
+.integrated .box-title::before,
+.codeblock .box-title::before,
+.tip .box-title::before,
+.warning .box-title::before { content: none !important; }
+.tip .box-content { background: #e5e5e5; }
+.warning .box-content { background: #ffecec; }
+/* Faixa esquerda: usar box-shadow no .box-content como nos demais blocos */
+.box-content { border-left: none; }
+.case .box-content, .box-content.case { box-shadow: inset 12px 0 0 var(--accent-3-dark); }
+.exercise .box-content, .box-content.exercise { box-shadow: inset 12px 0 0 var(--accent-1-dark); }
+.answer .box-content, .box-content.answer { box-shadow: inset 12px 0 0 var(--warn-color-dark); }
+.complementary .box-content, .box-content.complementary { box-shadow: inset 12px 0 0 var(--accent-1); }
+.integrated .box-content, .box-content.integrated { box-shadow: inset 12px 0 0 var(--accent-2); }
+.codeblock .box-content { box-shadow: inset 12px 0 0 var(--accent-4-dark); }
+.tip .box-content, .box-content.tip { box-shadow: inset 12px 0 0 var(--tip-stripe); }
+.warning .box-content, .box-content.warning { box-shadow: inset 12px 0 0 var(--danger-color-dark); }
+.important .box-content, .box-content.important { box-shadow: inset 12px 0 0 var(--danger-color-dark); }
+/* Faixa esquerda Gabarito */
+.gabarito .box-content, .box-content.gabarito { box-shadow: inset 12px 0 0 var(--gabarito-color-dark); }
+/* Removido: não anular a faixa dos blocos de Aviso */
+/* .warning .box-content { box-shadow: none; } */
+/* Bordas externas das tabelas: unificar padrão (todos os lados) */
+.tip-table { border: 1px solid var(--tip-border); }
+.warning-table { border: 1px solid var(--danger-color); }
+.important-table { border: 1px solid var(--danger-color); }
+.case-table { border: 1px solid var(--accent-3); }
+.exercise-table { border: 1px solid var(--accent-1); }
+.answer-table { border: 1px solid var(--warn-color); }
+.complementary-table { border: 1px solid var(--accent-1); }
+.integrated-table { border: 1px solid var(--accent-2); }
+.code-table { border: 1px solid var(--accent-4); }
+.gabarito-table { border: 1px solid var(--gabarito-color); }
+
+/* Remoções de Answer (Observações) em regras diversas */
+/* remove answer selectors in pseudo elements */
+/* Already globally disabled via content:none; ensure no standalone answer styles remain */
+.answer-table { border: 1px solid #e67e22; }
+.case-table { border: 1px solid #1f4f8b; }
+.exercise-table { border: 1px solid #0f6b5f; }
+.complementary-table { border: 1px solid #7fc6a7; }
+.integrated-table { border: 1px solid #7fc6a7; }
+.code-table { border: 1px solid #8b5fbf; }
+
+/* Removido: pseudo-elementos não são mais necessários com imagens PNG */
+/* Cor de destaque aplicada ao título da caixa (para SVG herdar via currentColor) */
+.case .box-title { color: var(--accent-3); }
+.exercise .box-title { color: var(--accent-1); }
+.answer .box-title { color: var(--warn-color); }
+.complementary .box-title { color: var(--accent-1); }
+.integrated .box-title { color: var(--accent-2); }
+.codeblock .box-title { color: var(--accent-4); }
+.warning .box-title { color: var(--danger-color); }
+.tip .box-title { color: #555555; }
+/* Novo: cor aplicada ao título do bloco Gabarito */
+.gabarito .box-title { color: var(--gabarito-color); }
+
+/* Override: desativar pseudo‑elementos (::before) para ícones — compatibilidade Kindle */
+.case .box-title::before,
+.exercise .box-title::before,
+.answer .box-title::before,
+.complementary .box-title::before,
+.integrated .box-title::before,
+.codeblock .box-title::before,
+.tip .box-title::before,
+.warning .box-title::before { content: none !important; }
+/* Garantir que Gabarito também não use pseudo‑elementos */
+.gabarito .box-title::before { content: none !important; }
+
+/* Fundo dos blocos (restaurar conforme padrão) */
+.case .box-content, .box-content.case { background: #e9f2ff; }
+.complementary .box-content, .box-content.complementary { background: #ecf8f1; }
+.integrated .box-content, .box-content.integrated { background: #f6fdf9; }
+.codeblock .box-content, .box-content.codeblock { background: #f7f9f7; }
+.tip .box-content, .box-content.tip { background: #e5e5e5; }
+.warning .box-content, .box-content.warning { background: #ffecec; }
+.important .box-content, .box-content.important { background: #ffecec; }
+.answer .box-content, .box-content.answer { background: #fff3cd; }
+/* Fundo do bloco Gabarito */
+.gabarito .box-content, .box-content.gabarito { background: #fdf2f8; }
+
+/* Cabeçalho com fundo do bloco (título + ícone) dentro de .box-content */
+.box-content.case > .box-title,
+.box-content.complementary > .box-title,
+.box-content.integrated > .box-title,
+/* removed: .box-content.answer > .box-title */
+.box-content.tip > .box-title,
+.box-content.warning > .box-title,
+.box-content.important > .box-title {
+  display: block;
+  background: inherit; /* usa a cor do fundo do bloco */
+  /* Não cobrir a faixa lateral esquerda */
+  margin-top: -0.9rem;
+  margin-right: -0.9rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+  padding: 0.6rem 0.9rem 0.4rem 0.45rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+/* Cabeçalho com fundo do bloco em Definição e Importante (sem cobrir a faixa esquerda) */
+.definition > .box-title,
+.important > .box-title,
+.warning > .box-title {
+  display: block;
+  background: inherit;
+  margin-top: -0.9rem;
+  margin-right: -0.9rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+  padding: 0.6rem 0.9rem 0.4rem 0.45rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+/* Definir variáveis de cor para cada tipo de bloco */
+.case, .box.case { --border-color: var(--accent-3); --stripe-color: var(--accent-3-dark); }
+.exercise, .box.exercise { --border-color: var(--accent-1); --stripe-color: var(--accent-1-dark); }
+.answer, .box.answer { --border-color: var(--warn-color); --stripe-color: var(--warn-color-dark); }
+.complementary, .box.complementary { --border-color: var(--accent-1); --stripe-color: var(--accent-1); }
+.integrated, .box.integrated { --border-color: var(--accent-2); --stripe-color: var(--accent-2); }
+.codeblock, .box.codeblock { --border-color: var(--accent-4); --stripe-color: var(--accent-4-dark); }
+.tip, .box.tip { --border-color: var(--tip-border); --stripe-color: var(--tip-stripe); }
+.warning, .box.warning { --border-color: var(--danger-color); --stripe-color: var(--danger-color-dark); }
+/* Variáveis para Gabarito */
+.gabarito, .box.gabarito { --border-color: var(--gabarito-color); --stripe-color: var(--gabarito-color-dark); }
+
+/* Título de Importante em vermelho e ícone quadrado como os demais */
+.important .box-title strong, .warning .box-title strong { color: var(--danger-color) !important; }
+.definition .box-title strong, .tip .box-title strong { color: #555555; }
+
+/* Removido: pseudo-elementos não são mais necessários com imagens PNG */
+
+/* Syntax Highlight SQL - tema monokai-like */
+pre.code.sql {
+  background: #272822; /* monokai bg */
+  color: #f8f8f2; /* default fg */
+  border: 1px solid #3b3c36;
+  border-radius: 6px;
+  padding: 0.8rem 0.9rem;
+  font-family: "Courier New", monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  overflow: auto;
+}
+pre.code.sql .kw { color: #f92672; font-weight: 600; } /* keywords */
+pre.code.sql .type { color: #66d9ef; } /* types */
+pre.code.sql .number { color: #ae81ff; } /* numbers */
+pre.code.sql .string { color: #e6db74; } /* strings */
+pre.code.sql .comment { color: #75715e; font-style: italic; } /* comments */
+pre.code.sql .op { color: #fd971f; } /* operators */
+/* suporte a modo claro opcional */
+@media (prefers-color-scheme: light) {
+  pre.code.sql {
+    background: #f7f9f7;
+    color: #222;
+    border-color: #cfcfcf;
+  }
+  pre.code.sql .kw { color: #b31236; }
+  pre.code.sql .type { color: #1f72a3; }
+  pre.code.sql .number { color: #6a3fb5; }
+  pre.code.sql .string { color: #8a6f2f; }
+  pre.code.sql .comment { color: #6b6b6b; }
+  pre.code.sql .op { color: #b04e0f; }
+}
+
+/* Tabelas de conteúdo: bordas e cabeçalho em cinza claro */
+.content-table { width: 100%; border-collapse: collapse; border: 1px solid #cfcfcf; }
+.content-table th, .content-table td { border: 1px solid #cfcfcf; padding: 0.6rem 0.7rem; }
+.content-table th { background: #f0f0f0; font-weight: 700; }
+/* Legendas de tabela */
+.content-table caption {
+   caption-side: top;
+   text-align: left;
+   font-size: 0.95rem;
+   font-style: italic;
+   padding: 0.2rem 0;
+   margin: 0 0 0.25rem 0; /* espaço entre legenda e a tabela */
+   color: #333; /* igual ao figcaption */
+ }
+.content-table th { background: #f0f0f0; font-weight: 700; }
+/* (sem fallback): utilizar <thead> com <th> para cabeçalho da tabela */
+
+/* Variante compacta/estreita para tabelas em blocos de exercício */
+.content-table.compact th, .content-table.compact td { padding: 0.4rem 0.5rem; font-size: 0.95rem; }
+.content-table.narrow { width: auto; max-width: 780px; margin: 0.25rem auto; }

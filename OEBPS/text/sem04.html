@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 4 — Lógica Condicional e Modelagem de Dados</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem4'>SEMANA 4 – Lógica Condicional e Modelagem de Dados</h1>
+            <p class='lead'>Nesta semana, você aprenderá a modelar o banco de dados do seu projeto,
+                criando o Diagrama Entidade-Relacionamento (DER) e o Modelo Entidade-Relacionamento (MER).</p>
+        </header>
+        <hr />
+
+        <p>A modelagem de dados é a etapa em que definimos <strong>quais informações</strong> o sistema
+            vai armazenar e <strong>como elas se relacionam</strong> entre si. Um modelo bem construído
+            facilita todo o desenvolvimento posterior e evita erros difíceis de corrigir depois.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s4">
+                    <div id="curiosity-s4" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>O modelo Entidade-Relacionamento foi proposto por <strong>Peter Chen</strong>
+                                em 1976 e ainda é o padrão mais utilizado para modelagem conceitual de bancos
+                                de dados.</li>
+                            <li>Um banco de dados bem modelado pode ser até <strong>10x mais eficiente</strong>
+                                em consultas do que um banco não normalizado.</li>
+                            <li>O Supabase (usado neste projeto) utiliza <strong>PostgreSQL</strong>, um dos
+                                bancos de dados relacionais mais robustos e usados no mundo.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Chen,
+                            P. (1976). The Entity-Relationship Model.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec4-1'>
+            <h2>4.1 Conceitos de Modelagem de Dados</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s4-ent">
+                        <div id="def-s4-ent" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Entidade:</strong> representa um objeto do mundo real sobre o qual queremos
+                                armazenar informações. Exemplos: <em>Usuário</em>, <em>Despesa</em>,
+                                <em>Categoria</em>. Em um banco de dados, cada entidade vira uma tabela.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 4.1 - </strong>Conceitos fundamentais de modelagem de dados.</caption>
+                <thead>
+                    <tr>
+                        <th>Conceito</th>
+                        <th>Descrição</th>
+                        <th>Exemplo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Entidade</strong></td>
+                        <td>Objeto ou conceito do mundo real</td>
+                        <td>Usuário, Produto, Pedido</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Atributo</strong></td>
+                        <td>Propriedade/característica de uma entidade</td>
+                        <td>nome, e-mail, data_nascimento</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chave Primária (PK)</strong></td>
+                        <td>Atributo que identifica unicamente cada registro</td>
+                        <td>id (gerado automaticamente)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chave Estrangeira (FK)</strong></td>
+                        <td>Atributo que referencia a PK de outra tabela</td>
+                        <td>usuario_id em Despesa</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Relacionamento</strong></td>
+                        <td>Associação entre duas entidades</td>
+                        <td>Usuário <em>possui</em> Despesas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec4-2'>
+            <h2>4.2 Cardinalidade dos Relacionamentos</h2>
+            <p>A <strong>cardinalidade</strong> indica quantas ocorrências de uma entidade podem se associar
+                a quantas ocorrências de outra entidade. É fundamental para modelar corretamente o banco.</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 4.2 - </strong>Tipos de cardinalidade em relacionamentos.</caption>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Notação</th>
+                        <th>Exemplo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Um para Um (1:1)</strong></td>
+                        <td>1 — 1</td>
+                        <td>Usuário possui um único Perfil</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Um para Muitos (1:N)</strong></td>
+                        <td>1 — N</td>
+                        <td>Um Usuário possui muitas Despesas</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Muitos para Muitos (N:M)</strong></td>
+                        <td>N — M</td>
+                        <td>Um Produto pertence a muitas Categorias; uma Categoria tem muitos Produtos</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s4-nm">
+                        <div id="tip-s4-nm" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Dica: Relacionamento N:M</strong></div>
+                        <div>
+                            <p>Relacionamentos muitos-para-muitos (N:M) são implementados com uma
+                                <strong>tabela intermediária (tabela associativa)</strong>. Por exemplo,
+                                a relação entre <em>Produto</em> e <em>Pedido</em> gera a tabela
+                                <em>ItemPedido</em> com as chaves estrangeiras de ambos.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec4-3'>
+            <h2>4.3 Criando o DER do Projeto</h2>
+            <p>O <strong>Diagrama Entidade-Relacionamento (DER)</strong> é a representação visual do modelo
+                conceitual do banco de dados. Ele mostra as entidades, seus atributos e os relacionamentos
+                entre elas.</p>
+
+            <h3>Passo a Passo para criar o DER</h3>
+            <ol>
+                <li>Liste todas as <strong>entidades</strong> identificadas nos seus requisitos funcionais.</li>
+                <li>Para cada entidade, defina seus <strong>atributos</strong> (nome, tipo, obrigatório?).</li>
+                <li>Identifique os <strong>relacionamentos</strong> entre as entidades.</li>
+                <li>Defina a <strong>cardinalidade</strong> de cada relacionamento.</li>
+                <li>Identifique as <strong>chaves primárias</strong> de cada entidade.</li>
+                <li>Desenhe o diagrama usando uma ferramenta adequada.</li>
+            </ol>
+
+            <h3>Ferramentas para criar o DER</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 4.3 - </strong>Ferramentas recomendadas para modelagem de dados.</caption>
+                <thead>
+                    <tr>
+                        <th>Ferramenta</th>
+                        <th>Acesso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>brModelo Web</strong></td>
+                        <td>Online, gratuito — <a href="https://www.brmodeloweb.com/lang/pt-br/index.html"
+                                target="_blank">brmodeloweb.com</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>draw.io (diagrams.net)</strong></td>
+                        <td>Online, gratuito — app.diagrams.net</td>
+                    </tr>
+                    <tr>
+                        <td><strong>dbdiagram.io</strong></td>
+                        <td>Online, gratuito — dbdiagram.io</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lucidchart</strong></td>
+                        <td>Online, gratuito (plano educação)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MySQL Workbench</strong></td>
+                        <td>Desktop, gratuito</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Exemplo: DER de um App Financeiro</h3>
+            <p>Para o app <em>FinanCampus</em>, as entidades e relacionamentos seriam:</p>
+            <ul>
+                <li><strong>Usuario</strong> (id, nome, email, senha, created_at) — 1 usuário possui N despesas</li>
+                <li><strong>Categoria</strong> (id, nome, icone, cor) — 1 categoria classifica N despesas</li>
+                <li><strong>Despesa</strong> (id, descricao, valor, data, usuario_id FK, categoria_id FK)</li>
+                <li><strong>Receita</strong> (id, descricao, valor, data, usuario_id FK)</li>
+            </ul>
+
+            <p>A <strong>Figura 4.1</strong> apresenta o DER completo do app FinanCampus, com as entidades,
+                seus atributos e os relacionamentos de cardinalidade entre elas.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig04_1_der.png'
+                    alt='Diagrama Entidade-Relacionamento do app FinanCampus com 4 entidades' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 4.1 — </strong>Diagrama Entidade-Relacionamento (DER)
+                    do app FinanCampus.</figcaption>
+            </figure>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s4">
+                        <div id="warn-s4" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Nomeie as entidades e atributos em <strong>letras minúsculas e sem acentos</strong>,
+                                usando underscores para separar palavras (<em>snake_case</em>). Por exemplo:
+                                <code>data_criacao</code>, <code>usuario_id</code>. Isso facilita a integração
+                                com o Supabase nas próximas semanas.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec4-4'>
+            <h2>4.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s4">
+                        <div id="resumo-s4" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>DER completo</strong> do projeto com todas as entidades e
+                                    relacionamentos identificados.</li>
+                                <li><strong>Tabela de atributos</strong> de cada entidade (nome, tipo de dado,
+                                    obrigatório, chave primária/estrangeira).</li>
+                                <li><strong>Justificativa</strong> breve dos relacionamentos escolhidos
+                                    (por que 1:N? por que N:M?).</li>
+                                <li><strong>Distribuição de CRUDs por integrante:</strong> com base no DER
+                                    finalizado, cada membro do grupo define qual entidade irá implementar
+                                    completamente — do banco de dados até as telas de listagem, criação,
+                                    edição e exclusão — nas semanas seguintes.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá criar o banco de dados local no FlutterFlow e definir as
+                tabelas e relacionamentos identificados neste modelo.</p>
+        </section>
+
+        <section id='caso-sem4'>
+            <h2>4.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja o modelo de dados que o grupo do <strong>FinanCampus</strong> criou nesta semana.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem4-label">
+                        <div id="caso-sem4-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 4</strong>
+                        </div>
+                        <div>
+                            <p><strong>Entidades identificadas:</strong></p>
+                            <ul>
+                                <li><strong>Usuario</strong> (id, nome, email, created_at) — gerenciado pelo
+                                    Supabase Auth</li>
+                                <li><strong>Categoria</strong> (id, nome, icone, cor)</li>
+                                <li><strong>Despesa</strong> (id, descricao, valor, data, usuario_id FK,
+                                    categoria_id FK, created_at)</li>
+                                <li><strong>Receita</strong> (id, descricao, valor, data, usuario_id FK,
+                                    created_at)</li>
+                            </ul>
+                            <p><strong>Relacionamentos:</strong></p>
+                            <ul>
+                                <li>1 <strong>Usuario</strong> possui N <strong>Despesas</strong> (1:N)</li>
+                                <li>1 <strong>Usuario</strong> possui N <strong>Receitas</strong> (1:N)</li>
+                                <li>1 <strong>Categoria</strong> classifica N <strong>Despesas</strong> (1:N)</li>
+                            </ul>
+                            <p><strong>Decisão do grupo:</strong> não criar uma entidade <em>Orcamento</em>
+                                separada — o orçamento mensal ficará como um campo na tabela de perfil do usuário
+                                (campo <code>orcamento_mensal</code> em <em>Usuario</em>), pois cada usuário
+                                tem um único orçamento.</p>
+                            <p><strong>Distribuição dos CRUDs (definida nesta semana, após o DER):</strong></p>
+                            <ul>
+                                <li><strong>Ana</strong> → CRUD completo de <em>Receitas</em></li>
+                                <li><strong>Bruno</strong> → CRUD completo de <em>Despesas</em></li>
+                                <li><strong>Carla</strong> → CRUD completo de <em>Perfil de Usuário</em></li>
+                                <li><strong>Diego</strong> → CRUD completo de <em>Categorias</em></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 4</div>
+
+    </div>
+</body>
+
+</html>

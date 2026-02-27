@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 13 — Privacidade, LGPD e Acessibilidade</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem13'>SEMANA 13 – Privacidade, LGPD e Acessibilidade</h1>
+            <p class='lead'>Nesta semana, você irá estudar boas práticas de segurança e acessibilidade
+                para apps mobile, e iniciar o processo de publicação na Google Play Console
+                com os testes fechados (alfa) e abertos (beta).</p>
+        </header>
+        <hr />
+
+        <p>Um app pronto para o mercado não é apenas funcional — ele é <strong>seguro</strong>,
+            <strong>acessível</strong> e <strong>cumpre as políticas</strong> das lojas de aplicativos.
+            Esta semana aborda esses três pilares fundamentais antes da publicação final.
+        </p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s13">
+                    <div id="curiosity-s13" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>A <strong>LGPD (Lei Geral de Proteção de Dados)</strong> do Brasil exige que
+                                apps coletorem apenas os dados necessários para a finalidade declarada.</li>
+                            <li>Cerca de <strong>15% da população brasileira</strong> possui algum tipo de
+                                deficiência — ignorar acessibilidade significa excluir uma grande parte dos
+                                usuários potenciais.</li>
+                            <li>A Google Play rejeita automaticamente apps que violam suas políticas de
+                                conteúdo — sempre leia as políticas antes de publicar.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            IBGE (2022); Google Play Policy Center; LGPD (Lei 13.709/2018).</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec13-1'>
+            <h2>13.1 Segurança em Apps Mobile</h2>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 13.1 - </strong>Boas práticas de segurança para apps mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Prática</th>
+                        <th>Como Implementar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nunca armazenar senhas em texto puro</strong></td>
+                        <td>O Supabase Auth já usa bcrypt automaticamente para hashes de senha</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Usar HTTPS em todas as chamadas</strong></td>
+                        <td>O Supabase usa HTTPS por padrão; não use URLs HTTP em API Calls</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Validar dados no backend</strong></td>
+                        <td>Use RLS e constraints do PostgreSQL, não confie apenas no frontend</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Não expor chaves privadas</strong></td>
+                        <td>Nunca use a <em>service_role key</em> no código do app</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Session timeout</strong></td>
+                        <td>Configure o tempo de expiração do token no Supabase</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>LGPD e Proteção de Dados</h3>
+            <p>A <strong>LGPD</strong> (Lei Geral de Proteção de Dados Pessoais — Lei 13.709/2018) estabelece
+                obrigações para qualquer app que trate dados pessoais de brasileiros. Os principais
+                princípios são:</p>
+            <ul>
+                <li><strong>Finalidade:</strong> coletar dados apenas para fins específicos e legítimos.</li>
+                <li><strong>Minimização:</strong> coletar apenas os dados estritamente necessários.</li>
+                <li><strong>Transparência:</strong> informar ao usuário quais dados são coletados e como.</li>
+                <li><strong>Segurança:</strong> proteger os dados com medidas técnicas adequadas.</li>
+            </ul>
+        </section>
+
+        <section id='sec13-2'>
+            <h2>13.2 Acessibilidade em Apps Mobile</h2>
+            <p>Acessibilidade garante que o app possa ser usado por pessoas com diferentes capacidades,
+                incluindo deficiência visual, motora ou cognitiva.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s13-a11y">
+                        <div id="def-s13-a11y" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Acessibilidade (a11y):</strong> design e desenvolvimento de produtos
+                                que podem ser usados por todas as pessoas, independentemente de suas capacidades
+                                ou limitações físicas. O número 11 representa as 11 letras omitidas entre o
+                                "a" e o "y" de "accessibility".</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 13.2 - </strong>Boas práticas de acessibilidade em apps mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Prática</th>
+                        <th>Por Que Importante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Contraste de cores adequado</strong></td>
+                        <td>Facilita a leitura para pessoas com baixa visão (ratio mínimo 4.5:1)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Textos legíveis (mín. 14sp)</strong></td>
+                        <td>Reduz a necessidade de zoom e facilita a leitura</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rótulos em imagens e ícones</strong></td>
+                        <td>Leitores de tela (TalkBack) precisam de texto descritivo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Áreas de toque grandes (mín. 48×48 dp)</strong></td>
+                        <td>Facilita o toque para pessoas com tremores ou dedos grandes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Não depender apenas de cores</strong></td>
+                        <td>Pessoas com daltonismo podem não distinguir verde de vermelho</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec13-3'>
+            <h2>13.3 Publicação: Alfa, Beta e Produção</h2>
+            <p>A Google Play Console oferece três trilhas de publicação, permitindo testar o app com
+                um número controlado de usuários antes do lançamento público. A
+                <strong>Figura 13.1</strong> ilustra a progressão das trilhas, do grupo mais restrito
+                ao público geral.
+            </p>
+
+            <figure class='figure'>
+                <img src='../images/fig13_1_publicacao_trilhas.png'
+                    alt='Funil das trilhas de publicação na Google Play: Teste Interno, Alfa, Beta e Produção'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 13.1 — </strong>Trilhas de publicação no Google Play
+                    Console: do teste interno até a produção pública.</figcaption>
+            </figure>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 13.3 - </strong>Trilhas de publicação na Google Play Console.</caption>
+                <thead>
+                    <tr>
+                        <th>Trilha</th>
+                        <th>Público</th>
+                        <th>Objetivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Teste Interno</strong></td>
+                        <td>Até 100 testadores convidados por e-mail</td>
+                        <td>Testes iniciais da equipe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alfa (Fechado)</strong></td>
+                        <td>Grupo fechado convidado</td>
+                        <td>Testes com usuários selecionados</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Beta (Aberto)</strong></td>
+                        <td>Qualquer usuário pode entrar via link</td>
+                        <td>Testes com público maior antes do lançamento</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Produção</strong></td>
+                        <td>Todos os usuários da Play Store</td>
+                        <td>Lançamento oficial público</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s13">
+                        <div id="warn-s13" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Conta de Desenvolvedor</strong></div>
+                        <div>
+                            <p>Para publicar na Google Play, é necessária uma <strong>conta de desenvolvedor
+                                    Google Play</strong> (taxa única de US$ 25). O cadastro leva até 48 horas
+                                para ser processado. Se sua instituição já tiver uma conta, use-a para o
+                                projeto. Caso contrário, o professor irá orientar a alternativa.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec13-4'>
+            <h2>13.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s13">
+                        <div id="resumo-s13" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Checklist de segurança</strong> verificado e aplicado ao projeto.</li>
+                                <li><strong>Checklist de acessibilidade</strong> verificado (contraste, fontes,
+                                    áreas de toque).</li>
+                                <li><strong>App publicado na trilha de teste alfa</strong> no Google Play Console
+                                    (ou testes internos).</li>
+                                <li><strong>APK ou AAB gerado</strong> pelo FlutterFlow e enviado para a Play
+                                    Console.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá finalizar a documentação técnica do projeto e preparar
+                o build final para produção.</p>
+        </section>
+
+        <section id='caso-sem13'>
+            <h2>13.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja as verificações de segurança e acessibilidade do <strong>FinanCampus</strong>.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem13-label">
+                        <div id="caso-sem13-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 13</strong>
+                        </div>
+                        <div>
+                            <p><strong>Checklist de segurança (todos verificados):</strong></p>
+                            <ul>
+                                <li>✅ Senhas armazenadas com bcrypt (Supabase Auth gerencia automaticamente)</li>
+                                <li>✅ API Key <em>anon</em> usada no app; <em>service role key</em> não exposta</li>
+                                <li>✅ RLS ativo em todas as tabelas com dados de usuários</li>
+                                <li>✅ HTTPS em todas as chamadas (Supabase por padrão)</li>
+                                <li>✅ Política de privacidade LGPD publicada</li>
+                            </ul>
+                            <p><strong>Checklist de acessibilidade:</strong></p>
+                            <ul>
+                                <li>✅ Contraste texto/fundo: ratio 7.2:1 (acima do mínimo 4.5:1)</li>
+                                <li>✅ Fonte mínima de 14sp em todos os textos do app</li>
+                                <li>✅ Botão (+) com área de toque de 56×56 dp</li>
+                                <li>⚠️ Ícones de categoria sem rótulos alternativos (ajuste planejado para v1.1)</li>
+                            </ul>
+                            <p><strong>App publicado no Teste Interno</strong> com 4 testadores
+                                (os próprios membros do grupo). APK instalado via Play Console e
+                                2 bugs de usabilidade identificados e corrigidos.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 13</div>
+
+    </div>
+</body>
+
+</html>

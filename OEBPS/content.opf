@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="3.0" unique-identifier="book-id" xmlns="http://www.idpf.org/2007/opf" xml:lang="pt-BR">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:identifier id="book-id">urn:uuid:00000000-0000-0000-0000-000000000001</dc:identifier>
+    <dc:identifier id="isbn">urn:isbn:9780000000000</dc:identifier>
+    <dc:title>POO2: Programação Orientada a Objetos 2</dc:title>
+    <dc:creator>Prof. Rafael Vargas Mesquita</dc:creator>
+    <dc:language>pt-BR</dc:language>
+    <meta property="dcterms:modified">2026-01-23T00:00:00Z</meta>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav" />
+    <item id="css" href="css/style.css" media-type="text/css" />
+
+    <!-- HTML -->
+    <item id="capa" href="text/capa.html" media-type="application/xhtml+xml" />
+    <item id="agradecimentos" href="text/agradecimentos.html" media-type="application/xhtml+xml" />
+    <item id="sumario" href="text/sumario.html" media-type="application/xhtml+xml" />
+    <item id="cap01_javafx" href="text/cap01_javafx.html" media-type="application/xhtml+xml" />
+    <item id="cap02_jdbc" href="text/cap02_jdbc.html" media-type="application/xhtml+xml" />
+    <item id="cap03_padroes" href="text/cap03_padroes.html" media-type="application/xhtml+xml" />
+    <item id="cap04_threads" href="text/cap04_threads.html" media-type="application/xhtml+xml" />
+    <item id="cap05_sockets" href="text/cap05_sockets.html" media-type="application/xhtml+xml" />
+
+    <!-- Imagens -->
+    <!-- Ícones (PNG) usados nas caixas de dica/nota) -->
+    <item id="icon_complementar" href="images/icon-complementar.png" media-type="image/png" />
+    <item id="icon_definicao" href="images/icon-definicao.png" media-type="image/png" />
+    <item id="icon_estudodecaso" href="images/icon-estudodecaso.png" media-type="image/png" />
+    <item id="icon_gabarito" href="images/icon-gabarito.png" media-type="image/png" />
+    <item id="icon_importante" href="images/icon-importante.png" media-type="image/png" />
+    <item id="icon_integrado" href="images/icon-integrado.png" media-type="image/png" />
+    <item id="icon_observacao" href="images/icon-observacao.png" media-type="image/png" />
+
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="capa" />
+    <itemref idref="agradecimentos" />
+    <itemref idref="sumario" />
+    <itemref idref="cap01_javafx" />
+    <itemref idref="cap02_jdbc" />
+    <itemref idref="cap03_padroes" />
+    <itemref idref="cap04_threads" />
+    <itemref idref="cap05_sockets" />
+  </spine>
+</package>

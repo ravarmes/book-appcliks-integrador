@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 3 — UX/UI e Prototipação</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem3'>SEMANA 3 – UX/UI e Prototipação</h1>
+            <p class='lead'>Nesta semana, você transformará os requisitos levantados na semana anterior em
+                um protótipo visual de baixa fidelidade (wireframes), além de consolidar o documento de
+                requisitos do projeto.</p>
+        </header>
+        <hr />
+
+        <p>Um protótipo é a ponte entre a ideia e o produto final. Ao criar wireframes antes de codificar,
+            você valida a lógica de navegação, identifica problemas de usabilidade e alinha as expectativas
+            da equipe — tudo isso com baixo custo de tempo e esforço.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s3">
+                    <div id="curiosity-s3" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Testar um protótipo de papel com 5 usuários encontra aproximadamente
+                                <strong>85% dos problemas</strong> de usabilidade de uma interface.
+                            </li>
+                            <li>O <strong>Figma</strong> é a ferramenta de design de interface mais usada no mundo,
+                                com mais de 4 milhões de usuários ativos.</li>
+                            <li>Protótipos de baixa fidelidade economizam até <strong>10 vezes mais tempo</strong>
+                                durante a fase de iteração de design.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Nielsen
+                            Norman Group; Figma Report 2023.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec3-1'>
+            <h2>3.1 Fundamentos de UX e UI</h2>
+            <p>Antes de criar os wireframes, é importante entender a diferença entre os conceitos de
+                <strong>UX</strong> e <strong>UI</strong>, que são complementares mas distintos.
+            </p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 3.1 - </strong>Diferença entre UX e UI.</caption>
+                <thead>
+                    <tr>
+                        <th>Conceito</th>
+                        <th>Foco</th>
+                        <th>Exemplo Prático</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>UX (User Experience)</strong></td>
+                        <td>A experiência do usuário ao usar o produto: é fácil? intuitivo? satisfatório?</td>
+                        <td>O fluxo para cadastrar uma despesa é simples e rápido?</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UI (User Interface)</strong></td>
+                        <td>A aparência visual: cores, tipografia, ícones, layout dos elementos.</td>
+                        <td>O botão de salvar está em destaque e visível?</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>As 10 Heurísticas de Nielsen</h3>
+            <p>Jakob Nielsen definiu 10 princípios de usabilidade que todo designer deve seguir. Os mais
+                relevantes para apps mobile são:</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 3.2 - </strong>Principais heurísticas de Nielsen para apps mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Heurística</th>
+                        <th>Como aplicar no app</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Visibilidade do status</strong></td>
+                        <td>Mostre ao usuário o que está acontecendo (loading, sucesso, erro).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Correspondência com o mundo real</strong></td>
+                        <td>Use palavras e ícones familiares ao público-alvo.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Controle e liberdade</strong></td>
+                        <td>Permita desfazer ações e voltar à tela anterior facilmente.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consistência e padrões</strong></td>
+                        <td>Botões, cores e fontes devem ser padrões em todo o app.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prevenção de erros</strong></td>
+                        <td>Valide dados antes do envio; confirme ações destrutivas (ex: excluir).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reconhecer em vez de lembrar</strong></td>
+                        <td>Mostre as opções disponíveis; não force o usuário a memorizar.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec3-2'>
+            <h2>3.2 Prototipação de Baixa Fidelidade (Wireframes)</h2>
+            <p>Um <strong>wireframe</strong> é um esboço simplificado de uma tela, sem cores ou detalhes visuais.
+                O objetivo é representar a estrutura e o posicionamento dos elementos sem se preocupar com
+                aparência.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s3-wire">
+                        <div id="def-s3-wire" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Wireframe (baixa fidelidade):</strong> representação esquemática de uma
+                                tela, usando apenas linhas, retângulos e texto. Foca na disposição dos elementos
+                                e no fluxo de navegação, não na aparência final.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>A <strong>Figura 3.1</strong> mostra exemplos de wireframes de baixa fidelidade para as telas
+                de Login e Home do app FinanCampus, ilustrando a estrutura e o posicionamento dos elementos
+                antes de qualquer decisão visual de cores ou tipografia.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig03_1_wireframes.png'
+                    alt='Wireframes das telas de Login e Home/Dashboard do app FinanCampus' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 3.1 — </strong>Wireframes de baixa fidelidade das
+                    telas de Login e Home/Dashboard (FinanCampus).</figcaption>
+            </figure>
+
+            <h3>O que Incluir em cada Wireframe</h3>
+            <ul>
+                <li>Cabeçalho da tela (título e ícones de ação)</li>
+                <li>Área de conteúdo principal (lista, formulário, mapa, etc.)</li>
+                <li>Elementos de navegação (menu inferior, botão de voltar)</li>
+                <li>Botões de ação primária e secundária</li>
+                <li>Campos de formulário com rótulos</li>
+            </ul>
+
+            <h3>Ferramentas Recomendadas</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 3.3 - </strong>Ferramentas para criação de wireframes.</caption>
+                <thead>
+                    <tr>
+                        <th>Ferramenta</th>
+                        <th>Tipo</th>
+                        <th>Custo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><a href="https://balsamiq.com/" target="_blank">Balsamiq</a></strong></td>
+                        <td>Digital (desktop/online)</td>
+                        <td>Gratuito (trial 30 dias)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Figma</strong></td>
+                        <td>Digital (online, colaborativo)</td>
+                        <td>Gratuito (plano educação)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Draw.io (diagrams.net)</strong></td>
+                        <td>Digital (online)</td>
+                        <td>Gratuito</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Papel e caneta</strong></td>
+                        <td>Analógico</td>
+                        <td>Gratuito</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s3-fig">
+                        <div id="tip-s3-fig" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Dica: Usando o Figma</strong></div>
+                        <div>
+                            <p>Acesse <strong>figma.com</strong> e crie uma conta gratuita com seu e-mail
+                                institucional. Use o template <em>"Mobile Wireframe Kit"</em> disponível na
+                                comunidade do Figma para agilizar a criação das telas do seu app.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec3-3'>
+            <h2>3.3 Documento de Requisitos</h2>
+            <p>O <strong>Documento de Requisitos de Software (DRS)</strong> consolida tudo que foi levantado
+                nas semanas 1 e 2, acrescido dos wireframes desta semana. Ele será a referência central
+                do projeto ao longo de todo o semestre.</p>
+
+            <h3>Estrutura do Documento de Requisitos</h3>
+            <ol>
+                <li><strong>Identificação do Projeto:</strong> nome, equipe, data, versão.</li>
+                <li><strong>Visão Geral:</strong> frase de visão, descrição do problema, público-alvo e persona.</li>
+                <li><strong>Requisitos Funcionais:</strong> tabela com ID, descrição e prioridade (RF01, RF02...).</li>
+                <li><strong>Requisitos Não Funcionais:</strong> tabela com categoria e descrição.</li>
+                <li><strong>Wireframes:</strong> imagens ou prints das telas prototipadas.</li>
+                <li><strong>Restrições:</strong> limitações técnicas, de prazo ou de equipe.</li>
+            </ol>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s3">
+                        <div id="warn-s3" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>O Documento de Requisitos é um documento <strong>vivo</strong>: ele deve ser
+                                atualizado sempre que houver mudanças no escopo do projeto. Mantenha sempre
+                                controle de versão (v1.0, v1.1...) e registre as alterações realizadas.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec3-4'>
+            <h2>3.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s3">
+                        <div id="resumo-s3" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Wireframes</strong> das telas principais do app (mínimo 5 telas).</li>
+                                <li><strong>Documento de Requisitos</strong> completo (versão 1.0), integrando
+                                    todos os artefatos das semanas 1, 2 e 3.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá dar início à modelagem do banco de dados do projeto, criando
+                o Diagrama Entidade-Relacionamento (DER) e o Modelo Entidade-Relacionamento (MER).</p>
+        </section>
+
+        <section id='caso-sem3'>
+            <h2>3.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> realizou a prototipação e documentou
+                os requisitos nesta semana.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem3-label">
+                        <div id="caso-sem3-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 3</strong>
+                        </div>
+                        <div>
+                            <p><strong>Wireframes criados no Figma (6 telas):</strong></p>
+                            <ol>
+                                <li><strong>Login / Cadastro:</strong> campos de e-mail e senha, botão de entrar e
+                                    link para criar conta.</li>
+                                <li><strong>Home / Dashboard:</strong> saldo do mês em destaque, últimas 3 despesas
+                                    e botão flutuante (+) para nova despesa.</li>
+                                <li><strong>Lista de Despesas:</strong> ListView com filtro por mês e categoria;
+                                    cada card mostra ícone da categoria, descrição, valor e data.</li>
+                                <li><strong>Nova Despesa:</strong> formulário com campos de valor (numérico),
+                                    categoria (dropdown), data (date picker) e observação (texto).</li>
+                                <li><strong>Detalhe / Editar Despesa:</strong> exibe os dados da despesa com botões
+                                    Editar e Excluir.</li>
+                                <li><strong>Perfil:</strong> nome do usuário, e-mail, orçamento mensal definido
+                                    e botão de logout.</li>
+                            </ol>
+                            <p><strong>Documento de Requisitos v1.0</strong> entregue com 8 páginas incluindo:
+                                frase de visão, persona da Mariana, 8 RFs, 4 RNFs e prints dos 6 wireframes
+                                do Figma.</p>
+                            <p><strong>Heurística aplicada:</strong> o grupo adicionou uma mensagem de
+                                <em>feedback visual</em> (SnackBar de sucesso) após salvar uma despesa —
+                                aplicando a heurística de <em>Visibilidade do Status do Sistema</em>.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 3</div>
+
+    </div>
+</body>
+
+</html>

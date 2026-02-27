@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 11 — Notificações e Funcionalidades Avançadas</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem11'>SEMANA 11 – Notificações e Funcionalidades Avançadas</h1>
+            <p class='lead'>Nesta semana, você irá revisar as funcionalidades implementadas no app
+                e verificar o atendimento aos requisitos definidos no início do projeto, além de
+                explorar recursos avançados como notificações push.</p>
+        </header>
+        <hr />
+
+        <p>Chegamos à fase de <strong>revisão e consolidação</strong> do projeto. Com o back-end
+            integrado ao Supabase, é hora de verificar se tudo que foi planejado foi implementado
+            corretamente e identificar gaps antes da fase final de publicação.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s11">
+                    <div id="curiosity-s11" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Apps com <strong>notificações push bem configuradas</strong> têm taxa de
+                                retenção de usuários até <strong>3x maior</strong> do que apps sem elas.</li>
+                            <li>Mais de <strong>50% dos usuários</strong> optam por desativar notificações
+                                se receberem notificações irrelevantes ou em excesso.</li>
+                            <li>O <strong>Firebase Cloud Messaging (FCM)</strong> é o serviço gratuito
+                                do Google para envio de notificações push em apps Android e iOS.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            Localytics; Firebase Documentation.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec11-1'>
+            <h2>11.1 Checklist de Requisitos</h2>
+            <p>O <strong>checklist de requisitos</strong> é a verificação formal de que cada requisito
+                funcional (RF) e não funcional (RNF) definido na semana 2 foi implementado no app.
+                Esta atividade é essencial antes da fase de publicação.</p>
+
+            <h3>Como Preencher o Checklist</h3>
+            <p>Para cada requisito, indique o status de implementação:</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 11.1 - </strong>Modelo de checklist de requisitos.</caption>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Requisito</th>
+                        <th>Status</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>RF01</td>
+                        <td>Cadastro de usuário</td>
+                        <td>✅ Implementado</td>
+                        <td>Tela de cadastro com Supabase Auth</td>
+                    </tr>
+                    <tr>
+                        <td>RF02</td>
+                        <td>Login de usuário</td>
+                        <td>✅ Implementado</td>
+                        <td>Login com e-mail e senha</td>
+                    </tr>
+                    <tr>
+                        <td>RF03</td>
+                        <td>Cadastro de despesa</td>
+                        <td>✅ Implementado</td>
+                        <td>Formulário com validação e Insert no Supabase</td>
+                    </tr>
+                    <tr>
+                        <td>RF04</td>
+                        <td>Gráfico de despesas</td>
+                        <td>⚠️ Parcial</td>
+                        <td>Componente adicionado, mas sem dados reais ainda</td>
+                    </tr>
+                    <tr>
+                        <td>RF05</td>
+                        <td>Notificação de limite</td>
+                        <td>❌ Pendente</td>
+                        <td>Implementar na semana 11</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s11-priority">
+                        <div id="tip-s11-priority" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Priorize o MVP</strong></div>
+                        <div>
+                            <p>Se houver funcionalidades pendentes, priorize as de <strong>alta prioridade</strong>
+                                definidas no RF. Funcionalidades de baixa prioridade podem ser incluídas no
+                                backlog de versões futuras. O importante é entregar um app funcional e completo
+                                nos requisitos essenciais.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec11-2'>
+            <h2>11.2 Notificações Push com FlutterFlow</h2>
+            <p>O FlutterFlow possui integração nativa com o <strong>Firebase Cloud Messaging (FCM)</strong>
+                para envio de notificações push. As notificações podem ser enviadas para um usuário
+                específico, para um grupo ou para todos os usuários do app.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s11-push">
+                        <div id="def-s11-push" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Push Notification:</strong> mensagem enviada pelo servidor para o
+                                dispositivo do usuário, mesmo quando o app não está em uso. No Android,
+                                as notificações aparecem na barra de notificações e na tela de bloqueio.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>A <strong>Figura 11.1</strong> ilustra os três tipos de notificações disponíveis em
+                apps mobile e seus casos de uso típicos.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig11_1_notificacoes.png'
+                    alt='Infográfico com os 3 tipos de notificações: local, push individual e push para todos'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 11.1 — </strong>Tipos de notificações em apps mobile e
+                    seus casos de uso.</figcaption>
+            </figure>
+
+            <h3>Configurando Notificações no FlutterFlow</h3>
+            <ol>
+                <li>Acesse <strong>Settings → Firebase</strong> no FlutterFlow e conecte o projeto Firebase.</li>
+                <li>Ative o <strong>Cloud Messaging</strong> no console do Firebase.</li>
+                <li>No FlutterFlow, use a Action <strong>Send Push Notification</strong> configurando:
+                    destinatário, título e corpo da notificação.</li>
+                <li>Para notificações locais (sem servidor), use a Action
+                    <strong>Trigger Push Notification</strong>.
+                </li>
+            </ol>
+
+            <h3>Tipos de Notificações</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 11.2 - </strong>Tipos de notificações e seus casos de uso.</caption>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Quando Usar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Notificação Local</strong></td>
+                        <td>Lembretes agendados (ex: lembrar de registrar despesa diária)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Push (usuário específico)</strong></td>
+                        <td>Alerta para o usuário (ex: limite de orçamento atingido)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Push (todos os usuários)</strong></td>
+                        <td>Comunicados gerais (ex: nova versão disponível)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec11-3'>
+            <h2>11.3 Funcionalidades Avançadas Opcionais</h2>
+            <p>Dependendo do tema do seu projeto, considere adicionar funcionalidades avançadas que
+                enriquecem a experiência do usuário:</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 11.3 - </strong>Funcionalidades avançadas disponíveis no FlutterFlow.</caption>
+                <thead>
+                    <tr>
+                        <th>Funcionalidade</th>
+                        <th>Recurso no FlutterFlow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Upload de fotos/imagens</td>
+                        <td>Supabase Storage + Widget de upload</td>
+                    </tr>
+                    <tr>
+                        <td>Câmera do dispositivo</td>
+                        <td>Action: Upload Photo ou Capture Video</td>
+                    </tr>
+                    <tr>
+                        <td>Geolocalização</td>
+                        <td>Action: Get Current Location</td>
+                    </tr>
+                    <tr>
+                        <td>Compartilhamento</td>
+                        <td>Action: Share</td>
+                    </tr>
+                    <tr>
+                        <td>Biometria / FaceID</td>
+                        <td>Action: Authenticate with Biometrics</td>
+                    </tr>
+                    <tr>
+                        <td>Dark Mode</td>
+                        <td>Theme: configurar variantes de cores para modo escuro</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec11-4'>
+            <h2>11.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s11">
+                        <div id="resumo-s11" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Checklist de requisitos preenchido</strong> (status de cada
+                                    RF e RNF).</li>
+                                <li><strong>Funcionalidades pendentes priorizadas</strong> e registradas
+                                    no backlog do grupo.</li>
+                                <li><strong>Notificações implementadas</strong> (ao menos 1 tipo, se
+                                    aplicável ao projeto).</li>
+                                <li><strong>Lista de funcionalidades extras</strong> implementadas ou
+                                    planejadas.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá preparar o app para publicação, tratando erros e
+                preenchendo os metadados da Play Store.</p>
+        </section>
+
+        <section id='caso-sem11'>
+            <h2>11.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja o checklist de requisitos e as funcionalidades avançadas do <strong>FinanCampus</strong>.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem11-label">
+                        <div id="caso-sem11-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 11</strong>
+                        </div>
+                        <div>
+                            <p><strong>Checklist de requisitos (7/8 RFs implementados):</strong></p>
+                            <ul>
+                                <li>✅ RF01 — Cadastro e login por e-mail e senha</li>
+                                <li>✅ RF02 — Registrar despesa (valor, categoria, data, observação)</li>
+                                <li>✅ RF03 — Listar despesas do mês atual</li>
+                                <li>✅ RF04 — Exibir saldo do mês (receitas − despesas)</li>
+                                <li>✅ RF05 — Gráfico de despesas por categoria (PieChart)</li>
+                                <li>⚠️ RF06 — Definir orçamento mensal por categoria (parcial — orçamento global
+                                    implementado)</li>
+                                <li>✅ RF07 — Notificação ao atingir 80% do orçamento</li>
+                                <li>❌ RF08 — Exportar extrato em PDF (movido para backlog v2.0)</li>
+                            </ul>
+                            <p><strong>Notificação implementada:</strong> ao salvar uma nova despesa, um
+                                condicional verifica se o total mensal ultrapassou 80% do
+                                <code>orcamento_mensal</code> do usuário. Se sim, dispara uma
+                                <strong>notificação local</strong> com a mensagem "Atenção, Mariana! Você
+                                já usou 83% do seu orçamento de Janeiro."
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 11</div>
+
+    </div>
+</body>
+
+</html>

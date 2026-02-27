@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 12 — Tratamento de Erros e Preparação para Publicação</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem12'>SEMANA 12 – Tratamento de Erros e Preparação para Publicação</h1>
+            <p class='lead'>Nesta semana, você irá implementar o tratamento de erros no app e
+                iniciar a preparação para publicação na Google Play Store, preenchendo os
+                metadados necessários.</p>
+        </header>
+        <hr />
+
+        <p>Um app pronto para publicação não é apenas um app que funciona — é um app que
+            <strong>falha graciosamente</strong>. Erros acontecem: conexão cai, dados inválidos
+            são inseridos, o servidor fica indisponível. Um app profissional trata esses erros
+            de forma elegante, informando o usuário sem travar ou exibir mensagens técnicas.
+        </p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s12">
+                    <div id="curiosity-s12" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Segundo a Google Play, apps com <strong>taxa de crash abaixo de 1%</strong>
+                                recebem prioridade no algoritmo de recomendação da loja.</li>
+                            <li>A descrição do app na Play Store é um dos principais fatores de
+                                <strong>ASO (App Store Optimization)</strong> — o SEO dos apps.
+                            </li>
+                            <li>Screenshots de alta qualidade aumentam a taxa de conversão (download)
+                                em até <strong>35%</strong> na loja.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            Google Play Console; StoreMaven Research.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec12-1'>
+            <h2>12.1 Tratamento de Erros no FlutterFlow</h2>
+            <p>O FlutterFlow permite tratar erros em Actions usando os blocos de
+                <strong>Error Handling</strong>. Toda Action que faz chamada ao banco de dados
+                ou a uma API pode falhar — configure sempre o que acontece em caso de erro.
+            </p>
+
+            <h3>Padrões de Tratamento de Erros</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 12.1 - </strong>Estratégias de tratamento de erros em apps mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Tipo de Erro</th>
+                        <th>Estratégia Recomendada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sem conexão com internet</strong></td>
+                        <td>Exibir mensagem amigável e botão "Tentar novamente"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Token expirado / sessão inválida</strong></td>
+                        <td>Redirecionar para tela de login automaticamente</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dado não encontrado</strong></td>
+                        <td>Exibir estado vazio (empty state) com instrução clara</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Erro de servidor (5xx)</strong></td>
+                        <td>Exibir mensagem genérica "Tente novamente mais tarde"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Validação falhou</strong></td>
+                        <td>Destacar campo com erro e exibir mensagem específica (semana 5)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s12-empty">
+                        <div id="def-s12-empty" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Definição: Empty State</strong></div>
+                        <div>
+                            <p><strong>Empty State</strong> é a tela exibida quando não há dados para mostrar
+                                em uma lista ou seção. Um bom empty state indica ao usuário o que fazer para
+                                criar o primeiro registro. Exemplo: uma ilustração com o texto "Nenhuma despesa
+                                ainda. Toque em + para adicionar."</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>A <strong>Figura 12.1</strong> mostra o padrão de tratamento de erros no FlutterFlow:
+                cada Action pode ter dois desfechos — sucesso ou erro — e cada tipo de erro
+                exige uma resposta diferente para o usuário.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig12_1_error_handling.png'
+                    alt='Fluxo de tratamento de erros no FlutterFlow com 4 estados possíveis' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 12.1 — </strong>Padrão de tratamento de erros:
+                    sucesso, sem conexão, erro de servidor e empty state.</figcaption>
+            </figure>
+
+            <h3>Configurando Error Handling no FlutterFlow</h3>
+            <ol>
+                <li>No painel de Actions, clique na Action que pode falhar (ex: Insert Row).</li>
+                <li>Ative a opção <strong>Error Handling</strong>.</li>
+                <li>No bloco de erro, adicione uma Action <strong>Show Snack Bar</strong> ou
+                    <strong>Alert Dialog</strong> com a mensagem de erro amigável.
+                </li>
+                <li>Evite exibir mensagens técnicas (como stack traces) para o usuário final.</li>
+            </ol>
+        </section>
+
+        <section id='sec12-2'>
+            <h2>12.2 Metadados para a Google Play Store</h2>
+            <p>Para publicar o app na Play Store, você precisa preparar um conjunto de metadados
+                (informações descritivas) que serão exibidos na página do app na loja.</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 12.2 - </strong>Metadados obrigatórios para publicação na Play Store.</caption>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Limite / Formato</th>
+                        <th>Dicas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nome do app</strong></td>
+                        <td>Máx. 30 caracteres</td>
+                        <td>Inclua palavras-chave relevantes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Descrição breve</strong></td>
+                        <td>Máx. 80 caracteres</td>
+                        <td>Descreva o principal benefício do app</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Descrição completa</strong></td>
+                        <td>Máx. 4.000 caracteres</td>
+                        <td>Liste funcionalidades; use formatação simples</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Screenshots</strong></td>
+                        <td>2 a 8 imagens (PNG/JPG, mín. 320px)</td>
+                        <td>Mostre as telas mais atrativas do app</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ícone</strong></td>
+                        <td>PNG 512×512px</td>
+                        <td>Fundo sólido, sem transparência</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Categoria</strong></td>
+                        <td>Selecionar da lista</td>
+                        <td>Escolha a categoria mais próxima do tema</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Classificação etária</strong></td>
+                        <td>Questionário IARC</td>
+                        <td>Responder honestamente o questionário</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Política de privacidade</strong></td>
+                        <td>URL válida</td>
+                        <td>Obrigatório; pode ser Google Sites ou Notion</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s12">
+                        <div id="warn-s12" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Política de Privacidade</strong></div>
+                        <div>
+                            <p>A política de privacidade é <strong>obrigatória</strong> para qualquer app
+                                que colete dados de usuários (nome, e-mail, dados pessoais). Ela deve
+                                estar hospedada em uma URL pública e descrever quais dados são coletados,
+                                como são usados e com quem são compartilhados. Use o gerador gratuito em
+                                <strong>privacypolicygenerator.info</strong> como ponto de partida.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec12-3'>
+            <h2>12.3 Screenshots e Gráficos Promocionais</h2>
+            <p>As screenshots são a principal vitrine do app na Play Store e influenciam diretamente
+                a decisão de download. Capture screenshots das telas mais importantes:</p>
+            <ul>
+                <li>Tela inicial / dashboard</li>
+                <li>Tela de listagem principal</li>
+                <li>Tela de criação/formulário</li>
+                <li>Tela de detalhe</li>
+                <li>Tela de perfil ou configurações</li>
+            </ul>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s12-screen">
+                        <div id="tip-s12-screen" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Dica: Screenshots com Moldura</strong></div>
+                        <div>
+                            <p>Adicione as screenshots dentro de uma moldura de celular para um visual mais
+                                profissional. Use ferramentas como <strong>DaVinci</strong>,
+                                <strong>Previewed.app</strong> ou <strong>Figma</strong> para criar imagens
+                                promocionais com a moldura do dispositivo e texto explicativo.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec12-4'>
+            <h2>12.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s12">
+                        <div id="resumo-s12" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Error handling implementado</strong> nas principais Actions
+                                    do app (pelo menos nas operações de banco).</li>
+                                <li><strong>Metadados da Play Store preenchidos</strong> em documento
+                                    (nome, descrição breve, descrição completa, categoria).</li>
+                                <li><strong>Screenshots capturadas</strong> das telas principais (mínimo
+                                    de 3 imagens).</li>
+                                <li><strong>Política de privacidade</strong> criada e hospedada em URL
+                                    pública.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá estudar os processos de segurança, acessibilidade
+                e as políticas da Google Play para iniciar a publicação do app.</p>
+        </section>
+
+        <section id='caso-sem12'>
+            <h2>12.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> preparou o app para publicação.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem12-label">
+                        <div id="caso-sem12-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 12</strong>
+                        </div>
+                        <div>
+                            <p><strong>Error handling implementado em 5 Actions:</strong></p>
+                            <ul>
+                                <li>Insert de despesa: SnackBar "Não foi possível salvar. Verifique sua conexão."</li>
+                                <li>Login: Alert Dialog "E-mail ou senha incorretos." (sem expor o erro técnico do
+                                    Supabase)</li>
+                                <li>Cadastro: Alert Dialog "E-mail já cadastrado."</li>
+                                <li>Carregamento da lista: empty state com ícone e texto "Nenhuma despesa ainda. Toque
+                                    em + para começar!"</li>
+                                <li>Perda de conexão: SnackBar "Sem conexão com a internet. Tente novamente."</li>
+                            </ul>
+                            <p><strong>Metadados da Play Store preenchidos:</strong></p>
+                            <ul>
+                                <li><strong>Nome:</strong> FinanCampus — Controle de Gastos</li>
+                                <li><strong>Descrição breve:</strong> "Controle seus gastos mensais de forma simples e
+                                    visual."</li>
+                                <li><strong>Categoria:</strong> Finanças</li>
+                            </ul>
+                            <p><strong>Política de privacidade:</strong> publicada em página do Notion
+                                (<em>notion.so/financampus/privacidade</em>), descrevendo coleta de
+                                e-mail e dados financeiros informados pelo usuário.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 12</div>
+
+    </div>
+</body>
+
+</html>

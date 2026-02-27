@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 2 — Navegação e Requisitos</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem2'>SEMANA 2 – Navegação e Requisitos</h1>
+            <p class='lead'>Nesta semana, você irá definir a visão geral do sistema e levantar os requisitos
+                funcionais e não funcionais do seu aplicativo. Um bom levantamento de requisitos é a base
+                de todo o desenvolvimento.</p>
+        </header>
+        <hr />
+
+        <p>Antes de construir qualquer funcionalidade, é necessário saber <strong>o que</strong> o sistema
+            deve fazer e <strong>como</strong> deve se comportar. Esse processo — chamado de
+            <strong>engenharia de requisitos</strong> — evita retrabalho e garante que o produto final
+            atenda às reais necessidades do usuário.
+        </p>
+
+        <!-- Você Sabia? -->
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s2">
+                    <div id="curiosity-s2" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Segundo o <em>Standish Group Chaos Report</em>, cerca de <strong>30% dos projetos
+                                    de software</strong> falham por requisitos mal definidos ou incompletos.</li>
+                            <li>Um requisito bem definido precisa ser: <strong>claro</strong>,
+                                <strong>verificável</strong>,
+                                <strong>viável</strong> e <strong>necessário</strong>.
+                            </li>
+                            <li>O levantamento de requisitos é uma atividade contínua: mesmo durante o desenvolvimento,
+                                requisitos podem ser refinados.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Standish
+                            Group – Chaos Report (2020). Sommerville, I. – Engenharia de Software, 10ª ed.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec2-1'>
+            <h2>2.1 Visão Geral do Sistema</h2>
+            <p>A <strong>visão do sistema</strong> é um documento breve que resume o propósito do app, seus
+                principais usuários e as funcionalidades centrais. Ela serving como "bússola" para toda a equipe
+                durante o projeto.</p>
+
+            <h3>Estrutura da Visão do Sistema</h3>
+            <p>A visão pode ser expressa numa única frase usando o modelo a seguir:</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s2-vision">
+                        <div id="def-s2-vision" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Template: Frase de Visão</strong></div>
+                        <div>
+                            <p><em>Para</em> [público-alvo], <em>que</em> [necessidade ou problema],
+                                o <strong>[nome do app]</strong> <em>é um</em> [categoria de produto]
+                                <em>que</em> [benefício-chave]. <em>Diferentemente de</em> [alternativa atual],
+                                <em>nosso produto</em> [diferencial].
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Exemplo</h3>
+            <p>Para estudantes universitários que têm dificuldade em controlar os gastos mensais, o
+                <strong>FinanCampus</strong> é um aplicativo mobile que registra receitas e despesas de forma
+                simples e visual. Diferentemente de planilhas e aplicativos complexos, nosso produto oferece
+                categorização automática e alertas de orçamento com interface intuitiva.
+            </p>
+        </section>
+
+        <section id='sec2-2'>
+            <h2>2.2 Requisitos Funcionais</h2>
+            <p>Os <strong>requisitos funcionais (RF)</strong> descrevem <em>o que</em> o sistema deve fazer —
+                as funcionalidades visíveis ao usuário. São as ações que o app precisa realizar para cumprir
+                seu propósito.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s2-rf">
+                        <div id="def-s2-rf" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Requisito Funcional (RF):</strong> descreve uma função ou comportamento que
+                                o sistema deve executar. Define o que o sistema faz em resposta a entradas ou
+                                condições específicas.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Como Escrever um Requisito Funcional</h3>
+            <p>Use sempre o formato: <strong>"O sistema deve [verbo] [complemento]."</strong></p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 2.1 - </strong>Exemplos de requisitos funcionais para um app financeiro.
+                </caption>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Requisito Funcional</th>
+                        <th>Prioridade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>RF01</td>
+                        <td>O sistema deve permitir o cadastro de novos usuários com nome, e-mail e senha.</td>
+                        <td>Alta</td>
+                    </tr>
+                    <tr>
+                        <td>RF02</td>
+                        <td>O sistema deve permitir o registro de uma despesa com valor, categoria e data.</td>
+                        <td>Alta</td>
+                    </tr>
+                    <tr>
+                        <td>RF03</td>
+                        <td>O sistema deve exibir um gráfico de despesas por categoria no mês atual.</td>
+                        <td>Média</td>
+                    </tr>
+                    <tr>
+                        <td>RF04</td>
+                        <td>O sistema deve enviar uma notificação quando o limite de orçamento for atingido.</td>
+                        <td>Baixa</td>
+                    </tr>
+                    <tr>
+                        <td>RF05</td>
+                        <td>O sistema deve permitir exportar o extrato mensal em formato PDF.</td>
+                        <td>Baixa</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s2-rf">
+                        <div id="tip-s2-rf" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Dica</strong></div>
+                        <div>
+                            <p>Use prioridades <strong>Alta</strong>, <strong>Média</strong> e <strong>Baixa</strong>
+                                para classificar os requisitos. Foque primeiro nos de alta prioridade — eles formam
+                                o chamado <em>Produto Mínimo Viável (MVP)</em>.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec2-3'>
+            <h2>2.3 Requisitos Não Funcionais</h2>
+            <p>Os <strong>requisitos não funcionais (RNF)</strong> descrevem <em>como</em> o sistema deve se
+                comportar — qualidade, desempenho, segurança, usabilidade. Eles não estão diretamente ligados
+                a uma funcionalidade específica, mas impactam toda a experiência de uso. A
+                <strong>Figura 2.1</strong> ilustra a diferença entre os dois tipos de requisitos.
+            </p>
+
+            <figure class='figure'>
+                <img src='../images/fig02_1_requisitos.png'
+                    alt='Infográfico comparando Requisitos Funcionais e Não Funcionais' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 2.1 — </strong>Comparação entre Requisitos Funcionais
+                    (RF) e Requisitos Não Funcionais (RNF).</figcaption>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s2-rnf">
+                        <div id="def-s2-rnf" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Requisito Não Funcional (RNF):</strong> especifica critérios de qualidade
+                                do sistema como um todo: desempenho, segurança, usabilidade, confiabilidade,
+                                compatibilidade e manutenibilidade.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 2.2 - </strong>Categorias comuns de requisitos não funcionais.</caption>
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Exemplo de RNF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Desempenho</strong></td>
+                        <td>O app deve carregar a tela principal em menos de 2 segundos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Segurança</strong></td>
+                        <td>As senhas dos usuários devem ser armazenadas com criptografia (hash).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Usabilidade</strong></td>
+                        <td>Um usuário novo deve conseguir cadastrar sua primeira despesa em menos de 1 minuto.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Compatibilidade</strong></td>
+                        <td>O app deve funcionar em dispositivos Android com versão 8.0 ou superior.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disponibilidade</strong></td>
+                        <td>O sistema deve estar disponível 99% do tempo (banco de dados Supabase).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s2">
+                        <div id="warn-s2" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Nunca confunda o <strong>que</strong> com o <strong>como</strong>. Um requisito
+                                funcional descreve uma funcionalidade ("o usuário pode cadastrar despesas").
+                                Um requisito não funcional define a qualidade desse comportamento ("o cadastro
+                                deve ser concluído em menos de 3 segundos").</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec2-4'>
+            <h2>2.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s2">
+                        <div id="resumo-s2" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Frase de visão</strong> do sistema preenchida com o template.</li>
+                                <li><strong>Lista de Requisitos Funcionais</strong> (mínimo 8 RFs, com ID e
+                                    prioridade).</li>
+                                <li><strong>Lista de Requisitos Não Funcionais</strong> (mínimo 4 RNFs).</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você transformará esses requisitos em protótipos visuais (wireframes),
+                dando forma às telas do seu aplicativo.</p>
+        </section>
+
+        <section id='caso-sem2'>
+            <h2>2.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> definiu a visão e os requisitos do app.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem2-label">
+                        <div id="caso-sem2-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 2</strong>
+                        </div>
+                        <div>
+                            <p><strong>Frase de Visão:</strong> Para <em>estudantes universitários</em> que
+                                <em>perdem o controle dos gastos mensais</em>, o <strong>FinanCampus</strong>
+                                é um <em>aplicativo mobile</em> que <em>registra e categoriza despesas de
+                                    forma simples e visual</em>. Diferentemente de <em>planilhas e apps
+                                    bancários complexos</em>, nosso produto oferece <em>visão rápida do saldo
+                                    com alertas de orçamento</em>.
+                            </p>
+                            <p><strong>Requisitos Funcionais (RF) — Alta Prioridade:</strong></p>
+                            <ul>
+                                <li>RF01 — O sistema deve permitir cadastro e login por e-mail e senha.</li>
+                                <li>RF02 — O sistema deve permitir registrar uma despesa (valor, categoria, data,
+                                    observação).</li>
+                                <li>RF03 — O sistema deve listar todas as despesas do mês atual do usuário logado.</li>
+                                <li>RF04 — O sistema deve exibir o saldo do mês (receitas − despesas).</li>
+                            </ul>
+                            <p><strong>Requisitos Funcionais (RF) — Média/Baixa Prioridade:</strong></p>
+                            <ul>
+                                <li>RF05 — Gráfico de despesas por categoria.</li>
+                                <li>RF06 — Definir orçamento mensal por categoria.</li>
+                                <li>RF07 — Notificação ao atingir 80% do orçamento.</li>
+                                <li>RF08 — Exportar extrato mensal em PDF.</li>
+                            </ul>
+                            <p><strong>Requisitos Não Funcionais (RNF):</strong></p>
+                            <ul>
+                                <li>RNF01 — Desempenho: tela principal deve carregar em menos de 2 segundos.</li>
+                                <li>RNF02 — Segurança: senhas armazenadas com hash (Supabase Auth — bcrypt).</li>
+                                <li>RNF03 — Compatibilidade: Android 8.0 ou superior.</li>
+                                <li>RNF04 — Usabilidade: novo usuário registra primeira despesa em menos de 1 minuto.
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 2</div>
+
+    </div>
+</body>
+
+</html>

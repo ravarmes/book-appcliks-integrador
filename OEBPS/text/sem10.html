@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 10 — Integrações e APIs</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem10'>SEMANA 10 – Integrações e APIs</h1>
+            <p class='lead'>Com o app já integrado ao Supabase e a autenticação funcionando desde as
+                semanas anteriores, esta semana o foco é realizar os testes de integração end-to-end,
+                explorar o Realtime do Supabase e, opcionalmente, conectar APIs externas ao seu projeto.</p>
+        </header>
+        <hr />
+
+        <p>Com o Supabase configurado desde a Semana 6, o CRUD implementado e a autenticação
+            ativada na Semana 9, chegou o momento de <strong>validar o conjunto completo</strong>:
+            testar o app de ponta a ponta com dados reais, verificar se o RLS está protegendo
+            corretamente os dados de cada usuário e explorar recursos avançados como o Realtime e
+            integrações com APIs externas.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s10">
+                    <div id="curiosity-s10" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>O Supabase gera automaticamente uma <strong>API RESTful</strong> completa
+                                para cada tabela do seu banco de dados.</li>
+                            <li>Além da API REST, o Supabase oferece <strong>Realtime</strong> — dados
+                                que se atualizam em tempo real no app quando o banco é modificado.</li>
+                            <li>O FlutterFlow permite integrar APIs externas usando o recurso de
+                                <strong>Custom Actions</strong> e <strong>API Calls</strong>.
+                            </li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            Supabase Documentation; FlutterFlow Docs.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec10-1'>
+            <h2>10.1 Como o FlutterFlow Consome o Supabase</h2>
+            <p>Quando você configura o Supabase no FlutterFlow, a ferramenta gera automaticamente
+                os métodos de acesso ao banco via a API do Supabase. Cada query configurada no
+                <em>Backend Query</em> do FlutterFlow se traduz em uma chamada HTTP para o Supabase.
+            </p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s10-api">
+                        <div id="def-s10-api" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>API (Application Programming Interface):</strong> conjunto de regras
+                                e protocolos que permite que sistemas diferentes se comuniquem. A API do
+                                Supabase usa o padrão REST, onde cada operação é uma chamada HTTP com um
+                                método (GET, POST, PATCH, DELETE) e uma URL específica.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Estrutura da API do Supabase</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 10.1 - </strong>Exemplos de chamadas à API REST do Supabase.</caption>
+                <thead>
+                    <tr>
+                        <th>Operação</th>
+                        <th>Método HTTP</th>
+                        <th>URL (exemplo)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ler todas as despesas</td>
+                        <td>GET</td>
+                        <td><code>/rest/v1/despesas?select=*</code></td>
+                    </tr>
+                    <tr>
+                        <td>Filtrar por usuário</td>
+                        <td>GET</td>
+                        <td><code>/rest/v1/despesas?usuario_id=eq.{uid}</code></td>
+                    </tr>
+                    <tr>
+                        <td>Inserir despesa</td>
+                        <td>POST</td>
+                        <td><code>/rest/v1/despesas</code></td>
+                    </tr>
+                    <tr>
+                        <td>Atualizar despesa</td>
+                        <td>PATCH</td>
+                        <td><code>/rest/v1/despesas?id=eq.{id}</code></td>
+                    </tr>
+                    <tr>
+                        <td>Excluir despesa</td>
+                        <td>DELETE</td>
+                        <td><code>/rest/v1/despesas?id=eq.{id}</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>A <strong>Figura 10.1</strong> apresenta a arquitetura completa de integrações do app:
+                como o FlutterFlow se comunica com o Supabase para CRUD, autenticação e Realtime,
+                e como APIs externas podem ser integradas diretamente via API Calls.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig10_1_api_arquitetura.png'
+                    alt='Diagrama de arquitetura mostrando FlutterFlow conectado ao Supabase e APIs externas'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 10.1 — </strong>Arquitetura de integrações:
+                    FlutterFlow ↔ Supabase (CRUD/Auth/Realtime) e APIs externas.</figcaption>
+            </figure>
+        </section>
+
+        <section id='sec10-2'>
+            <h2>10.2 Realtime: Dados em Tempo Real</h2>
+            <p>O Supabase oferece o recurso de <strong>Realtime</strong>, que permite que o app
+                receba atualizações automáticas quando os dados no banco mudam, sem precisar
+                atualizar a tela manualmente.</p>
+
+            <p>No FlutterFlow, basta ativar a opção <strong>Real Time</strong> no Backend Query
+                da tela de listagem. Quando um novo dado for inserido no banco (por outro usuário
+                ou por outro dispositivo), a lista se atualiza automaticamente.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s10-rt">
+                        <div id="tip-s10-rt" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Caso de Uso do Realtime</strong></div>
+                        <div>
+                            <p>O Realtime é ideal para apps colaborativos: <em>listas de tarefas compartilhadas</em>,
+                                <em>chats</em>, <em>placar de jogos</em>, <em>monitoramento em tempo real</em>.
+                                Se o seu app não tem necessidade de atualização em tempo real, você pode
+                                deixar o Realtime desativado para economizar recursos.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec10-3'>
+            <h2>10.3 Integrações com APIs Externas</h2>
+            <p>O FlutterFlow permite integrar qualquer API REST externa via <strong>API Calls</strong>.
+                Isso abre possibilidades de enriquecer seu app com dados e funcionalidades de
+                serviços de terceiros.</p>
+
+            <h3>Exemplos de APIs Gratuitas para Projetos</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 10.2 - </strong>APIs públicas e gratuitas para integração.</caption>
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>O que oferece</th>
+                        <th>Exemplo de uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ViaCEP</strong></td>
+                        <td>Dados de endereço a partir do CEP</td>
+                        <td>Preenchimento automático de endereço</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenWeatherMap</strong></td>
+                        <td>Previsão do tempo</td>
+                        <td>App de atividades ao ar livre</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Open Food Facts</strong></td>
+                        <td>Informações nutricionais de alimentos</td>
+                        <td>App de dieta/nutrição</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ExchangeRate API</strong></td>
+                        <td>Taxas de câmbio em tempo real</td>
+                        <td>App de controle financeiro com câmbio</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Google Maps API</strong></td>
+                        <td>Mapas, rotas, localização</td>
+                        <td>App de entrega, localização de serviços</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Configurando uma API Call no FlutterFlow</h3>
+            <ol>
+                <li>Acesse <strong>API Calls</strong> no menu lateral.</li>
+                <li>Clique em <strong>+ Add API Call</strong>.</li>
+                <li>Defina o nome, método HTTP (GET, POST) e a URL da API.</li>
+                <li>Configure os parâmetros, cabeçalhos (headers) e o corpo (body) se necessário.</li>
+                <li>Teste a chamada com o botão <strong>Test API Call</strong>.</li>
+                <li>Mapeie os campos da resposta JSON para variáveis do FlutterFlow.</li>
+            </ol>
+        </section>
+
+        <section id='sec10-4'>
+            <h2>10.4 Testes de Integração</h2>
+            <p>Após a integração completa com o Supabase, realize os seguintes testes para validar
+                o funcionamento do app:</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 10.3 - </strong>Checklist de testes de integração com o Supabase.</caption>
+                <thead>
+                    <tr>
+                        <th>Teste</th>
+                        <th>Critério de Sucesso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cadastro de usuário</td>
+                        <td>Usuário criado com sucesso no Supabase Auth</td>
+                    </tr>
+                    <tr>
+                        <td>Login</td>
+                        <td>Usuário autenticado e redirecionado para a tela principal</td>
+                    </tr>
+                    <tr>
+                        <td>Inserção de dado</td>
+                        <td>Registro aparece na tabela do Supabase após o cadastro</td>
+                    </tr>
+                    <tr>
+                        <td>Leitura de dados</td>
+                        <td>Lista exibe apenas os dados do usuário logado</td>
+                    </tr>
+                    <tr>
+                        <td>Atualização de dado</td>
+                        <td>Alteração refletida no banco e na tela de listagem</td>
+                    </tr>
+                    <tr>
+                        <td>Exclusão de dado</td>
+                        <td>Registro removido do banco e da lista</td>
+                    </tr>
+                    <tr>
+                        <td>Logout</td>
+                        <td>Sessão encerrada, usuário redirecionado para o login</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec10-5'>
+            <h2>10.5 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s10">
+                        <div id="resumo-s10" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>CRUD completo funcionando</strong> com leitura/escrita no
+                                    Supabase.</li>
+                                <li><strong>Resultado dos testes de integração</strong> (checklist preenchido).</li>
+                                <li><strong>Integração com API externa</strong> (se aplicável ao projeto).</li>
+                                <li><strong>Vídeo ou screenshots</strong> demonstrando o app funcionando
+                                    com dados reais no Supabase.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá revisar as funcionalidades implementadas e verificar
+                o atendimento ao checklist de requisitos do projeto.</p>
+        </section>
+
+        <section id='caso-sem10'>
+            <h2>10.6 Estudo de Caso: FinanCampus</h2>
+            <p>Veja os resultados dos testes de integração do <strong>FinanCampus</strong> com o Supabase.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem10-label">
+                        <div id="caso-sem10-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 10</strong>
+                        </div>
+                        <div>
+                            <p><strong>Resultado dos testes de integração (7/7 aprovados):</strong></p>
+                            <ul>
+                                <li>✅ Cadastro: novo usuário criado no Supabase Auth e registro inserido em
+                                    <code>perfis</code> automaticamente.
+                                </li>
+                                <li>✅ Login: token JWT retornado e armazenado; redirecionamento para Home.</li>
+                                <li>✅ Insert: despesa inserida, visível na tabela <code>despesas</code> no painel do
+                                    Supabase.</li>
+                                <li>✅ Select: listagem exibe apenas as despesas do usuário logado (RLS funcionando).
+                                </li>
+                                <li>✅ Update: edição de despesa refletida no banco em menos de 1 segundo.</li>
+                                <li>✅ Delete: despesa excluída do banco e removida da lista sem recarregar.</li>
+                                <li>✅ Logout: sessão encerrada, tentativa de acessar dados retorna erro 401 (RLS
+                                    bloqueou).</li>
+                            </ul>
+                            <p><strong>API externa integrada:</strong> a API <strong>ViaCEP</strong> foi
+                                configurada via API Call para preencher automaticamente o endereço na tela
+                                de Perfil quando o usuário informa o CEP.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 10</div>
+
+    </div>
+</body>
+
+</html>

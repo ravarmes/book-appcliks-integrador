@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 6 — CRUD Completo</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem6'>SEMANA 6 – CRUD Completo</h1>
+            <p class='lead'>Nesta semana, você irá configurar o banco de dados no Supabase, conectá-lo
+                ao FlutterFlow e implementar os fluxos de CRUD do seu projeto, além de preencher os
+                dados iniciais (seeds) para permitir testes realistas.</p>
+        </header>
+        <hr />
+
+        <p>O acrônimo <strong>CRUD</strong> representa as quatro operações básicas de qualquer sistema
+            que gerencia dados: <strong>Create</strong> (criar), <strong>Read</strong> (ler),
+            <strong>Update</strong> (atualizar) e <strong>Delete</strong> (excluir). No FlutterFlow,
+            essas operações são configuradas via <em>Actions</em> e conectadas ao banco de dados.
+        </p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s6">
+                    <div id="curiosity-s6" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>O conceito de CRUD foi popularizado por James Martin em 1983 no livro
+                                <em>Managing the Data-base Environment</em>.
+                            </li>
+                            <li>Praticamente todo app de mercado (redes sociais, e-commerce, bancos) é
+                                fundamentalmente construído sobre operações CRUD.</li>
+                            <li>No Supabase, cada operação CRUD é uma chamada a uma <strong>API RESTful</strong>
+                                gerada automaticamente a partir das suas tabelas.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            Martin, J. (1983). Managing the Data-base Environment.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec6-1'>
+            <h2>6.1 Configurando o Supabase no FlutterFlow</h2>
+            <p>Antes de implementar qualquer fluxo de CRUD, o banco de dados precisa estar criado e
+                conectado ao FlutterFlow. O <strong>Supabase</strong> é a plataforma de backend
+                utilizada neste projeto — ela fornece um banco de dados PostgreSQL na nuvem,
+                acessível direto pelo FlutterFlow sem necessidade de código.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-supabase-why">
+                        <div id="tip-s6-supabase-why" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Por que Supabase e não banco local?</strong></div>
+                        <div>
+                            <p>O FlutterFlow <strong>não possui suporte a banco de dados local
+                                    relacional</strong> (como SQLite) sem código personalizado avançado.
+                                As únicas opções nativas para persistência de dados são serviços na
+                                nuvem: Supabase, Firebase ou uma API REST. Para este projeto, o Supabase
+                                é a escolha ideal — é gratuito, visual, relacional (SQL) e integrado
+                                nativamente ao FlutterFlow.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Passo 1 — Criar o Projeto no Supabase</h3>
+            <ol>
+                <li>Acesse <strong><a href="https://supabase.com" target="_blank">supabase.com</a></strong>
+                    e crie uma conta (pode usar o Google).</li>
+                <li>Clique em <strong>New Project</strong>.</li>
+                <li>Defina um nome para o projeto (ex.: <code>financampus</code>), escolha uma senha
+                    forte para o banco e selecione a região <em>South America (São Paulo)</em>.</li>
+                <li>Aguarde a criação do projeto (cerca de 2 minutos).</li>
+                <li>Anote as credenciais: <strong>Project URL</strong> e <strong>API Key (anon)</strong>
+                    — você vai precisar delas no passo 3.</li>
+            </ol>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s6-key">
+                        <div id="warn-s6-key" class="box-title"><img src="../images/icon-importante.png"
+                                class="icon-img" alt="Importante"><strong>Segurança das Chaves</strong></div>
+                        <div>
+                            <p>A <strong>anon key</strong> é pública e pode ser usada no frontend
+                                (FlutterFlow). A <strong>service role key</strong> é privada e
+                                <strong>nunca deve ser exposta</strong> no código do app — ela bypassa
+                                todas as regras de segurança do banco.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Passo 2 — Criar as Tabelas no Supabase</h3>
+            <p>Na Semana 5 você preparou o script SQL das tabelas a partir do brModelo. Agora é
+                só executá-lo diretamente no Supabase:
+            </p>
+            <ol>
+                <li>No painel do Supabase, acesse <strong>SQL Editor</strong> (menu lateral).</li>
+                <li>Clique em <strong>New query</strong>.</li>
+                <li>Cole o script SQL exportado pelo <strong>brModelo</strong> na Semana 5.</li>
+                <li>Clique em <strong>Run</strong> (▶). Todas as tabelas e relacionamentos serão
+                    criados de uma só vez.</li>
+                <li>Confirme em <strong>Table Editor</strong> que as tabelas aparecem listadas.</li>
+            </ol>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-rls-later">
+                        <div id="tip-s6-rls-later" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>RLS será configurado na Semana 9</strong></div>
+                        <div>
+                            <p>Nesta semana, deixe o RLS <strong>desabilitado</strong> para que você
+                                consiga testar as operações CRUD livremente durante o desenvolvimento.
+                                Na Semana 9, você ativará o RLS e configurará as políticas de segurança,
+                                garantindo que cada usuário acesse apenas seus próprios dados.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Passo 3 — Conectar o Supabase ao FlutterFlow</h3>
+            <ol>
+                <li>No FlutterFlow, clique no ícone de engrenagem <strong>⚙️</strong> na parte
+                    inferior do menu lateral para abrir o <strong>App Settings</strong>.</li>
+                <li>No painel esquerdo, role até a seção <strong>Integrations</strong> e clique em
+                    <strong>Supabase</strong>.
+                </li>
+                <li>Ative o toggle <strong>Enable Supabase</strong> — os campos de credenciais
+                    serão exibidos.</li>
+                <li>Preencha os campos:
+                    <ul>
+                        <li><strong>API URL:</strong> cole a <em>Project URL</em> copiada do Supabase
+                            no Passo 1.</li>
+                        <li><strong>Anon Key:</strong> cole a <em>API Key (anon)</em> copiada do
+                            Supabase no Passo 1.</li>
+                    </ul>
+                </li>
+                <li>Clique em <strong>Get Schema</strong> — o FlutterFlow importará automaticamente
+                    todas as tabelas e colunas criadas no Passo 2. A partir deste momento, as Actions
+                    de banco de dados (Insert Row, Update Row, Delete Row, Query Rows) estarão
+                    disponíveis para uso em qualquer botão ou evento do app.</li>
+            </ol>
+        </section>
+
+        <section id='sec6-2-teoria'>
+            <h2>6.2 As Quatro Operações CRUD</h2>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 6.1 - </strong>Correspondência entre operações CRUD e SQL/API.</caption>
+                <thead>
+                    <tr>
+                        <th>Operação</th>
+                        <th>SQL</th>
+                        <th>HTTP (API REST)</th>
+                        <th>FlutterFlow Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Create</strong></td>
+                        <td><code>INSERT INTO</code></td>
+                        <td>POST</td>
+                        <td>Insert Row</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Read</strong></td>
+                        <td><code>SELECT FROM</code></td>
+                        <td>GET</td>
+                        <td>Query Rows / Get Single Row</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Update</strong></td>
+                        <td><code>UPDATE SET</code></td>
+                        <td>PATCH / PUT</td>
+                        <td>Update Row</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delete</strong></td>
+                        <td><code>DELETE FROM</code></td>
+                        <td>DELETE</td>
+                        <td>Delete Row</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s6-crud">
+                        <div id="def-s6-crud" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição</strong></div>
+                        <div>
+                            <p><strong>Action (FlutterFlow):</strong> bloco de lógica executado em resposta
+                                a um evento (clique de botão, carregamento de página, etc.). As Actions
+                                conectam a interface do usuário com o banco de dados e outras integrações.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec6-3'>
+            <h2>6.3 Implementando os Fluxos CRUD</h2>
+            <p>Com o banco criado e o schema carregado, é hora de implementar os fluxos de interação
+                com os dados. O <strong>CRUD</strong> (Create, Read, Update, Delete) representa as
+                quatro operações fundamentais sobre qualquer tabela. No FlutterFlow, cada operação
+                corresponde a uma <em>Action</em> específica que se comunica com o Supabase via
+                API REST, como ilustrado na <strong>Figura 6.1</strong>.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig06_1_crud_ciclo.png'
+                    alt='Diagrama do ciclo CRUD entre FlutterFlow e Supabase com métodos HTTP' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 6.1 — </strong>Ciclo CRUD: cada Action do FlutterFlow
+                    corresponde a uma chamada HTTP à API do Supabase.</figcaption>
+            </figure>
+            <p>Nesta semana você implementa os fluxos de <strong>escrita</strong> de dados: criar um
+                novo registro (<em>Create</em>), editá-lo (<em>Update</em>) e excluí-lo
+                (<em>Delete</em>). Ao longo desses fluxos você usará Actions de navegação —
+                <strong>Navigate Back</strong> e <strong>Navigate To</strong> — apenas para redirecionar
+                o usuário depois que uma operação é concluída (ex.: voltar para a tela anterior após
+                salvar). Isso é diferente de <em>arquitetar</em> a navegação do app: a estrutura
+                completa de telas, o diagrama de fluxo e as listas dinâmicas conectadas ao banco são
+                o foco da <strong>Semana 7</strong>.
+            </p>
+
+            <p>Antes de detalhar cada fluxo, é fundamental entender a diferença entre dois conceitos
+                essenciais do FlutterFlow: <strong>widgets</strong> e <strong>propriedades</strong>.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s6-widget">
+                        <div id="def-s6-widget" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Widgets vs. Propriedades</strong></div>
+                        <div>
+                            <p><strong>Widget</strong> é um elemento visual que você arrasta para a tela:
+                                <em>Button</em>, <em>TextField</em>, <em>ListView</em>, <em>Column</em>,
+                                <em>Row</em>, <em>Container</em>, <em>Card</em>, <em>Icon</em>, <em>Text</em>
+                                etc. Cada widget aparece na árvore de componentes no painel esquerdo do
+                                FlutterFlow.
+                            </p>
+                            <p><strong>Propriedade</strong> é uma configuração de um widget já inserido na
+                                tela, ajustada no painel direito: por exemplo, o <em>label</em> de um
+                                <em>Button</em>, a <em>initialValue</em> de um <em>TextField</em>, o
+                                <em>mainAxisAlignment</em> de uma <em>Column</em>, ou a <em>font size</em>
+                                de um <em>Text</em>. Propriedades não são elementos visuais independentes —
+                                elas configuram a aparência e o comportamento de um widget existente.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ==================== CREATE ==================== -->
+            <h3>🟢 Fluxo de Create (Inserção)</h3>
+            <p>O fluxo de <strong>Create</strong> envolve uma tela de formulário onde o usuário preenche
+                os dados e os salva no banco de dados via Supabase.</p>
+            <ol>
+                <li>
+                    <strong>Crie a tela de formulário.</strong><br>
+                    No painel de widgets, localize a seção <em>Commonly Used Elements</em> e arraste um
+                    widget <strong>Column</strong> como contêiner principal da tela — ele empilha os
+                    elementos verticalmente.
+                </li>
+                <li>
+                    <strong>Adicione os campos de entrada.</strong><br>
+                    Para cada dado a ser coletado, arraste um widget <strong>TextField</strong> (encontrado
+                    em <em>Base Elements</em>) dentro da <em>Column</em>. Configure as seguintes
+                    propriedades de cada <em>TextField</em> no painel direito:
+                    <ul>
+                        <li><strong>Label Text</strong> — rótulo exibido dentro do campo (ex.: "Descrição").</li>
+                        <li><strong>Controller Path</strong> — vincula o campo a uma variável de estado para
+                            capturar o valor digitado.</li>
+                        <li><strong>Keyboard Type</strong> — define o tipo de teclado (texto, número, e-mail,
+                            data etc.).</li>
+                        <li><strong>Validator</strong> — regra de validação (ex.: campo obrigatório, valor
+                            mínimo).</li>
+                    </ul>
+                    Para campos de seleção (ex.: categoria), use o widget <strong>DropDown</strong> em vez
+                    do <em>TextField</em>.
+                </li>
+
+                <table class="box-table tip-table">
+                    <tr>
+                        <td class="box-content tip" role="note" aria-labelledby="tip-s6-dropdown">
+                            <div id="tip-s6-dropdown" class="box-title"><img src="../images/icon-observacao.png"
+                                    class="icon-img" alt="Dica"><strong>Dropdown vinculado à tabela real</strong></div>
+                            <div>
+                                <p>Como o banco já está conectado via <em>Get Schema</em>, o DropDown
+                                    de categoria pode ser populado diretamente com os dados da tabela
+                                    <code>categorias</code> do Supabase — sem valores estáticos.
+                                    Para isso:
+                                </p>
+                                <ol>
+                                    <li>Selecione o widget <strong>DropDown</strong> na árvore de componentes.</li>
+                                    <li>No painel direito, em <strong>Options Source</strong>, escolha
+                                        <em>From Database</em>.
+                                    </li>
+                                    <li>Configure uma <strong>Query Rows</strong> na tabela
+                                        <code>categorias</code> (sem filtros, para listar todas as categorias
+                                        disponíveis).
+                                    </li>
+                                    <li>Mapeie o campo <code>nome</code> como <strong>label</strong>
+                                        (o texto exibido ao usuário) e o campo <code>id</code> como
+                                        <strong>value</strong> (o valor armazenado no banco como
+                                        <em>categoria_id</em> na despesa).
+                                    </li>
+                                </ol>
+                                <p>Dessa forma, quando o usuário selecionar uma categoria, o
+                                    <code>id</code> real da categoria será salvo na tabela
+                                    <code>despesas</code> via a action <em>Insert Row</em>, mantendo
+                                    a integridade referencial da Foreign Key.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <li>
+                    <strong>Envolva os campos em um widget Form Validation.</strong><br>
+                    Encontrado na seção de widgets avançados (pesquise por "Form Validation" com
+                    <kbd>Ctrl+F</kbd>), ele agrupa os <em>TextFields</em> e permite validar todos de uma
+                    vez antes de salvar.
+                </li>
+                <li>
+                    <strong>Adicione o botão "Salvar".</strong><br>
+                    Arraste um widget <strong>Button</strong> (em <em>Commonly Used Elements</em>) abaixo
+                    dos campos. Configure as propriedades:
+                    <ul>
+                        <li><strong>Text</strong> — defina o rótulo do botão: "Salvar".</li>
+                        <li><strong>Width</strong> — defina como <em>Infinity</em> (largura total) para um
+                            visual mais moderno.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Configure a Action do botão.</strong><br>
+                    Clique no botão e abra o painel de <em>Actions</em>. Adicione as seguintes ações na
+                    ordem:
+                    <ol type="a">
+                        <li><strong>Validate Form</strong> — valida todos os campos antes de prosseguir.</li>
+                        <li><strong>Supabase → Insert Row</strong> — selecione a tabela correta e mapeie cada
+                            coluna ao valor do <em>TextField</em> correspondente.</li>
+                        <li><strong>Navigate Back</strong> (ou <strong>Navigate To</strong>) — redireciona
+                            para a tela de listagem após o salvamento.</li>
+                    </ol>
+                </li>
+            </ol>
+
+            <!-- Read é desenvolvido integralmente na Semana 7 -->
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-read">
+                        <div id="tip-s6-read" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>E o Read (Leitura)?</strong></div>
+                        <div>
+                            <p>O fluxo de <strong>Read</strong> — construção das telas de listagem
+                                com <em>ListView</em> dinâmico conectado ao Supabase — é desenvolvido
+                                na <strong>Semana 7</strong>, junto com o mapeamento completo das
+                                telas e o diagrama de navegação do app. Aqui na Semana 6 o foco é
+                                nos formulários de criação, edição e exclusão.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- ==================== UPDATE ==================== -->
+            <h3>🟡 Fluxo de Update (Atualização)</h3>
+            <p>O fluxo de <strong>Update</strong> reaproveita a estrutura do formulário de Create, mas
+                pré-preenche os campos com os dados do registro existente e usa a action <em>Update
+                    Row</em>.</p>
+            <ol>
+                <li>
+                    <strong>Crie (ou duplique) a tela de edição.</strong><br>
+                    Você pode duplicar a tela de criação para reaproveitar os widgets já configurados.
+                    Adicione um <em>Page Parameter</em> do tipo <code>int</code> (ou <code>uuid</code>)
+                    chamado <code>despesaId</code> para receber o ID do registro.
+                </li>
+                <li>
+                    <strong>Carregue os dados existentes.</strong><br>
+                    Configure um <em>Backend Query</em> do tipo <strong>Get Single Row</strong> na tela,
+                    filtrando por <code>id = despesaId</code>. Isso busca o registro ao abrir a tela.
+                </li>
+                <li>
+                    <strong>Pré-preencha os campos.</strong><br>
+                    Para cada widget <strong>TextField</strong>, configure a propriedade
+                    <strong>Initial Value</strong> como o campo correspondente do resultado da query
+                    (ex.: o <em>initialValue</em> do campo "Descrição" recebe o valor de
+                    <code>despesa.descricao</code>).
+                </li>
+                <li>
+                    <strong>Configure a Action do botão "Salvar".</strong><br>
+                    <ol type="a">
+                        <li><strong>Validate Form</strong> — valida os campos.</li>
+                        <li><strong>Supabase → Update Row</strong> — selecione a tabela, defina o filtro
+                            <code>id = despesaId</code> e mapeie cada coluna ao novo valor do campo.
+                        </li>
+                        <li><strong>Navigate Back</strong> — retorna para a tela de detalhe.</li>
+                    </ol>
+                </li>
+            </ol>
+
+            <!-- ==================== DELETE ==================== -->
+            <h3>🔴 Fluxo de Delete (Exclusão)</h3>
+            <ol>
+                <li>
+                    <strong>Adicione o botão "Excluir".</strong><br>
+                    Na tela de detalhe, arraste um widget <strong>Button</strong>. Configure a propriedade
+                    <strong>Text</strong> como "Excluir" e opcionalmente use um widget
+                    <strong>Icon</strong> (ícone de lixeira) à esquerda para reforço visual.
+                </li>
+                <li>
+                    <strong>Configure um diálogo de confirmação.</strong><br>
+                    Na Action do botão, adicione primeiro:
+                    <strong>Alert Dialog</strong> → mensagem "Deseja excluir este registro?" com os
+                    botões "Cancelar" e "Confirmar". A exclusão só ocorre na ramificação de confirmação.
+                </li>
+                <li>
+                    <strong>Configure a Action de exclusão.</strong><br>
+                    Dentro da ramificação "Confirmar" do diálogo, adicione:
+                    <ol type="a">
+                        <li><strong>Supabase → Delete Row</strong> → filtre por <code>id = despesaId</code>.</li>
+                        <li><strong>Navigate Back</strong> → retorna para a listagem após a exclusão.</li>
+                    </ol>
+                </li>
+            </ol>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s6">
+                        <div id="warn-s6" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Sempre valide os dados antes de executar um <strong>Insert</strong> ou
+                                <strong>Update</strong>. No FlutterFlow, use a Action
+                                <em>Validate Form</em> antes da chamada ao banco. Para exclusões,
+                                <strong>sempre exiba uma confirmação</strong> ao usuário — operações de
+                                delete geralmente são irreversíveis.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ==================== IA ==================== -->
+            <h3>🤖 Acelerando com a IA do FlutterFlow</h3>
+            <p>O FlutterFlow possui um recurso de <strong>geração de páginas e componentes com IA</strong>
+                que pode acelerar muito a criação das telas do seu projeto. Para acessá-lo, clique no botão
+                <strong>Generate with AI</strong> no painel de widgets (aba <em>AI Generation History</em>).
+                Você pode gerar uma <em>Page</em> (tela inteira) ou um <em>Component</em> (parte reutilizável).
+            </p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-ia">
+                        <div id="tip-s6-ia" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Dica: Limite do Plano Gratuito</strong></div>
+                        <div>
+                            <p>No plano gratuito do FlutterFlow, a geração com IA permite criar até
+                                <strong>5 páginas</strong>. Por isso, priorize as telas mais complexas e
+                                crie as mais simples manualmente. Cada geração consome um crédito — use
+                                com prompts bem detalhados para aproveitar ao máximo.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h4>Como escrever um bom prompt para geração de tela</h4>
+            <p>Quanto mais detalhado o prompt, melhor o resultado. Especifique os
+                <strong>widgets</strong> desejados, o <strong>layout</strong>, as <strong>cores</strong>
+                e a <strong>funcionalidade</strong>. Veja o exemplo abaixo para a tela de login do
+                FinanCampus:
+            </p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Prompt 6.1 - </strong>Exemplo de prompt para geração
+                    da tela de Login com IA</figcaption>
+                <pre class='code'>🔐 TELA — LOGIN / CADASTRO
+Crie uma tela de autenticação moderna e centralizada para o app FinanCampus.
+
+Elementos:
+- Logo ou título "FinanCampus" no topo
+- Campo de e-mail com ícone
+- Campo de senha com botão de mostrar/ocultar senha
+- Botão principal "Entrar"
+- Texto com link "Criar conta"
+- Layout com espaçamento confortável e responsivo
+- Botão com largura total
+- Design minimalista com cores suaves</pre>
+            </figure>
+
+            <h4>Prompt completo para gerar o app FinanCampus por inteiro</h4>
+            <p>Se desejar gerar cada tela individualmente de forma consistente, use o prompt geral abaixo
+                como referência e adapte para cada página. Lembre-se: <strong>o FlutterFlow gera uma
+                    página por vez</strong>.</p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Prompt 6.2 - </strong>Prompt completo do app
+                    FinanCampus (referência para geração de cada tela)</figcaption>
+                <pre class='code'>Crie um aplicativo mobile chamado "FinanCampus", um app simples e visual
+para controle de despesas pessoais.
+
+Utilize design moderno e limpo com Material Design, cards com cantos
+arredondados, sombra suave e cor principal para destacar informações
+financeiras.
+
+BACKEND
+Usar autenticação com Supabase (e-mail e senha).
+Cada usuário deve visualizar apenas seus próprios dados.
+
+ESTRUTURA DE DADOS
+Usuário: nome, email, orcamento_mensal
+Categoria: nome, icone, cor
+Despesa: descricao, valor, data, categoria, usuario
+Receita: descricao, valor, data, usuario
+
+TELAS
+
+1) Login / Cadastro
+- Campo de e-mail
+- Campo de senha
+- Botão "Entrar"
+- Link "Criar conta"
+- Layout centralizado e simples
+
+2) Home / Dashboard
+- AppBar com título "FinanCampus"
+- Card com o saldo do mês (receitas – despesas)
+- Destaque para o orçamento restante
+- Lista com as 3 últimas despesas
+- Botão flutuante (+) para adicionar despesa
+
+3) Lista de Despesas
+- ListView com as despesas do mês atual
+- Filtro por mês
+- Filtro por categoria
+- Cada item em formato de card contendo:
+  ícone da categoria | descrição | valor | data
+
+4) Nova Despesa
+- Campo numérico para valor
+- Dropdown para categoria
+- Seletor de data
+- Campo de observação
+- Botão "Salvar"
+
+5) Detalhe da Despesa / Editar
+- Exibir todos os dados da despesa
+- Botão "Editar"
+- Botão "Excluir"
+
+6) Perfil
+- Nome do usuário
+- E-mail
+- Campo editável para orçamento mensal
+- Botão "Sair"
+
+FUNCIONALIDADES EXTRAS
+- Gráfico de despesas por categoria no dashboard
+- Indicador visual de progresso do orçamento
+- Exibir alerta ao atingir 80% do orçamento
+
+NAVEGAÇÃO
+Utilizar navegação clara entre Dashboard, Despesas e Perfil.
+Garantir responsividade para celulares Android.</pre>
+            </figure>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s6">
+                        <div id="warn-s6" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Sempre valide os dados antes de executar um <strong>Insert</strong> ou
+                                <strong>Update</strong>. No FlutterFlow, use a Action
+                                <em>Validate Form</em> antes da chamada ao banco. Para exclusões,
+                                <strong>sempre exiba uma confirmação</strong> ao usuário — operações de
+                                delete geralmente são irreversíveis.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec6-3'>
+            <h2>6.3 Dados Iniciais (Seeds)</h2>
+            <p>Os <strong>seeds</strong> (ou dados de semente) são registros iniciais inseridos no banco
+                de dados para popular as tabelas com informações de exemplo. Eles são essenciais para
+                testar o funcionamento do app durante o desenvolvimento.</p>
+
+            <h3>Como Criar Seeds no Supabase</h3>
+            <p>No painel do Supabase, acesse <strong>Table Editor → [nome da tabela] → Insert Row</strong>
+                para adicionar registros manualmente. Alternativamente, use o editor SQL:</p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Código 6.1 - </strong>Inserção de dados iniciais (seeds)
+                </figcaption>
+                <pre class='code'>
+-- Seeds para a tabela de categorias
+INSERT INTO categorias (nome, icone, cor) VALUES
+  ('Alimentação',   'restaurant',      '#FF6B6B'),
+  ('Transporte',    'directions_car',  '#4ECDC4'),
+  ('Lazer',         'celebration',     '#45B7D1'),
+  ('Saúde',         'favorite',        '#96CEB4'),
+  ('Educação',      'school',          '#FFEAA7'),
+  ('Moradia',       'home',            '#DDA0DD'),
+  ('Outros',        'more_horiz',      '#B0B0B0');
+                </pre>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-seed">
+                        <div id="tip-s6-seed" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Dica</strong></div>
+                        <div>
+                            <p>Crie pelo menos <strong>5 a 10 registros de seed</strong> para cada tabela
+                                auxiliar (categorias, tags, tipos, etc.). Isso permite testar listagens,
+                                filtros e relacionamentos de forma realista durante o desenvolvimento.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec6-4'>
+            <h2>6.4 Documentando os Fluxos de CRUD</h2>
+            <p>Documente cada fluxo CRUD do projeto em uma tabela ou diagrama simples, indicando
+                quais telas estão envolvidas e quais Actions são executadas.</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 6.2 - </strong>Exemplo de documentação de fluxos CRUD para a entidade Despesa.
+                </caption>
+                <thead>
+                    <tr>
+                        <th>Operação</th>
+                        <th>Tela de Origem</th>
+                        <th>Action Executada</th>
+                        <th>Tela de Destino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Create</strong></td>
+                        <td>Tela "Nova Despesa"</td>
+                        <td>Insert Row em <em>despesas</em></td>
+                        <td>Tela "Listagem de Despesas"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Read (lista)</strong></td>
+                        <td>Tela "Listagem de Despesas"</td>
+                        <td>Query Rows em <em>despesas</em></td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Read (detalhe)</strong></td>
+                        <td>Listagem → clique no item</td>
+                        <td>Get Single Row em <em>despesas</em></td>
+                        <td>Tela "Detalhe da Despesa"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Update</strong></td>
+                        <td>Tela "Editar Despesa"</td>
+                        <td>Update Row em <em>despesas</em></td>
+                        <td>Tela "Detalhe da Despesa"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delete</strong></td>
+                        <td>Tela "Detalhe da Despesa"</td>
+                        <td>Delete Row em <em>despesas</em></td>
+                        <td>Tela "Listagem de Despesas"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec6-5'>
+            <h2>6.5 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s6">
+                        <div id="resumo-s6" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Fluxos CRUD implementados</strong> para a(s) entidade(s) principal(is)
+                                    do projeto no FlutterFlow.</li>
+                                <li><strong>Tabela de documentação</strong> dos fluxos (tela → action → destino).</li>
+                                <li><strong>Seeds populados</strong> no banco de dados com dados de exemplo
+                                    realistas.</li>
+                                <li><strong>Validações configuradas</strong> nos formulários do FlutterFlow
+                                    (conforme o planejamento da Semana 5), com os Dropdowns vinculados
+                                    às tabelas reais via Backend Query.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-readfast">
+                        <div id="tip-s6-readfast" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Valide o ciclo Create → Read antes de
+                                avançar</strong></div>
+                        <div>
+                            <p>Antes de finalizar a semana, confirme que o ciclo está funcionando:
+                                adicione um <strong>ListView simples</strong> em qualquer tela com
+                                uma <em>Backend Query</em> na tabela principal do seu CRUD. Não
+                                precisa estilizar — o objetivo é apenas confirmar que os dados
+                                inseridos aparecem na listagem. A implementação completa das listas,
+                                com filtros, ordenação e cards compostos, é o foco da
+                                <strong>Semana 7</strong>.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá mapear todas as telas do app e criar o diagrama de
+                navegação completo do projeto.</p>
+        </section>
+
+        <section id='caso-sem6'>
+            <h2>6.6 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> implementou o CRUD e documentou os fluxos.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem6-label">
+                        <div id="caso-sem6-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 6</strong>
+                        </div>
+                        <div>
+                            <p><strong>Fluxos CRUD implementados para a entidade Despesa:</strong></p>
+                            <ul>
+                                <li><strong>Create:</strong> Tela "Nova Despesa" → Action: Validate Form → Insert Row em
+                                    <em>despesas</em> → Navigate Back para "Lista de Despesas".
+                                </li>
+                                <li><strong>Read (lista):</strong> Tela "Home" e "Lista" → Query Rows em
+                                    <em>despesas</em> filtrado por <code>usuario_id = currentUserUid</code>, ordenado
+                                    por <code>data DESC</code>.
+                                </li>
+                                <li><strong>Read (detalhe):</strong> Toque no item da lista → passa o ID como parâmetro
+                                    → Get Single Row em <em>despesas</em>.</li>
+                                <li><strong>Update:</strong> Tela "Editar Despesa" → pré-preenche campos → Update Row
+                                    onde <code>id = despesa.id</code>.</li>
+                                <li><strong>Delete:</strong> Botão "Excluir" na tela de detalhe → Alert Dialog de
+                                    confirmação → Delete Row → Navigate Back.</li>
+                            </ul>
+                            <p><strong>Seeds adicionais inseridos:</strong> 10 despesas de exemplo distribuídas
+                                em 5 categorias, com valores e datas variados, para testar a listagem e os
+                                filtros da tela principal.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 6</div>
+
+    </div>
+</body>
+
+</html>

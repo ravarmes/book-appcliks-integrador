@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 8 — Identidade Visual e Multimídia</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem8'>SEMANA 8 – Identidade Visual e Multimídia</h1>
+            <p class='lead'>Nesta semana, você irá construir a identidade visual do seu aplicativo:
+                definindo a paleta de cores, tipografia, logotipo, ícone do app e splash screen.</p>
+        </header>
+        <hr />
+
+        <p>A identidade visual é o que dá personalidade ao seu app. Ela comunica os valores do produto
+            antes mesmo de o usuário interagir com qualquer funcionalidade. Um design consistente e
+            profissional aumenta a credibilidade e a confiança do usuário.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s8">
+                    <div id="curiosity-s8" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Estudos mostram que os usuários formam uma <strong>primeira impressão</strong>
+                                de um app em menos de <strong>50 milissegundos</strong>.</li>
+                            <li>O ícone do app é o elemento visual mais visto — aparece na tela inicial,
+                                na Play Store e nas notificações.</li>
+                            <li>Cores são responsáveis por até <strong>85% da decisão de compra</strong>
+                                de um produto digital, segundo pesquisas de psicologia das cores.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Google
+                            Research; Tractinsky, N. – Aesthetics and Apparent Usability.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec8-1'>
+            <h2>8.1 Teoria das Cores</h2>
+            <p>A escolha das cores do app deve ser <strong>intencional</strong> e coerente com o propósito
+                do produto e o perfil do público-alvo. Cores comunicam emoções e valores.</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 8.1 - </strong>Psicologia das cores mais usadas em apps mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Cor</th>
+                        <th>Emoções/Valores</th>
+                        <th>Apps que usam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Azul</strong></td>
+                        <td>Confiança, segurança, tecnologia</td>
+                        <td>Facebook, Twitter/X, Nubank (roxo-azulado)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Verde</strong></td>
+                        <td>Saúde, natureza, prosperidade</td>
+                        <td>WhatsApp, Nubank (verde), Duolingo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vermelho / Laranja</strong></td>
+                        <td>Energia, urgência, paixão</td>
+                        <td>YouTube, iFood, Tinder</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Amarelo</strong></td>
+                        <td>Alegria, criatividade, atenção</td>
+                        <td>Snapchat, McDonald's</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Preto / Cinza</strong></td>
+                        <td>Sofisticação, modernidade, premium</td>
+                        <td>Spotify (fundo escuro), Apple Music</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Roxo</strong></td>
+                        <td>Criatividade, inovação, luxo</td>
+                        <td>Twitch, Nubank</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Paleta de Cores do App</h3>
+            <p>Defina a paleta de cores do seu app com:</p>
+            <ul>
+                <li><strong>Cor primária:</strong> a cor principal, usada em botões, cabeçalhos e elementos
+                    de destaque.</li>
+                <li><strong>Cor secundária:</strong> complementa a primária, usada em elementos secundários.</li>
+                <li><strong>Cor de fundo:</strong> geralmente branco, cinza claro ou escuro (dark mode).</li>
+                <li><strong>Cor de texto:</strong> deve ter contraste suficiente com o fundo (ratio mínimo
+                    de 4.5:1 para acessibilidade).</li>
+            </ul>
+        </section>
+
+        <section id='sec8-2'>
+            <h2>8.2 Tipografia</h2>
+            <p>A tipografia define as fontes usadas no app. Uma boa escolha tipográfica melhora a
+                legibilidade e reforça a personalidade da marca.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s8-font">
+                        <div id="tip-s8-font" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Dica: Fontes do Google</strong></div>
+                        <div>
+                            <p>Use fontes do <strong>Google Fonts</strong> (fonts.google.com) — são gratuitas
+                                e disponíveis no FlutterFlow. As mais usadas em apps mobile são:
+                                <strong>Roboto</strong> (padrão Android), <strong>Inter</strong>,
+                                <strong>Nunito</strong> e <strong>Poppins</strong>. Use no máximo 2 fontes
+                                diferentes no app.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 8.2 - </strong>Hierarquia tipográfica recomendada para apps mobile.</caption>
+                <thead>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Tamanho</th>
+                        <th>Peso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Título da tela (H1)</td>
+                        <td>24–28 sp</td>
+                        <td>Bold (700)</td>
+                    </tr>
+                    <tr>
+                        <td>Subtítulo (H2)</td>
+                        <td>18–20 sp</td>
+                        <td>SemiBold (600)</td>
+                    </tr>
+                    <tr>
+                        <td>Corpo do texto</td>
+                        <td>14–16 sp</td>
+                        <td>Regular (400)</td>
+                    </tr>
+                    <tr>
+                        <td>Rótulos de campos</td>
+                        <td>12–14 sp</td>
+                        <td>Medium (500)</td>
+                    </tr>
+                    <tr>
+                        <td>Texto auxiliar / dica</td>
+                        <td>12 sp</td>
+                        <td>Regular (400)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec8-3'>
+            <h2>8.3 Logotipo, Ícone e Splash Screen</h2>
+
+            <h3>Logotipo</h3>
+            <p>O logotipo do app combina um símbolo gráfico (ícone) com o nome do app em tipografia
+                escolhida. Deve ser simples o suficiente para funcionar em tamanhos pequenos.</p>
+
+            <p>Você pode utilizar o <strong>Gemini</strong>
+                (<a href="https://gemini.google.com" target="_blank">gemini.google.com</a>) para gerar
+                uma proposta inicial de logotipo com inteligência artificial. Descreva com detalhes o
+                estilo visual, as cores e os elementos que deseja. Veja um exemplo:</p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Prompt 8.1 - </strong>Geração de logotipo com
+                    o Gemini</figcaption>
+                <pre class='code'>Crie um logotipo para um aplicativo mobile chamado "FinanCampus".
+
+O app é voltado para estudantes universitários que querem controlar
+suas despesas pessoais de forma simples e visual.
+
+Estilo: moderno, minimalista, tech.
+Cores: azul (#2D6AF6) como cor principal, com detalhes em verde (#4CAF50).
+Símbolo: um cifrão (R$) estilizado ou uma carteira digital, dentro de
+um círculo com fundo azul.
+Tipografia: nome "FinanCampus" ao lado do símbolo, em fonte sem serifa,
+bold, cor azul escuro.
+Fundo: branco ou transparente.
+Formato: quadrado, proporção 1:1, resolução 512×512 pixels.</pre>
+            </figure>
+
+            <h3>Ícone do App</h3>
+            <p>O ícone é exibido na tela inicial do celular e na Play Store. Os requisitos técnicos
+                para publicação na Google Play são:</p>
+
+            <p>Para gerar o ícone com IA, use um prompt focado em um símbolo único e reconhecível,
+                sem texto — pois o ícone precisa ser legível em tamanhos muito pequenos (48×48 px
+                na tela do celular). Exemplo:</p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Prompt 8.2 - </strong>Geração de ícone de
+                    app com o Gemini</figcaption>
+                <pre class='code'>Crie um ícone para um aplicativo mobile de controle financeiro
+chamado "FinanCampus".
+
+O ícone deve ser simples, reconhecível e funcionar bem em tamanhos
+pequenos (48px a 512px).
+
+Estilo: flat design, minimalista, sem texto.
+Símbolo: um cifrão (R$) estilizado ou uma carteira moderna, centralizado.
+Fundo: círculo ou quadrado arredondado com fundo azul (#2D6AF6).
+Símbolo: branco ou verde-claro (#4CAF50) sobre o fundo azul.
+Resolução: 512×512 pixels, formato PNG com fundo sólido (sem
+transparência) para uso na Play Store.</pre>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s8-gemini">
+                        <div id="tip-s8-gemini" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Dica: Refinando o resultado</strong></div>
+                        <div>
+                            <p>Se o primeiro resultado do Gemini não agradar, <strong>refine o
+                                    prompt</strong>: ajuste as cores, peça "mais simples", "mais
+                                arredondado", "sem sombra" etc. Você também pode pedir ao Gemini que
+                                gere <strong>4 variações</strong> do mesmo conceito para escolher a
+                                que melhor representa o seu app.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+
+            <table class='content-table'>
+                <caption><strong>Tabela 8.3 - </strong>Requisitos técnicos do ícone para a Google Play Store.</caption>
+                <thead>
+                    <tr>
+                        <th>Especificação</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Formato</td>
+                        <td>PNG (com transparência) ou JPG</td>
+                    </tr>
+                    <tr>
+                        <td>Tamanho (Store)</td>
+                        <td>512 × 512 pixels</td>
+                    </tr>
+                    <tr>
+                        <td>Tamanho máximo</td>
+                        <td>1024 KB</td>
+                    </tr>
+                    <tr>
+                        <td>Forma</td>
+                        <td>Quadrado (a Play Store aplica cantos arredondados)</td>
+                    </tr>
+                    <tr>
+                        <td>Fundo</td>
+                        <td>Sem transparência para a versão da Store</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Splash Screen</h3>
+            <p>A <strong>splash screen</strong> é a tela exibida brevemente enquanto o app é carregado.
+                No FlutterFlow, configure-a em <strong>Theme → Launch Screen</strong>. Deve conter apenas
+                o logotipo (ou ícone) e a cor de fundo da marca — nada mais.</p>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s8">
+                        <div id="warn-s8" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Evite usar imagens de <strong>direitos autorais</strong> (fotos de bancos
+                                pagos, logos de outras marcas) no seu projeto. Use recursos gratuitos como
+                                <strong>Unsplash</strong>, <strong>Pexels</strong>, <strong>Flaticon</strong>
+                                e <strong>Google Fonts</strong>. Sempre verifique a licença de uso antes de
+                                incluir qualquer ativo externo.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec8-4'>
+            <h2>8.4 Aplicando a Identidade Visual no FlutterFlow</h2>
+            <p>No FlutterFlow, acesse <strong>Theme Settings</strong> para definir as cores e fontes
+                que serão aplicadas consistentemente em todo o projeto. A estrutura de temas inclui:</p>
+            <ul>
+                <li><strong>Primary Color:</strong> cor principal do app.</li>
+                <li><strong>Secondary Color:</strong> cor de destaque secundário.</li>
+                <li><strong>Background Color:</strong> cor de fundo das telas.</li>
+                <li><strong>Primary Font / Secondary Font:</strong> fontes utilizadas para títulos e texto.</li>
+            </ul>
+        </section>
+
+        <section id='sec8-5'>
+            <h2>8.5 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s8">
+                        <div id="resumo-s8" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Paleta de cores</strong> definida com cores primária, secundária
+                                    e de fundo (com códigos hexadecimais).</li>
+                                <li><strong>Tipografia</strong> escolhida (1-2 fontes com tamanhos).</li>
+                                <li><strong>Logotipo e ícone</strong> do app criados (arquivo PNG 512×512).</li>
+                                <li><strong>Splash screen</strong> configurada no FlutterFlow.</li>
+                                <li><strong>Theme Settings</strong> do FlutterFlow configurado com cores
+                                    e fontes do projeto.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá migrar o banco de dados local para o Supabase e configurar
+                o ambiente de autenticação na nuvem.</p>
+        </section>
+
+        <section id='caso-sem8'>
+            <h2>8.6 Estudo de Caso: FinanCampus</h2>
+            <p>Veja as decisões de identidade visual que o grupo do <strong>FinanCampus</strong>
+                tomou nesta semana. A <strong>Figura 8.1</strong> apresenta o brand board completo
+                com paleta de cores, tipografia e ícone do app.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig08_1_identidade_visual.png'
+                    alt='Brand board de identidade visual do app FinanCampus com paleta de cores e tipografia'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 8.1 — </strong>Brand board do app FinanCampus: paleta
+                    de cores, tipografia e ícone.</figcaption>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem8-label">
+                        <div id="caso-sem8-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 8</strong>
+                        </div>
+                        <div>
+                            <p><strong>Paleta de cores:</strong></p>
+                            <ul>
+                                <li>Primária: <strong>#2D6AF6</strong> (azul universitário — confiança e tecnologia)
+                                </li>
+                                <li>Acento / destaque: <strong>#4CAF50</strong> (verde — para receitas e saldos
+                                    positivos)</li>
+                                <li>Alerta: <strong>#F44336</strong> (vermelho — para despesas e saldo negativo)</li>
+                                <li>Fundo: <strong>#F5F7FA</strong> (cinza claro suave)</li>
+                                <li>Texto principal: <strong>#1A1A2E</strong> (azul escuro — alto contraste)</li>
+                            </ul>
+                            <p><strong>Tipografia:</strong> <em>Poppins</em> para títulos (Bold 700) e
+                                <em>Inter</em> para corpo do texto (Regular 400). Ambas do Google Fonts,
+                                disponíveis nativamente no FlutterFlow.
+                            </p>
+                            <p><strong>Logotipo:</strong> símbolo de cifrão estilizado dentro de um círculo
+                                azul, com o nome "FinanCampus" ao lado em Poppins Bold. Criado no Canva
+                                e exportado em PNG 512×512px.</p>
+                            <p><strong>Splash screen:</strong> fundo <strong>#2D6AF6</strong> com o logotipo
+                                centralizado em branco. Configurado em <em>Theme → Launch Screen</em>
+                                no FlutterFlow.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 8</div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 5 — Formulários e Validação</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem5'>SEMANA 5 – Formulários, Validação e Definição do Banco</h1>
+            <p class='lead'>Nesta semana, você irá definir a estrutura final do banco de dados do seu
+                projeto, preparar os scripts SQL das tabelas e configurar as validações dos
+                formulários no FlutterFlow. Na próxima semana, esse banco será criado no Supabase.</p>
+        </header>
+        <hr />
+
+        <p>Agora que você tem o modelo conceitual do banco de dados (DER), é hora de transformar
+            esse modelo em uma <strong>estrutura real de tabelas</strong>: definindo colunas, tipos de
+            dados, chaves primárias e chaves estrangeiras. Nesta semana você prepara tudo isso —
+            inclusive os scripts SQL — para que na <strong>Semana 6</strong> o banco seja criado
+            diretamente no Supabase e conectado ao FlutterFlow.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s5">
+                    <div id="curiosity-s5" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>O <strong>brModelo Web</strong> permite exportar o DER diretamente como
+                                script SQL — basta acessar <em>Exportar → SQL</em> após modelar as
+                                entidades e relacionamentos.</li>
+                            <li>Esse script SQL pode ser colado e executado no <strong>SQL Editor do
+                                    Supabase</strong> para criar todas as tabelas do projeto de uma vez,
+                                sem precisar criá-las manualmente pela interface visual.</li>
+                            <li>A validação de formulários no frontend evita que dados incorretos cheguem
+                                ao banco — é mais barato corrigir no início do que depois.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            brModelo Web Documentation; Supabase Documentation.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec5-1'>
+            <h2>5.1 FlutterFlow e Banco de Dados: Entendendo a Estratégia</h2>
+            <p>Uma dúvida comum neste ponto é: <em>"o FlutterFlow tem um banco de dados local para
+                    eu usar durante o desenvolvimento?"</em></p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s5-nolocal">
+                        <div id="def-s5-nolocal" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Não existe banco local no FlutterFlow</strong>
+                        </div>
+                        <div>
+                            <p>O FlutterFlow <strong>não possui um banco de dados local relacional
+                                    nativo</strong> (como SQLite) sem uso de código customizado avançado.
+                                O que ele oferece são:
+                            </p>
+                            <ul>
+                                <li><strong>App State:</strong> variáveis em memória que são perdidas
+                                    ao fechar o app — úteis para dados temporários de sessão, não para
+                                    persistência de dados do usuário.</li>
+                                <li><strong>Supabase (nuvem):</strong> banco de dados PostgreSQL real,
+                                    gratuito, acessado via internet. É o que usaremos a partir da
+                                    <strong>Semana 6</strong>.
+                                </li>
+                            </ul>
+                            <p>Por isso, a estratégia adotada neste projeto é: <strong>preparar a
+                                    estrutura do banco nesta semana</strong> (scripts SQL, tipos, relacionamentos)
+                                e <strong>criar o banco no Supabase na Semana 6</strong>, já pronto
+                                para receber os dados do app.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Tipos de Dados Comuns no FlutterFlow/Supabase</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 5.1 - </strong>Tipos de dados disponíveis para as colunas das tabelas.</caption>
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Exemplo de Uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>String / Text</strong></td>
+                        <td>Texto de tamanho variável</td>
+                        <td>nome, descrição, e-mail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Integer / int8</strong></td>
+                        <td>Número inteiro</td>
+                        <td>id, quantidade, pontuação</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Float / numeric</strong></td>
+                        <td>Número decimal</td>
+                        <td>valor, preco, peso</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Boolean / bool</strong></td>
+                        <td>Verdadeiro ou falso</td>
+                        <td>ativo, concluido, favorito</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Timestamp / DateTime</strong></td>
+                        <td>Data e hora</td>
+                        <td>created_at, data_vencimento</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UUID</strong></td>
+                        <td>Identificador único universal</td>
+                        <td>id (chave primária no Supabase)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec5-2'>
+            <h2>5.2 Definindo Tabelas e Relacionamentos</h2>
+            <p>Com base no DER criado na semana 4, agora é hora de definir a estrutura final das tabelas:
+                nome das colunas, tipos de dados, chaves primárias e estrangeiras. Prepare os scripts
+                SQL nesta semana — eles serão usados para criar as tabelas no Supabase na
+                <strong>Semana 6</strong>.
+            </p>
+
+            <h3>Criando a Tabela no Supabase (SQL)</h3>
+            <p>Embora o Supabase tenha editor visual, conhecer o SQL equivalente ajuda a entender a
+                estrutura. Veja o exemplo para o app FinanCampus:</p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Código 5.1 - </strong>Criação das tabelas no Supabase (SQL)
+                </figcaption>
+                <pre class='code'>
+-- Tabela de Categorias
+CREATE TABLE categorias (
+  id        UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nome      TEXT NOT NULL,
+  icone     TEXT,
+  cor       TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabela de Despesas
+CREATE TABLE despesas (
+  id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  descricao    TEXT NOT NULL,
+  valor        NUMERIC(10,2) NOT NULL,
+  data         DATE NOT NULL,
+  usuario_id   UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  categoria_id UUID REFERENCES categorias(id),
+  created_at   TIMESTAMPTZ DEFAULT NOW()
+);
+                </pre>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-fk">
+                        <div id="tip-s5-fk" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Dica: Chaves Estrangeiras</strong></div>
+                        <div>
+                            <p>Use sempre <code>REFERENCES tabela(id)</code> para definir chaves estrangeiras
+                                e garanta integridade referencial. O <code>ON DELETE CASCADE</code> indica que,
+                                ao excluir o usuário, suas despesas também serão excluídas automaticamente.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec5-3'>
+            <h2>5.3 Planejamento das Validações de Formulário</h2>
+            <p>A <strong>validação</strong> garante que os dados inseridos pelo usuário estejam corretos
+                antes de serem salvos no banco. No FlutterFlow, a validação é configurada nos campos
+                do formulário via <strong>Form Validation</strong> — mas como o banco de dados ainda
+                será criado na <strong>Semana 6</strong>, o trabalho desta semana é <em>planejar e
+                    documentar</em> as validações de cada campo, para que a implementação seja feita
+                diretamente com os widgets já vinculados às tabelas reais.</p>
+
+            <h3>Tipos de Validação Comuns</h3>
+            <table class='content-table'>
+                <caption><strong>Tabela 5.2 - </strong>Validações comuns em formulários de apps.</caption>
+                <thead>
+                    <tr>
+                        <th>Tipo de Validação</th>
+                        <th>Regra</th>
+                        <th>Exemplo de Mensagem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Campo obrigatório</strong></td>
+                        <td>O campo não pode estar vazio</td>
+                        <td>"Este campo é obrigatório"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tamanho mínimo</strong></td>
+                        <td>O texto deve ter ao menos N caracteres</td>
+                        <td>"A senha deve ter no mínimo 6 caracteres"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Formato de e-mail</strong></td>
+                        <td>O campo deve seguir o padrão user@domain.com</td>
+                        <td>"Digite um e-mail válido"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Valor numérico</strong></td>
+                        <td>O campo deve conter apenas números</td>
+                        <td>"Digite apenas números"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Valor maior que zero</strong></td>
+                        <td>O número deve ser positivo</td>
+                        <td>"O valor deve ser maior que R$ 0,00"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Como Documentar as Validações</h3>
+            <p>Para cada formulário do seu projeto, crie uma tabela de planejamento indicando campo
+                a campo quais validações serão aplicadas. Esse documento será o guia de referência
+                na hora de configurar os formulários no FlutterFlow na Semana 6.</p>
+
+            <p>A <strong>Figura 5.1</strong> exemplifica uma tabela de planejamento completa para o
+                formulário "Nova Despesa" do app FinanCampus, mostrando campo, tipo de widget,
+                regra de validação e mensagem de erro esperada.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig05_1_validacao.png'
+                    alt='Tabela de planejamento de validações do formulário Nova Despesa' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 5.1 — </strong>Tabela de planejamento de validações
+                    para o formulário "Nova Despesa" (FinanCampus).</figcaption>
+            </figure>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 5.3 - </strong>Exemplo de tabela de planejamento de validações
+                    para o formulário "Nova Despesa".</caption>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Tipo de Widget</th>
+                        <th>Validação</th>
+                        <th>Mensagem de Erro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Valor</td>
+                        <td>TextField (numérico)</td>
+                        <td>Obrigatório, maior que zero</td>
+                        <td>"O valor deve ser maior que R$ 0,00"</td>
+                    </tr>
+                    <tr>
+                        <td>Descrição</td>
+                        <td>TextField (texto)</td>
+                        <td>Obrigatório, mínimo 3 caracteres</td>
+                        <td>"Descrição obrigatória (mín. 3 caracteres)"</td>
+                    </tr>
+                    <tr>
+                        <td>Data</td>
+                        <td>DatePicker</td>
+                        <td>Obrigatório, não permite datas futuras</td>
+                        <td>"Selecione uma data válida"</td>
+                    </tr>
+                    <tr>
+                        <td>Categoria</td>
+                        <td>DropDown (vinculado à tabela <code>categorias</code>)</td>
+                        <td>Obrigatório (seleção não pode ser vazia)</td>
+                        <td>"Selecione uma categoria"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-impl">
+                        <div id="tip-s5-impl" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Implementação na Semana 6</strong></div>
+                        <div>
+                            <p>As validações serão implementadas no FlutterFlow na
+                                <strong>Semana 6</strong>, quando o banco de dados já estará criado
+                                no Supabase e conectado ao projeto. Dessa forma, os widgets TextField
+                                e DropDown serão configurados <em>já vinculados às tabelas reais</em>
+                                — por exemplo, o campo Categoria já exibirá as opções carregadas
+                                diretamente da tabela <code>categorias</code> do Supabase, sem
+                                necessidade de reconfiguração posterior.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s5">
+                        <div id="warn-s5" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Nunca confie somente na validação do frontend. A validação no banco de dados
+                                (constraints como <code>NOT NULL</code> e <code>CHECK</code>) é essencial como
+                                segunda camada de proteção. As <strong>regras RLS do Supabase</strong> (Row Level
+                                Security) também protegem os dados no backend.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec5-4'>
+            <h2>5.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s5">
+                        <div id="resumo-s5" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Scripts SQL</strong> de todas as tabelas do projeto
+                                    (prontos para executar no Supabase na Semana 6).</li>
+                                <li><strong>Tabela de definição de campos</strong> (nome, tipo, obrigatório,
+                                    chave) para cada tabela do projeto.</li>
+                                <li><strong>Tabela de planejamento de validações</strong> para cada
+                                    formulário do projeto (campo, tipo de widget, regra de validação
+                                    e mensagem de erro). A implementação no FlutterFlow acontecerá
+                                    na Semana 6, quando o banco estiver conectado.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana (<strong>Semana 6</strong>), você criará o projeto no Supabase,
+                criará as tabelas usando os scripts preparados aqui e conectará o banco ao FlutterFlow
+                para começar a implementar o CRUD.</p>
+        </section>
+
+        <section id='caso-sem5'>
+            <h2>5.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> criou o banco de dados e as validações nesta semana.
+            </p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem5-label">
+                        <div id="caso-sem5-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 5</strong>
+                        </div>
+                        <div>
+                            <p><strong>Scripts SQL preparados (4 tabelas):</strong></p>
+                            <ul>
+                                <li><strong>categorias:</strong> id (UUID PK), nome (TEXT NOT NULL), icone (TEXT), cor
+                                    (TEXT)</li>
+                                <li><strong>despesas:</strong> id (UUID PK), descricao (TEXT NOT NULL), valor (NUMERIC
+                                    NOT NULL), data (DATE NOT NULL), usuario_id (UUID FK), categoria_id (UUID FK)</li>
+                                <li><strong>receitas:</strong> id (UUID PK), descricao (TEXT NOT NULL), valor (NUMERIC
+                                    NOT NULL), data (DATE NOT NULL), usuario_id (UUID FK)</li>
+                                <li><strong>perfis:</strong> id (UUID PK, FK para auth.users), nome (TEXT),
+                                    orcamento_mensal (NUMERIC DEFAULT 0)</li>
+                            </ul>
+                            <p>Os scripts SQL estão prontos para serem executados no Supabase na
+                                <strong>Semana 6</strong>. As tabelas ainda <strong>não foram criadas
+                                    no banco</strong> — isso acontece na próxima etapa.
+                            </p>
+                            <p><strong>Tabela de planejamento de validações (formulário "Nova Despesa"):</strong></p>
+                            <ul>
+                                <li>Campo "Valor": TextField numérico — obrigatório, maior que zero.</li>
+                                <li>Campo "Descrição": TextField texto — obrigatório, mínimo 3 caracteres.</li>
+                                <li>Campo "Data": DatePicker — obrigatório, sem datas futuras.</li>
+                                <li>Campo "Categoria": DropDown vinculado à tabela <code>categorias</code> —
+                                    obrigatório.</li>
+                            </ul>
+                            <p>As validações serão implementadas no FlutterFlow na <strong>Semana 6</strong>,
+                                quando o banco já estará conectado e o DropDown de Categoria poderá
+                                ser vinculado diretamente à tabela <code>categorias</code> do Supabase.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 5</div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang='pt-BR'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <title>Semana 14 — Build e Documentação Final</title>
+    <link rel='stylesheet' type='text/css' href='../css/style.css' />
+</head>
+
+<body>
+    <div class='container'>
+
+        <header>
+            <h1 id='sem14'>SEMANA 14 – Build e Documentação Final</h1>
+            <p class='lead'>Nesta semana, você irá finalizar a documentação técnica do projeto e
+                gerar o build final do app para publicação em produção na Google Play Store.</p>
+        </header>
+        <hr />
+
+        <p>A documentação técnica é o legado do projeto. Ela permite que qualquer desenvolvedor entenda
+            o sistema, dê manutenção no futuro ou o expanda. Nesta reta final, documentar o que foi
+            construído é tão importante quanto o próprio código.</p>
+
+        <table class="box-table tip-table">
+            <tr>
+                <td class="box-content tip" role="note" aria-labelledby="curiosity-s14">
+                    <div id="curiosity-s14" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Curiosidade"><strong>Você Sabia?</strong></div>
+                    <div>
+                        <ul>
+                            <li>Estudos mostram que desenvolvedores gastam até <strong>40% do seu tempo</strong>
+                                lendo documentação e código de outros — uma boa documentação economiza
+                                horas de trabalho.</li>
+                            <li>O <strong>APK</strong> (Android Package Kit) é o formato de distribuição
+                                antigo; o <strong>AAB</strong> (Android App Bundle) é o formato moderno
+                                e obrigatório para novos apps na Play Store desde 2021.</li>
+                            <li>O tamanho de download de um AAB pode ser até <strong>35% menor</strong>
+                                que o APK equivalente.</li>
+                        </ul>
+                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
+                            Google Developer Blog; Stack Overflow Developer Survey 2023.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <section id='sec14-1'>
+            <h2>14.1 Documentação Técnica do Projeto</h2>
+            <p>O <strong>documento técnico final</strong> consolida todas as decisões tomadas durante
+                o projeto. Ele deve ser claro o suficiente para que alguém que não participou do projeto
+                consiga entender a arquitetura e dar manutenção.</p>
+
+            <h3>Estrutura do Documento Técnico Final</h3>
+            <ol>
+                <li><strong>Identificação:</strong> nome do app, versão, equipe, data de entrega.</li>
+                <li><strong>Descrição do Sistema:</strong> propósito, público-alvo e principais
+                    funcionalidades.</li>
+                <li><strong>Arquitetura:</strong> diagrama da arquitetura (FlutterFlow + Supabase);
+                    tecnologias utilizadas.</li>
+                <li><strong>Banco de Dados:</strong> DER final, tabelas, atributos e políticas RLS.</li>
+                <li><strong>Telas e Navegação:</strong> mapa de telas e diagrama de navegação.</li>
+                <li><strong>Instruções de Configuração:</strong> como configurar o projeto no FlutterFlow
+                    e no Supabase para outro desenvolvedor.</li>
+                <li><strong>Decisões Técnicas:</strong> por que certas tecnologias foram escolhidas,
+                    dificuldades encontradas e como foram resolvidas.</li>
+                <li><strong>Limitações e Trabalhos Futuros:</strong> o que não foi implementado e
+                    poderia ser feito em versões futuras.</li>
+            </ol>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s14-doc">
+                        <div id="tip-s14-doc" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Dica: Ferramentas de Documentação</strong></div>
+                        <div>
+                            <p>Use <strong>Notion</strong>, <strong>Google Docs</strong> ou
+                                <strong>GitHub README</strong> para criar a documentação técnica do projeto.
+                                Essas ferramentas permitem colaboração em tempo real e fácil compartilhamento
+                                via link.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec14-2'>
+            <h2>14.2 Gerando o Build Final no FlutterFlow</h2>
+            <p>O FlutterFlow permite gerar o arquivo final do app diretamente na plataforma, sem
+                precisar instalar o Flutter SDK localmente.</p>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 14.1 - </strong>Opções de build no FlutterFlow.</caption>
+                <thead>
+                    <tr>
+                        <th>Opção</th>
+                        <th>Formato</th>
+                        <th>Uso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Build APK</strong></td>
+                        <td>.apk</td>
+                        <td>Instalação direta em dispositivos (sideload); testes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Build AAB</strong></td>
+                        <td>.aab</td>
+                        <td>Envio para a Google Play Store (obrigatório)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Download Source Code</strong></td>
+                        <td>Código Flutter</td>
+                        <td>Personalização avançada; publicação via linha de comando</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Passos para Gerar o Build no FlutterFlow</h3>
+            <ol>
+                <li>Acesse o projeto no FlutterFlow e verifique que não há erros.</li>
+                <li>Clique em <strong>Build &amp; Deploy</strong> no menu superior.</li>
+                <li>Selecione <strong>Android</strong> e o tipo de build (<em>APK</em> ou <em>AAB</em>).</li>
+                <li>Configure o <strong>versioning</strong>: versão do app (ex: 1.0.0) e
+                    version code (número inteiro crescente).</li>
+                <li>Aguarde o processo de build (pode levar alguns minutos).</li>
+                <li>Baixe o arquivo gerado e teste em um dispositivo real antes de enviar para a Play Store.</li>
+            </ol>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s14">
+                        <div id="warn-s14" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
+                                alt="Importante"><strong>Versionamento</strong></div>
+                        <div>
+                            <p>O <strong>Version Code</strong> (número inteiro) deve ser incrementado a
+                                cada novo build enviado para a Play Store — nunca pode ser o mesmo de um
+                                build anterior. O <strong>Version Name</strong> (ex: 1.0.0) é exibido ao
+                                usuário e deve seguir o padrão <em>MAJOR.MINOR.PATCH</em>.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec14-3'>
+            <h2>14.3 Versionamento Semântico</h2>
+            <p>O <strong>versionamento semântico</strong> (SemVer) é o padrão mais usado para numerar
+                versões de software. Segue o formato <code>MAJOR.MINOR.PATCH</code>, conforme
+                ilustrado na <strong>Figura 14.1</strong>:</p>
+
+            <figure class='figure'>
+                <img src='../images/fig14_1_semver.png'
+                    alt='Infográfico explicando o versionamento semântico MAJOR.MINOR.PATCH' class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 14.1 — </strong>Versionamento Semântico (SemVer):
+                    significado de MAJOR, MINOR e PATCH.</figcaption>
+            </figure>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 14.2 - </strong>Significado dos números no versionamento semântico.</caption>
+                <thead>
+                    <tr>
+                        <th>Parte</th>
+                        <th>Quando incrementar</th>
+                        <th>Exemplo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MAJOR</strong></td>
+                        <td>Mudança incompatível ou grande reformulação</td>
+                        <td>1.0.0 → 2.0.0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MINOR</strong></td>
+                        <td>Nova funcionalidade adicionada</td>
+                        <td>1.0.0 → 1.1.0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PATCH</strong></td>
+                        <td>Correção de bug</td>
+                        <td>1.0.0 → 1.0.1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id='sec14-4'>
+            <h2>14.4 Entregável da Semana</h2>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="resumo-s14">
+                        <div id="resumo-s14" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Resumo"><strong>Resumo da Semana</strong></div>
+                        <div>
+                            <ul>
+                                <li><strong>Documentação técnica final</strong> completa (estrutura completa).</li>
+                                <li><strong>Build AAB gerado</strong> e testado em dispositivo físico ou
+                                    emulador.</li>
+                                <li><strong>App publicado</strong> ou em processo de revisão na trilha de
+                                    produção da Play Store.</li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Na próxima semana, você irá ensaiar e preparar a apresentação final do projeto para
+                a banca avaliadora.</p>
+        </section>
+
+        <section id='caso-sem14'>
+            <h2>14.5 Estudo de Caso: FinanCampus</h2>
+            <p>Veja a documentação técnica e o build final gerado pelo grupo do <strong>FinanCampus</strong>.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="caso-sem14-label">
+                        <div id="caso-sem14-label" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 14</strong>
+                        </div>
+                        <div>
+                            <p><strong>Documentação Técnica Final (Notion — 14 páginas):</strong></p>
+                            <ul>
+                                <li>Identificação: FinanCampus v1.0.0, equipe de 4 integrantes, entrega em
+                                    fevereiro/2026.</li>
+                                <li>Arquitetura: diagrama FlutterFlow ↔ Supabase API ↔ PostgreSQL.</li>
+                                <li>Banco de dados: DER com 4 entidades, listagem de todas as políticas RLS.</li>
+                                <li>Telas e Navegação: mapa de 11 telas com diagrama de fluxo.</li>
+                                <li>Configuração: passo a passo para um novo dev configurar FlutterFlow e Supabase do
+                                    zero.</li>
+                                <li>Limitações: RF08 (PDF) não implementado; orçamento apenas global (não por
+                                    categoria).</li>
+                                <li>Trabalhos futuros v2.0: relatório PDF, gráfico de evolução mensal, login social.
+                                </li>
+                            </ul>
+                            <p><strong>Build gerado:</strong> AAB v1.0.0 (Version Code: 1),
+                                tamanho 14 MB. Testado em 3 dispositivos: Motorola Edge 30, Samsung Galaxy A54
+                                e emulador Android 12. Nenhum crash identificado nos testes.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="page-foot">Prof. Rafael Vargas Mesquita — Projeto Integrador • Semana 14</div>
+
+    </div>
+</body>
+
+</html>
