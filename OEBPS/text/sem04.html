@@ -235,6 +235,23 @@
                     </td>
                 </tr>
             </table>
+
+            <h3>Por Que Separar os Dados em Tabelas? — Normalização</h3>
+            <p>Um dos objetivos do DER é garantir que os dados não se repitam desnecessariamente no banco.
+                Esse processo se chama <strong>normalização</strong>. Imagine uma tabela única que
+                armazenasse, em cada linha de despesa, o nome e o e-mail do usuário e o nome da categoria.
+                Se a categoria "Alimentação" for renomeada para "Comida", você teria que atualizar centenas
+                de linhas. Ao separá-la em uma tabela própria, basta alterar uma única linha.</p>
+            <p>A <strong>Figura 4.2</strong> compara um design sem normalização ("tabela plana") com o
+                design normalizado equivalente, mostrando como as chaves estrangeiras eliminam a redundância.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig04_2_normalizacao.png'
+                    alt='Comparação entre tabela sem normalização com dados repetidos e tabela normalizada com três entidades separadas'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 4.2 — </strong>Antes e depois da normalização: separar
+                    dados em tabelas elimina redundância e facilita manutenção.</figcaption>
+            </figure>
         </section>
 
         <section id='sec4-4'>

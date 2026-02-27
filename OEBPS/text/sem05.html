@@ -125,6 +125,23 @@
                     </tr>
                 </tbody>
             </table>
+
+            <p>Esses tipos de dados são exatamente os que você usará ao criar as tabelas no
+                <strong>Supabase</strong> na Semana 6. Na prática, o FlutterFlow se comunica com o Supabase
+                enviando e recebendo dados nestes formatos. Entender como cada coluna se mapeia para um
+                campo de formulário (widget) é a chave para construir o CRUD corretamente.
+            </p>
+            <p>A <strong>Figura 5.2</strong> mostra o fluxo completo de dados entre o app FlutterFlow e
+                o banco de dados Supabase, evidenciando como as Actions de escrita (Insert/Update) e
+                as Queries de leitura (Query Rows) transitam pela API do Supabase.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig05_2_supabase_fluxo.png'
+                    alt='Diagrama de arquitetura em três camadas mostrando o fluxo de dados entre FlutterFlow (frontend), API e Supabase (banco de dados)'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
+                    Supabase: cada campo do formulário se traduz em uma coluna na tabela do banco.</figcaption>
+            </figure>
         </section>
 
         <section id='sec5-2'>
