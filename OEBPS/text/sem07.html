@@ -230,6 +230,21 @@
                     para melhorar o desempenho.</li>
             </ul>
 
+            <p>A <strong>Figura 7.2</strong> representa visualmente o fluxo completo de um ListView com
+                Backend Query: os dados saem da tabela do Supabase, passam pelo filtro configurado no
+                Query Builder e chegam até os widgets Card da tela, com cada campo mapeado via
+                <em>Set from Variable</em>.
+            </p>
+
+            <figure class='figure'>
+                <img src='../images/fig07_2_listview_query.png'
+                    alt='Diagrama mostrando o fluxo de dados do Supabase para o ListView via Backend Query no FlutterFlow'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 7.2 — </strong>ListView com Backend Query: dados do
+                    Supabase → filtro/ordenação → Card na tela, com campos vinculados via Set from Variable.
+                </figcaption>
+            </figure>
+
             <table class="box-table tip-table">
                 <tr>
                     <td class="box-content tip" role="note" aria-labelledby="tip-s7-fk">

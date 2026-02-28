@@ -179,6 +179,26 @@
                     </tr>
                 </tbody>
             </table>
+
+            <h3>Como Funciona Tecnicamente o Push Notification</h3>
+            <p>O envio de uma notificação push envolve uma cadeia de componentes que começa no dispositivo
+                do usuário e termina no Firebase Cloud Messaging (FCM). O conceito mais importante a
+                entender é o <strong>FCM Token</strong> — um identificador único gerado para cada
+                instalação do app em um dispositivo específico. Pense nele como o "endereço de entrega"
+                da notificação. Sem armazená-lo (geralmente em uma tabela no Supabase), não é possível
+                enviar notificações para usuários específicos.</p>
+
+            <p>A <strong>Figura 11.2</strong> ilustra o fluxo técnico completo, desde o registro do
+                dispositivo até a entrega da notificação.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig11_2_fcm_fluxo.png'
+                    alt='Fluxo técnico de push notification: App Firebase → FCM Token → Supabase armazena → FlutterFlow envia via FCM → usuário recebe'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 11.2 — </strong>Fluxo técnico de Push Notification com
+                    FCM: o token do dispositivo é o "endereço" que garante a entrega da notificação ao usuário correto.
+                </figcaption>
+            </figure>
         </section>
 
         <section id='sec11-3'>

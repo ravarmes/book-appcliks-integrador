@@ -155,6 +155,21 @@ CREATE POLICY "Usuários excluem suas despesas"
             <p>O Supabase oferece autenticação integrada com vários provedores. Para este projeto,
                 usaremos <strong>e-mail e senha</strong>.</p>
 
+            <p>Uma parte crítica da autenticação é o <strong>fluxo da Splash Screen</strong>: ao abrir
+                o app, ele verifica se existe uma sessão ativa (token JWT válido). Se sim, vai
+                diretamente para a Home. Se não, vai para o Login. A <strong>Figura 9.2</strong>
+                detalha esse fluxo completo, incluindo as Actions de <em>Navigate &amp; Remove All</em>
+                que garantem que o usuário não consiga voltar para a tela de login após autenticar.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig09_2_fluxo_auth.png'
+                    alt='Fluxograma de autenticação: Splash Screen verifica sessão JWT, vai para Login ou Home com Navigate & Remove All'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 9.2 — </strong>Fluxo completo de autenticação:
+                    verificação de sessão na Splash Screen, Login com Supabase Auth e redirecionamento via Navigate
+                    &amp; Remove All.</figcaption>
+            </figure>
+
             <h3>Configurando no FlutterFlow</h3>
             <ol>
                 <li>No FlutterFlow, acesse <strong>Settings → Supabase</strong>.</li>

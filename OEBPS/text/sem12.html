@@ -102,6 +102,31 @@
                 </tr>
             </table>
 
+            <h3>Os 4 Estados de Tela — Design de UX de Qualidade</h3>
+            <p>Uma tela profissional não tem apenas o estado "funcionando com dados". Ela trata
+                explicitamente todos os estados que o usuário pode encontrar. A
+                <strong>Figura 12.2</strong> ilustra os 4 estados obrigatórios que devem ser
+                implementados em toda tela com dados dinâmicos no FlutterFlow:
+            </p>
+            <ol>
+                <li><strong>Loading</strong> — enquanto a Backend Query carrega (use
+                    <em>CircularProgressIndicator</em>).</li>
+                <li><strong>Sucesso (Data)</strong> — quando há dados para exibir (seu ListView normal).</li>
+                <li><strong>Vazio (Empty State)</strong> — quando a query retorna 0 resultados.</li>
+                <li><strong>Erro</strong> — quando a chamada falha (sem internet, token expirado, servidor
+                    indisponível).</li>
+            </ol>
+            <p>No FlutterFlow, cada um desses estados é configurado na seção <strong>Conditional Visibility</strong>
+                dos widgets, utilizando variáveis booleanas de estado da página (<em>Page State</em>).</p>
+
+            <figure class='figure'>
+                <img src='../images/fig12_2_estados_tela.png'
+                    alt='Quatro mockups de tela mobile representando os estados Loading, Data, Empty State e Error'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 12.2 — </strong>Os 4 estados de tela que toda lista
+                    dinâmica deve implementar: Loading, Sucesso, Vazio e Erro.</figcaption>
+            </figure>
+
             <p>A <strong>Figura 12.1</strong> mostra o padrão de tratamento de erros no FlutterFlow:
                 cada Action pode ter dois desfechos — sucesso ou erro — e cada tipo de erro
                 exige uma resposta diferente para o usuário.</p>

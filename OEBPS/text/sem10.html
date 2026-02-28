@@ -119,6 +119,23 @@
                 <figcaption class='figure-caption'><strong>Figura 10.1 — </strong>Arquitetura de integrações:
                     FlutterFlow ↔ Supabase (CRUD/Auth/Realtime) e APIs externas.</figcaption>
             </figure>
+
+            <h3>Entendendo os Métodos HTTP — REST na Prática</h3>
+            <p>Por trás de cada Action do FlutterFlow há uma chamada HTTP ao Supabase. Compreender
+                os métodos HTTP ajuda a depurar problemas e a trabalhar com APIs externas. A tabela
+                acima (Tabela 10.1) mostrou as URLs — a <strong>Figura 10.2</strong> mostra o
+                mapeamento visual completo entre a Action do FlutterFlow e o método HTTP correspondente,
+                incluindo o formato JSON das respostas.
+            </p>
+
+            <figure class='figure'>
+                <img src='../images/fig10_2_api_rest.png'
+                    alt='Diagrama mostrando o mapeamento de Actions FlutterFlow para métodos HTTP GET POST PATCH DELETE e formato JSON de resposta'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 10.2 — </strong>Mapeamento de Actions do FlutterFlow
+                    para métodos HTTP REST: cada operação CRUD corresponde a um verbo HTTP e retorna dados em formato
+                    JSON.</figcaption>
+            </figure>
         </section>
 
         <section id='sec10-2'>
