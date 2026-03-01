@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width,initial-scale=1' />
-    <title>Semana 5 — Formulários e Validação</title>
+    <title>Semana 5 — Formulários, Validação e Configuração do Firebase</title>
     <link rel='stylesheet' type='text/css' href='../css/style.css' />
 </head>
 
@@ -12,18 +12,17 @@
     <div class='container'>
 
         <header>
-            <h1 id='sem5'>SEMANA 5 – Formulários, Validação e Definição do Banco</h1>
-            <p class='lead'>Nesta semana, você irá definir a estrutura final do banco de dados do seu
-                projeto, preparar os scripts SQL das tabelas e configurar as validações dos
-                formulários no FlutterFlow. Na próxima semana, esse banco será criado no Supabase.</p>
+            <h1 id='sem5'>SEMANA 5 – Formulários, Validação e Configuração do Firebase</h1>
+            <p class='lead'>Nesta semana, você irá configurar o projeto Firebase, criar o banco de dados
+                Firestore, definir as coleções no FlutterFlow e planejar as validações dos
+                formulários. A partir da próxima semana, o app já estará conectado ao banco.</p>
         </header>
         <hr />
 
         <p>Agora que você tem o modelo conceitual do banco de dados (DER), é hora de transformar
-            esse modelo em uma <strong>estrutura real de tabelas</strong>: definindo colunas, tipos de
-            dados, chaves primárias e chaves estrangeiras. Nesta semana você prepara tudo isso —
-            inclusive os scripts SQL — para que na <strong>Semana 6</strong> o banco seja criado
-            diretamente no Supabase e conectado ao FlutterFlow.</p>
+            esse modelo em uma <strong>estrutura real de coleções e documentos</strong> no Firestore.
+            Nesta semana você configura todo o ambiente Firebase — do projeto ao banco de dados — para
+            que na <strong>Semana 6</strong> a autenticação e o CRUD estejam prontos para uso.</p>
 
         <table class="box-table tip-table">
             <tr>
@@ -32,59 +31,142 @@
                             alt="Curiosidade"><strong>Você Sabia?</strong></div>
                     <div>
                         <ul>
-                            <li>O <strong>brModelo Web</strong> permite exportar o DER diretamente como
-                                script SQL — basta acessar <em>Exportar → SQL</em> após modelar as
-                                entidades e relacionamentos.</li>
-                            <li>Esse script SQL pode ser colado e executado no <strong>SQL Editor do
-                                    Supabase</strong> para criar todas as tabelas do projeto de uma vez,
-                                sem precisar criá-las manualmente pela interface visual.</li>
-                            <li>A validação de formulários no frontend evita que dados incorretos cheguem
-                                ao banco — é mais barato corrigir no início do que depois.</li>
+                            <li>O <strong>Firebase</strong> é uma plataforma do Google que integra mais de
+                                18 serviços — banco de dados, autenticação, storage, hosting, analytics,
+                                notificações push e muito mais — tudo com um único SDK.</li>
+                            <li>O <strong>Firestore</strong> é o banco de dados NoSQL do Firebase, organizado
+                                em <strong>coleções</strong> (collections) e <strong>documentos</strong>
+                                (documents), similar a uma estrutura de pastas e arquivos JSON.</li>
+                            <li>O plano gratuito do Firebase (<strong>Spark</strong>) oferece até
+                                <strong>1 GiB de armazenamento</strong> e <strong>50.000 leituras/dia</strong>
+                                — mais que suficiente para projetos acadêmicos.
+                            </li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
-                            brModelo Web Documentation; Supabase Documentation.</p>
+                            Firebase Documentation; Google Cloud.</p>
                     </div>
                 </td>
             </tr>
         </table>
 
         <section id='sec5-1'>
-            <h2>5.1 FlutterFlow e Banco de Dados: Entendendo a Estratégia</h2>
-            <p>Uma dúvida comum neste ponto é: <em>"o FlutterFlow tem um banco de dados local para
-                    eu usar durante o desenvolvimento?"</em></p>
+            <h2>5.1 Configurando o Firebase</h2>
+            <p>O FlutterFlow <strong>não possui um banco de dados local relacional nativo</strong>
+                (como SQLite) sem código personalizado avançado. As opções nativas para persistência
+                de dados são serviços na nuvem: <strong>Firebase</strong>, Supabase ou uma API REST.
+                Para este projeto, o Firebase é a escolha ideal — é gratuito, visual, integrado
+                nativamente ao FlutterFlow e conta com autenticação, banco de dados e storage
+                em uma única plataforma.</p>
+
+            <h3>Passo 1 — Criar o Projeto no Firebase</h3>
+            <ol>
+                <li>Acesse <strong><a href="https://firebase.google.com"
+                            target="_blank">firebase.google.com</a></strong>
+                    e crie uma conta com suas credenciais Google.</li>
+                <li>Clique em <strong>Ir para o console</strong> (canto superior direito).</li>
+                <li>Clique em <strong>Criar um projeto</strong> (ou <em>Add Project</em>).</li>
+                <li>Escolha um nome para o projeto (ex.: <code>financampus</code>).</li>
+                <li><strong>Desative o Google Analytics</strong> (não é necessário para este projeto) e
+                    clique em <strong>Criar projeto</strong>.</li>
+                <li>Aguarde a criação (cerca de 30 segundos) e clique em <strong>Continuar</strong>.</li>
+            </ol>
+
+            <h3>Passo 2 — Criar o Banco de Dados Firestore</h3>
+            <ol>
+                <li>No menu lateral do console Firebase, acesse <strong>Criação → Firestore Database</strong>.</li>
+                <li>Clique em <strong>Criar banco de dados</strong>.</li>
+                <li>Selecione <strong>Iniciar no modo de teste</strong> — isso permite leitura e escrita
+                    livres durante o desenvolvimento. As <strong>Security Rules</strong> serão configuradas
+                    na Semana 9.</li>
+                <li>Escolha um servidor próximo de você (ex.: <em>southamerica-east1</em> para São Paulo).</li>
+                <li>Clique em <strong>Ativar</strong>.</li>
+            </ol>
 
             <table class="box-table tip-table">
                 <tr>
-                    <td class="box-content tip" role="note" aria-labelledby="def-s5-nolocal">
-                        <div id="def-s5-nolocal" class="box-title"><img src="../images/icon-definicao.png"
-                                class="icon-img" alt="Definição"><strong>Não existe banco local no FlutterFlow</strong>
-                        </div>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-testmode">
+                        <div id="tip-s5-testmode" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Modo de Teste vs. Produção</strong></div>
                         <div>
-                            <p>O FlutterFlow <strong>não possui um banco de dados local relacional
-                                    nativo</strong> (como SQLite) sem uso de código customizado avançado.
-                                O que ele oferece são:
+                            <p>O <strong>modo de teste</strong> permite que qualquer pessoa leia e escreva
+                                dados por 30 dias. Isso é perfeito para o desenvolvimento — quando
+                                chegarmos à <strong>Semana 9</strong>, configuraremos as
+                                <strong>Security Rules</strong> para proteger os dados antes de publicar.
                             </p>
-                            <ul>
-                                <li><strong>App State:</strong> variáveis em memória que são perdidas
-                                    ao fechar o app — úteis para dados temporários de sessão, não para
-                                    persistência de dados do usuário.</li>
-                                <li><strong>Supabase (nuvem):</strong> banco de dados PostgreSQL real,
-                                    gratuito, acessado via internet. É o que usaremos a partir da
-                                    <strong>Semana 6</strong>.
-                                </li>
-                            </ul>
-                            <p>Por isso, a estratégia adotada neste projeto é: <strong>preparar a
-                                    estrutura do banco nesta semana</strong> (scripts SQL, tipos, relacionamentos)
-                                e <strong>criar o banco no Supabase na Semana 6</strong>, já pronto
-                                para receber os dados do app.</p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <h3>Tipos de Dados Comuns no FlutterFlow/Supabase</h3>
+            <h3>Passo 3 — Conceder Permissões ao FlutterFlow</h3>
+            <p>Para que o FlutterFlow consiga acessar e configurar seu projeto Firebase, é necessário
+                conceder permissões específicas:</p>
+            <ol>
+                <li>No console do Firebase, clique na <strong>engrenagem ⚙️</strong> ao lado de
+                    <em>Visão geral do projeto</em> e selecione <strong>Usuários e permissões</strong>.
+                </li>
+                <li>Clique em <strong>Adicionar membro</strong>.</li>
+                <li>Insira o e-mail: <code>firebase@flutterflow.io</code></li>
+                <li>Defina o papel como <strong>Editor</strong> e clique em <strong>Concluir</strong>.</li>
+                <li>Volte para <strong>Configurações avançadas de permissões</strong> (abre o Google Cloud Console).
+                </li>
+                <li>Localize o membro <code>firebase@flutterflow.io</code> e clique em <strong>Editar
+                        principal</strong>.</li>
+                <li>Clique em <strong>Adicionar outro papel</strong> e adicione:
+                    <ul>
+                        <li><strong>Administrador da Cloud Functions</strong></li>
+                        <li><strong>Usuário da conta de serviço</strong></li>
+                    </ul>
+                </li>
+                <li>Clique em <strong>Salvar</strong>.</li>
+            </ol>
+
+            <h3>Passo 4 — Ativar a Autenticação no Firebase</h3>
+            <ol>
+                <li>No menu lateral do console Firebase, acesse <strong>Criação → Authentication</strong>.</li>
+                <li>Clique em <strong>Vamos começar</strong>.</li>
+                <li>Em <strong>Provedores de login</strong>, clique em <strong>E-mail/senha</strong>.</li>
+                <li>Ative o toggle e clique em <strong>Salvar</strong>.</li>
+            </ol>
+
+            <h3>Passo 5 — Conectar o Firebase ao FlutterFlow</h3>
+            <ol>
+                <li>No console Firebase, acesse <strong>Configurações do projeto</strong>
+                    (engrenagem ⚙️) e copie o <strong>ID do projeto</strong>.</li>
+                <li>No FlutterFlow, acesse <strong>Settings → Firebase</strong>.</li>
+                <li>Cole o <strong>ID do projeto</strong> e clique em <strong>Connect</strong>.</li>
+                <li>Clique em <strong>Auto Generate Config Files</strong> e depois em
+                    <strong>Generate Config Files</strong> — isso gera automaticamente os arquivos
+                    de configuração necessários.
+                </li>
+                <li>Acesse <strong>Settings → Authentication</strong> e ative o toggle
+                    <strong>Enable Authentication</strong>.
+                </li>
+            </ol>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s5-connected">
+                        <div id="warn-s5-connected" class="box-title"><img src="../images/icon-importante.png"
+                                class="icon-img" alt="Importante"><strong>Verificação</strong></div>
+                        <div>
+                            <p>Após conectar, confirme que aparece um <strong>✓ verde</strong> ao lado do
+                                nome do projeto Firebase no FlutterFlow. Se houver erro, verifique se as
+                                permissões do Passo 3 foram configuradas corretamente.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec5-2'>
+            <h2>5.2 Tipos de Dados no Firestore</h2>
+            <p>Diferente de bancos relacionais que usam SQL e tipos rígidos, o Firestore armazena dados
+                em formato de <strong>documentos JSON-like</strong>. Cada documento contém campos com
+                tipos específicos:</p>
+
             <table class='content-table'>
-                <caption><strong>Tabela 5.1 - </strong>Tipos de dados disponíveis para as colunas das tabelas.</caption>
+                <caption><strong>Tabela 5.1 - </strong>Tipos de dados disponíveis no Firestore.</caption>
                 <thead>
                     <tr>
                         <th>Tipo</th>
@@ -94,117 +176,115 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>String / Text</strong></td>
+                        <td><strong>String</strong></td>
                         <td>Texto de tamanho variável</td>
-                        <td>nome, descrição, e-mail</td>
+                        <td>nome, descricao, email</td>
                     </tr>
                     <tr>
-                        <td><strong>Integer / int8</strong></td>
-                        <td>Número inteiro</td>
-                        <td>id, quantidade, pontuação</td>
+                        <td><strong>Number (int/double)</strong></td>
+                        <td>Número inteiro ou decimal</td>
+                        <td>valor, quantidade, pontuacao</td>
                     </tr>
                     <tr>
-                        <td><strong>Float / numeric</strong></td>
-                        <td>Número decimal</td>
-                        <td>valor, preco, peso</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Boolean / bool</strong></td>
+                        <td><strong>Boolean</strong></td>
                         <td>Verdadeiro ou falso</td>
                         <td>ativo, concluido, favorito</td>
                     </tr>
                     <tr>
-                        <td><strong>Timestamp / DateTime</strong></td>
-                        <td>Data e hora</td>
-                        <td>created_at, data_vencimento</td>
+                        <td><strong>Timestamp</strong></td>
+                        <td>Data e hora com precisão</td>
+                        <td>criadoEm, dataVencimento</td>
                     </tr>
                     <tr>
-                        <td><strong>UUID</strong></td>
-                        <td>Identificador único universal</td>
-                        <td>id (chave primária no Supabase)</td>
+                        <td><strong>Reference</strong></td>
+                        <td>Referência a outro documento</td>
+                        <td>usuarioRef (aponta para Users)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Map</strong></td>
+                        <td>Objeto aninhado (sub-documento)</td>
+                        <td>endereco: { rua, cidade, cep }</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Array</strong></td>
+                        <td>Lista de valores</td>
+                        <td>tags: ["urgente", "trabalho"]</td>
                     </tr>
                 </tbody>
             </table>
 
-            <p>Esses tipos de dados são exatamente os que você usará ao criar as tabelas no
-                <strong>Supabase</strong> na Semana 6. Na prática, o FlutterFlow se comunica com o Supabase
-                enviando e recebendo dados nestes formatos. Entender como cada coluna se mapeia para um
-                campo de formulário (widget) é a chave para construir o CRUD corretamente.
-            </p>
             <p>A <strong>Figura 5.2</strong> mostra o fluxo completo de dados entre o app FlutterFlow e
-                o banco de dados Supabase, evidenciando como as Actions de escrita (Insert/Update) e
-                as Queries de leitura (Query Rows) transitam pela API do Supabase.</p>
+                o banco de dados Firebase, evidenciando como as Actions de escrita (Create Document) e
+                as Queries de leitura (Query Collection) transitam pelo Firebase SDK.</p>
 
             <figure class='figure'>
                 <img src='../images/fig05_2_supabase_fluxo.png'
-                    alt='Diagrama de arquitetura em três camadas mostrando o fluxo de dados entre FlutterFlow (frontend), API e Supabase (banco de dados)'
+                    alt='Diagrama de arquitetura em três camadas mostrando o fluxo de dados entre FlutterFlow (frontend), Firebase SDK e Firestore (banco de dados)'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
-                    Supabase: cada campo do formulário se traduz em uma coluna na tabela do banco.</figcaption>
+                    Firebase: cada campo do formulário se traduz em um campo no documento do Firestore.</figcaption>
             </figure>
         </section>
 
-        <section id='sec5-2'>
-            <h2>5.2 Definindo Tabelas e Relacionamentos</h2>
-            <p>Com base no DER criado na semana 4, agora é hora de definir a estrutura final das tabelas:
-                nome das colunas, tipos de dados, chaves primárias e estrangeiras. Prepare os scripts
-                SQL nesta semana — eles serão usados para criar as tabelas no Supabase na
-                <strong>Semana 6</strong>.
-            </p>
+        <section id='sec5-3'>
+            <h2>5.3 Definindo as Coleções no FlutterFlow</h2>
+            <p>Com o Firebase conectado, agora é hora de criar as coleções que representam as
+                entidades do seu DER. No FlutterFlow, as coleções Firestore são definidas
+                diretamente na seção <strong>Firestore</strong> do painel lateral:</p>
 
-            <h3>Criando a Tabela no Supabase (SQL)</h3>
-            <p>Embora o Supabase tenha editor visual, conhecer o SQL equivalente ajuda a entender a
-                estrutura. Veja o exemplo para o app FinanCampus:</p>
-
-            <figure class='listing'>
-                <figcaption class='listing-title'><strong>Código 5.1 - </strong>Criação das tabelas no Supabase (SQL)
-                </figcaption>
-                <pre class='code'>
--- Tabela de Categorias
-CREATE TABLE categorias (
-  id        UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  nome      TEXT NOT NULL,
-  icone     TEXT,
-  cor       TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Tabela de Despesas
-CREATE TABLE despesas (
-  id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  descricao    TEXT NOT NULL,
-  valor        NUMERIC(10,2) NOT NULL,
-  data         DATE NOT NULL,
-  usuario_id   UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  categoria_id UUID REFERENCES categorias(id),
-  created_at   TIMESTAMPTZ DEFAULT NOW()
-);
-                </pre>
-            </figure>
+            <ol>
+                <li>No FlutterFlow, acesse <strong>Firestore</strong> no menu lateral (ícone de banco de dados).</li>
+                <li>Clique em <strong>+ Create Collection</strong>.</li>
+                <li>Defina o nome da coleção (ex.: <code>despesas</code>).</li>
+                <li>Adicione os campos com seus tipos (ex.: <code>descricao</code> como String,
+                    <code>valor</code> como Double, <code>data</code> como Timestamp).
+                </li>
+                <li>Para referências a outra coleção, use o tipo <strong>Reference</strong> e
+                    aponte para a coleção desejada (ex.: <code>usuarioRef</code> → Users).</li>
+                <li>Repita para todas as coleções do seu DER.</li>
+            </ol>
 
             <table class="box-table tip-table">
                 <tr>
-                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-fk">
-                        <div id="tip-s5-fk" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                                alt="Dica"><strong>Dica: Chaves Estrangeiras</strong></div>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-nosql">
+                        <div id="tip-s5-nosql" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Sem SQL necessário!</strong></div>
                         <div>
-                            <p>Use sempre <code>REFERENCES tabela(id)</code> para definir chaves estrangeiras
-                                e garanta integridade referencial. O <code>ON DELETE CASCADE</code> indica que,
-                                ao excluir o usuário, suas despesas também serão excluídas automaticamente.</p>
+                            <p>Diferente de bancos relacionais que exigem scripts <code>CREATE TABLE</code>,
+                                no Firestore as coleções são criadas diretamente pela interface do FlutterFlow
+                                ou do console Firebase. Não é necessário escrever SQL — a estrutura é definida
+                                visualmente e os documentos são criados automaticamente quando o primeiro
+                                registro é salvo pelo app.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s5-colecao">
+                        <div id="def-s5-colecao" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Coleção vs. Tabela</strong></div>
+                        <div>
+                            <p>Uma <strong>coleção</strong> no Firestore é equivalente a uma
+                                <strong>tabela</strong> no modelo relacional. A diferença é que cada
+                                <strong>documento</strong> (equivalente a uma linha/registro) pode ter campos
+                                diferentes — embora, na prática, mantemos todos os documentos de uma coleção
+                                com a mesma estrutura para facilitar as queries.
+                            </p>
                         </div>
                     </td>
                 </tr>
             </table>
         </section>
 
-        <section id='sec5-3'>
-            <h2>5.3 Planejamento das Validações de Formulário</h2>
+        <section id='sec5-4'>
+            <h2>5.4 Planejamento das Validações de Formulário</h2>
             <p>A <strong>validação</strong> garante que os dados inseridos pelo usuário estejam corretos
                 antes de serem salvos no banco. No FlutterFlow, a validação é configurada nos campos
-                do formulário via <strong>Form Validation</strong> — mas como o banco de dados ainda
-                será criado na <strong>Semana 6</strong>, o trabalho desta semana é <em>planejar e
-                    documentar</em> as validações de cada campo, para que a implementação seja feita
-                diretamente com os widgets já vinculados às tabelas reais.</p>
+                do formulário via <strong>Form Validation</strong> — como o banco de dados já está
+                conectado ao Firebase, os widgets podem ser configurados <em>já vinculados às
+                    coleções reais</em> do Firestore.</p>
 
             <h3>Tipos de Validação Comuns</h3>
             <table class='content-table'>
@@ -248,7 +328,7 @@ CREATE TABLE despesas (
             <h3>Como Documentar as Validações</h3>
             <p>Para cada formulário do seu projeto, crie uma tabela de planejamento indicando campo
                 a campo quais validações serão aplicadas. Esse documento será o guia de referência
-                na hora de configurar os formulários no FlutterFlow na Semana 6.</p>
+                na hora de configurar os formulários no FlutterFlow.</p>
 
             <p>A <strong>Figura 5.1</strong> exemplifica uma tabela de planejamento completa para o
                 formulário "Nova Despesa" do app FinanCampus, mostrando campo, tipo de widget,
@@ -293,30 +373,11 @@ CREATE TABLE despesas (
                     </tr>
                     <tr>
                         <td>Categoria</td>
-                        <td>DropDown (vinculado à tabela <code>categorias</code>)</td>
+                        <td>DropDown (vinculado à coleção <code>categorias</code>)</td>
                         <td>Obrigatório (seleção não pode ser vazia)</td>
                         <td>"Selecione uma categoria"</td>
                     </tr>
                 </tbody>
-            </table>
-
-            <table class="box-table tip-table">
-                <tr>
-                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-impl">
-                        <div id="tip-s5-impl" class="box-title"><img src="../images/icon-observacao.png"
-                                class="icon-img" alt="Dica"><strong>Implementação na Semana 6</strong></div>
-                        <div>
-                            <p>As validações serão implementadas no FlutterFlow na
-                                <strong>Semana 6</strong>, quando o banco de dados já estará criado
-                                no Supabase e conectado ao projeto. Dessa forma, os widgets TextField
-                                e DropDown serão configurados <em>já vinculados às tabelas reais</em>
-                                — por exemplo, o campo Categoria já exibirá as opções carregadas
-                                diretamente da tabela <code>categorias</code> do Supabase, sem
-                                necessidade de reconfiguração posterior.
-                            </p>
-                        </div>
-                    </td>
-                </tr>
             </table>
 
             <table class="box-table warning-table">
@@ -325,18 +386,20 @@ CREATE TABLE despesas (
                         <div id="warn-s5" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
-                            <p>Nunca confie somente na validação do frontend. A validação no banco de dados
-                                (constraints como <code>NOT NULL</code> e <code>CHECK</code>) é essencial como
-                                segunda camada de proteção. As <strong>regras RLS do Supabase</strong> (Row Level
-                                Security) também protegem os dados no backend.</p>
+                            <p>Nunca confie somente na validação do frontend. As
+                                <strong>Security Rules do Firebase</strong> (configuradas na Semana 9) são
+                                a segunda camada de proteção — elas impedem que dados inválidos ou
+                                não autorizados cheguem ao banco, mesmo que alguém tente enviar diretamente
+                                pela API.
+                            </p>
                         </div>
                     </td>
                 </tr>
             </table>
         </section>
 
-        <section id='sec5-4'>
-            <h2>5.4 Entregável da Semana</h2>
+        <section id='sec5-5'>
+            <h2>5.5 Entregável da Semana</h2>
 
             <table class="box-table tip-table">
                 <tr>
@@ -345,29 +408,30 @@ CREATE TABLE despesas (
                                 alt="Resumo"><strong>Resumo da Semana</strong></div>
                         <div>
                             <ul>
-                                <li><strong>Scripts SQL</strong> de todas as tabelas do projeto
-                                    (prontos para executar no Supabase na Semana 6).</li>
-                                <li><strong>Tabela de definição de campos</strong> (nome, tipo, obrigatório,
-                                    chave) para cada tabela do projeto.</li>
+                                <li><strong>Projeto Firebase criado</strong> e conectado ao FlutterFlow
+                                    (Steps 1-5 da seção 5.1 concluídos).</li>
+                                <li><strong>Firestore Database criado</strong> no modo de teste.</li>
+                                <li><strong>Autenticação habilitada</strong> (e-mail e senha) no Firebase
+                                    e no FlutterFlow.</li>
+                                <li><strong>Coleções criadas</strong> no FlutterFlow com todos os campos
+                                    e tipos definidos, conforme o DER da Semana 4.</li>
                                 <li><strong>Tabela de planejamento de validações</strong> para cada
-                                    formulário do projeto (campo, tipo de widget, regra de validação
-                                    e mensagem de erro). A implementação no FlutterFlow acontecerá
-                                    na Semana 6, quando o banco estiver conectado.</li>
+                                    formulário do projeto.</li>
                             </ul>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p>Na próxima semana (<strong>Semana 6</strong>), você criará o projeto no Supabase,
-                criará as tabelas usando os scripts preparados aqui e conectará o banco ao FlutterFlow
-                para começar a implementar o CRUD.</p>
+            <p>Na próxima semana (<strong>Semana 6</strong>), você implementará a autenticação de
+                usuários (criar conta, login, logout) e os fluxos de CRUD — criação, edição e
+                exclusão de registros — usando as coleções Firestore que acabou de configurar.</p>
         </section>
 
         <section id='caso-sem5'>
-            <h2>5.5 Estudo de Caso: FinanCampus</h2>
-            <p>Veja como o grupo do <strong>FinanCampus</strong> criou o banco de dados e as validações nesta semana.
-            </p>
+            <h2>5.6 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> configurou o Firebase e definiu as
+                coleções nesta semana.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -376,32 +440,33 @@ CREATE TABLE despesas (
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 5</strong>
                         </div>
                         <div>
-                            <p><strong>Scripts SQL preparados (4 tabelas):</strong></p>
+                            <p><strong>Configuração do Firebase:</strong></p>
                             <ul>
-                                <li><strong>categorias:</strong> id (UUID PK), nome (TEXT NOT NULL), icone (TEXT), cor
-                                    (TEXT)</li>
-                                <li><strong>despesas:</strong> id (UUID PK), descricao (TEXT NOT NULL), valor (NUMERIC
-                                    NOT NULL), data (DATE NOT NULL), usuario_id (UUID FK), categoria_id (UUID FK)</li>
-                                <li><strong>receitas:</strong> id (UUID PK), descricao (TEXT NOT NULL), valor (NUMERIC
-                                    NOT NULL), data (DATE NOT NULL), usuario_id (UUID FK)</li>
-                                <li><strong>perfis:</strong> id (UUID PK, FK para auth.users), nome (TEXT),
-                                    orcamento_mensal (NUMERIC DEFAULT 0)</li>
+                                <li>Projeto criado: <code>financampus</code></li>
+                                <li>Banco Firestore: servidor <em>southamerica-east1</em> (São Paulo)</li>
+                                <li>Autenticação: e-mail e senha habilitados</li>
+                                <li>FlutterFlow conectado com config files gerados automaticamente</li>
                             </ul>
-                            <p>Os scripts SQL estão prontos para serem executados no Supabase na
-                                <strong>Semana 6</strong>. As tabelas ainda <strong>não foram criadas
-                                    no banco</strong> — isso acontece na próxima etapa.
-                            </p>
+                            <p><strong>Coleções definidas no FlutterFlow (4 coleções):</strong></p>
+                            <ul>
+                                <li><strong>categorias:</strong> nome (String), icone (String), cor (String)</li>
+                                <li><strong>despesas:</strong> descricao (String), valor (Double),
+                                    data (Timestamp), usuarioRef (Reference → Users),
+                                    categoriaRef (Reference → categorias), criadoEm (Timestamp)</li>
+                                <li><strong>receitas:</strong> descricao (String), valor (Double),
+                                    data (Timestamp), usuarioRef (Reference → Users),
+                                    criadoEm (Timestamp)</li>
+                                <li><strong>perfis:</strong> nome (String), orcamentoMensal (Double),
+                                    usuarioRef (Reference → Users)</li>
+                            </ul>
                             <p><strong>Tabela de planejamento de validações (formulário "Nova Despesa"):</strong></p>
                             <ul>
                                 <li>Campo "Valor": TextField numérico — obrigatório, maior que zero.</li>
                                 <li>Campo "Descrição": TextField texto — obrigatório, mínimo 3 caracteres.</li>
                                 <li>Campo "Data": DatePicker — obrigatório, sem datas futuras.</li>
-                                <li>Campo "Categoria": DropDown vinculado à tabela <code>categorias</code> —
+                                <li>Campo "Categoria": DropDown vinculado à coleção <code>categorias</code> —
                                     obrigatório.</li>
                             </ul>
-                            <p>As validações serão implementadas no FlutterFlow na <strong>Semana 6</strong>,
-                                quando o banco já estará conectado e o DropDown de Categoria poderá
-                                ser vinculado diretamente à tabela <code>categorias</code> do Supabase.</p>
                         </div>
                     </td>
                 </tr>

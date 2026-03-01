@@ -13,17 +13,17 @@
 
         <header>
             <h1 id='sem10'>SEMANA 10 – Integrações e APIs</h1>
-            <p class='lead'>Com o app já integrado ao Supabase e a autenticação funcionando desde as
+            <p class='lead'>Com o app já integrado ao Firebase e a autenticação funcionando desde as
                 semanas anteriores, esta semana o foco é realizar os testes de integração end-to-end,
-                explorar o Realtime do Supabase e, opcionalmente, conectar APIs externas ao seu projeto.</p>
+                explorar o Realtime do Firestore e, opcionalmente, conectar APIs externas ao seu projeto.</p>
         </header>
         <hr />
 
-        <p>Com o Supabase configurado desde a Semana 6, o CRUD implementado e a autenticação
-            ativada na Semana 9, chegou o momento de <strong>validar o conjunto completo</strong>:
-            testar o app de ponta a ponta com dados reais, verificar se o RLS está protegendo
-            corretamente os dados de cada usuário e explorar recursos avançados como o Realtime e
-            integrações com APIs externas.</p>
+        <p>Com o Firebase configurado desde a Semana 5, o CRUD implementado na Semana 6, e as
+            Security Rules ativadas na Semana 9, chegou o momento de <strong>validar o conjunto
+                completo</strong>: testar o app de ponta a ponta com dados reais, verificar se as
+            Security Rules estão protegendo corretamente os dados de cada usuário e explorar
+            recursos avançados como o Realtime e integrações com APIs externas.</p>
 
         <table class="box-table tip-table">
             <tr>
@@ -32,27 +32,31 @@
                             alt="Curiosidade"><strong>Você Sabia?</strong></div>
                     <div>
                         <ul>
-                            <li>O Supabase gera automaticamente uma <strong>API RESTful</strong> completa
-                                para cada tabela do seu banco de dados.</li>
-                            <li>Além da API REST, o Supabase oferece <strong>Realtime</strong> — dados
-                                que se atualizam em tempo real no app quando o banco é modificado.</li>
+                            <li>O Firebase oferece <strong>Realtime</strong> nativo — dados que se
+                                atualizam automaticamente no app quando o banco é modificado, sem precisar
+                                recarregar a tela.</li>
                             <li>O FlutterFlow permite integrar APIs externas usando o recurso de
-                                <strong>Custom Actions</strong> e <strong>API Calls</strong>.
+                                <strong>Custom Actions</strong> e <strong>API Calls</strong>,
+                                expandindo as funcionalidades do app.
+                            </li>
+                            <li>A comunicação entre o FlutterFlow e o Firebase é feita via
+                                <strong>Firebase SDK</strong> (biblioteca cliente), e não via
+                                API REST como em outros backends.
                             </li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
-                            Supabase Documentation; FlutterFlow Docs.</p>
+                            Firebase Documentation; FlutterFlow Docs.</p>
                     </div>
                 </td>
             </tr>
         </table>
 
         <section id='sec10-1'>
-            <h2>10.1 Como o FlutterFlow Consome o Supabase</h2>
-            <p>Quando você configura o Supabase no FlutterFlow, a ferramenta gera automaticamente
-                os métodos de acesso ao banco via a API do Supabase. Cada query configurada no
-                <em>Backend Query</em> do FlutterFlow se traduz em uma chamada HTTP para o Supabase.
-            </p>
+            <h2>10.1 Como o FlutterFlow se Comunica com o Firebase</h2>
+            <p>Quando você conecta o Firebase ao FlutterFlow, a comunicação é feita diretamente via
+                o <strong>Firebase SDK</strong> — não é necessário construir uma API REST manualmente.
+                Cada Action configurada no FlutterFlow (Create Document, Query Collection, Update
+                Document, Delete Document) é traduzida automaticamente em uma chamada ao Firestore.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -61,92 +65,93 @@
                                 alt="Definição"><strong>Definição</strong></div>
                         <div>
                             <p><strong>API (Application Programming Interface):</strong> conjunto de regras
-                                e protocolos que permite que sistemas diferentes se comuniquem. A API do
-                                Supabase usa o padrão REST, onde cada operação é uma chamada HTTP com um
-                                método (GET, POST, PATCH, DELETE) e uma URL específica.</p>
+                                e protocolos que permite que sistemas diferentes se comuniquem. No contexto
+                                mobile, APIs são usadas para buscar dados de serviços externos (previsão do
+                                tempo, CEP, câmbio, mapas etc.).</p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <h3>Estrutura da API do Supabase</h3>
+            <h3>Correspondência entre Actions e Operações Firestore</h3>
             <table class='content-table'>
-                <caption><strong>Tabela 10.1 - </strong>Exemplos de chamadas à API REST do Supabase.</caption>
+                <caption><strong>Tabela 10.1 - </strong>Actions do FlutterFlow e suas operações no
+                    Firestore.</caption>
                 <thead>
                     <tr>
-                        <th>Operação</th>
-                        <th>Método HTTP</th>
-                        <th>URL (exemplo)</th>
+                        <th>Action no FlutterFlow</th>
+                        <th>Operação no Firestore</th>
+                        <th>Tipo</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ler todas as despesas</td>
-                        <td>GET</td>
-                        <td><code>/rest/v1/despesas?select=*</code></td>
+                        <td>Create Document</td>
+                        <td>Adiciona um novo documento à coleção</td>
+                        <td>Escrita</td>
                     </tr>
                     <tr>
-                        <td>Filtrar por usuário</td>
-                        <td>GET</td>
-                        <td><code>/rest/v1/despesas?usuario_id=eq.{uid}</code></td>
+                        <td>Query Collection</td>
+                        <td>Busca documentos com filtros e ordenação</td>
+                        <td>Leitura</td>
                     </tr>
                     <tr>
-                        <td>Inserir despesa</td>
-                        <td>POST</td>
-                        <td><code>/rest/v1/despesas</code></td>
+                        <td>Document from Reference</td>
+                        <td>Busca um documento específico pelo ID</td>
+                        <td>Leitura</td>
                     </tr>
                     <tr>
-                        <td>Atualizar despesa</td>
-                        <td>PATCH</td>
-                        <td><code>/rest/v1/despesas?id=eq.{id}</code></td>
+                        <td>Update Document</td>
+                        <td>Modifica campos de um documento existente</td>
+                        <td>Escrita</td>
                     </tr>
                     <tr>
-                        <td>Excluir despesa</td>
-                        <td>DELETE</td>
-                        <td><code>/rest/v1/despesas?id=eq.{id}</code></td>
+                        <td>Delete Document</td>
+                        <td>Remove um documento da coleção</td>
+                        <td>Escrita</td>
                     </tr>
                 </tbody>
             </table>
 
             <p>A <strong>Figura 10.1</strong> apresenta a arquitetura completa de integrações do app:
-                como o FlutterFlow se comunica com o Supabase para CRUD, autenticação e Realtime,
+                como o FlutterFlow se comunica com o Firebase para CRUD, autenticação e Realtime,
                 e como APIs externas podem ser integradas diretamente via API Calls.</p>
 
             <figure class='figure'>
                 <img src='../images/fig10_1_api_arquitetura.png'
-                    alt='Diagrama de arquitetura mostrando FlutterFlow conectado ao Supabase e APIs externas'
+                    alt='Diagrama de arquitetura mostrando FlutterFlow conectado ao Firebase e APIs externas'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 10.1 — </strong>Arquitetura de integrações:
-                    FlutterFlow ↔ Supabase (CRUD/Auth/Realtime) e APIs externas.</figcaption>
+                    FlutterFlow ↔ Firebase (CRUD/Auth/Realtime) e APIs externas.</figcaption>
             </figure>
 
             <h3>Entendendo os Métodos HTTP — REST na Prática</h3>
-            <p>Por trás de cada Action do FlutterFlow há uma chamada HTTP ao Supabase. Compreender
-                os métodos HTTP ajuda a depurar problemas e a trabalhar com APIs externas. A tabela
-                acima (Tabela 10.1) mostrou as URLs — a <strong>Figura 10.2</strong> mostra o
-                mapeamento visual completo entre a Action do FlutterFlow e o método HTTP correspondente,
-                incluindo o formato JSON das respostas.
+            <p>Embora a comunicação com o Firebase seja via SDK (não REST), compreender os métodos
+                HTTP é fundamental para trabalhar com <strong>APIs externas</strong>. A
+                <strong>Figura 10.2</strong> mostra o mapeamento dos métodos HTTP mais comuns e
+                quando cada um deve ser usado.
             </p>
 
             <figure class='figure'>
                 <img src='../images/fig10_2_api_rest.png'
-                    alt='Diagrama mostrando o mapeamento de Actions FlutterFlow para métodos HTTP GET POST PATCH DELETE e formato JSON de resposta'
+                    alt='Diagrama mostrando os métodos HTTP GET POST PATCH DELETE e suas finalidades'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 10.2 — </strong>Mapeamento de Actions do FlutterFlow
-                    para métodos HTTP REST: cada operação CRUD corresponde a um verbo HTTP e retorna dados em formato
-                    JSON.</figcaption>
+                <figcaption class='figure-caption'><strong>Figura 10.2 — </strong>Métodos HTTP REST: cada verbo
+                    (GET, POST, PATCH, DELETE) tem uma finalidade específica na comunicação com APIs externas.
+                </figcaption>
             </figure>
         </section>
 
         <section id='sec10-2'>
             <h2>10.2 Realtime: Dados em Tempo Real</h2>
-            <p>O Supabase oferece o recurso de <strong>Realtime</strong>, que permite que o app
-                receba atualizações automáticas quando os dados no banco mudam, sem precisar
-                atualizar a tela manualmente.</p>
+            <p>O Firestore oferece o recurso de <strong>Realtime</strong> (listen/snapshot), que
+                permite que o app receba atualizações automáticas quando os dados no banco mudam,
+                sem precisar atualizar a tela manualmente.</p>
 
-            <p>No FlutterFlow, basta ativar a opção <strong>Real Time</strong> no Backend Query
-                da tela de listagem. Quando um novo dado for inserido no banco (por outro usuário
-                ou por outro dispositivo), a lista se atualiza automaticamente.</p>
+            <p>No FlutterFlow, basta ativar a opção <strong>Listen for Changes</strong> no Backend
+                Query da tela de listagem. Quando um novo dado for inserido ou alterado no banco
+                (por outro dispositivo ou pela interface do console), a lista se atualiza
+                automaticamente.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -154,10 +159,11 @@
                         <div id="tip-s10-rt" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
                                 alt="Dica"><strong>Caso de Uso do Realtime</strong></div>
                         <div>
-                            <p>O Realtime é ideal para apps colaborativos: <em>listas de tarefas compartilhadas</em>,
-                                <em>chats</em>, <em>placar de jogos</em>, <em>monitoramento em tempo real</em>.
-                                Se o seu app não tem necessidade de atualização em tempo real, você pode
-                                deixar o Realtime desativado para economizar recursos.
+                            <p>O Realtime é ideal para apps colaborativos: <em>listas de tarefas
+                                    compartilhadas</em>, <em>chats</em>, <em>placar de jogos</em>,
+                                <em>monitoramento em tempo real</em>. Se o seu app não tem necessidade
+                                de atualização em tempo real, você pode deixar o Realtime desativado
+                                para economizar recursos (leituras no plano gratuito).
                             </p>
                         </div>
                     </td>
@@ -223,11 +229,12 @@
 
         <section id='sec10-4'>
             <h2>10.4 Testes de Integração</h2>
-            <p>Após a integração completa com o Supabase, realize os seguintes testes para validar
+            <p>Após a integração completa com o Firebase, realize os seguintes testes para validar
                 o funcionamento do app:</p>
 
             <table class='content-table'>
-                <caption><strong>Tabela 10.3 - </strong>Checklist de testes de integração com o Supabase.</caption>
+                <caption><strong>Tabela 10.3 - </strong>Checklist de testes de integração com o Firebase.
+                </caption>
                 <thead>
                     <tr>
                         <th>Teste</th>
@@ -237,7 +244,7 @@
                 <tbody>
                     <tr>
                         <td>Cadastro de usuário</td>
-                        <td>Usuário criado com sucesso no Supabase Auth</td>
+                        <td>Usuário criado com sucesso no Firebase Auth</td>
                     </tr>
                     <tr>
                         <td>Login</td>
@@ -245,7 +252,7 @@
                     </tr>
                     <tr>
                         <td>Inserção de dado</td>
-                        <td>Registro aparece na tabela do Supabase após o cadastro</td>
+                        <td>Documento aparece na coleção do Firestore após o cadastro</td>
                     </tr>
                     <tr>
                         <td>Leitura de dados</td>
@@ -257,7 +264,7 @@
                     </tr>
                     <tr>
                         <td>Exclusão de dado</td>
-                        <td>Registro removido do banco e da lista</td>
+                        <td>Documento removido do banco e da lista</td>
                     </tr>
                     <tr>
                         <td>Logout</td>
@@ -278,11 +285,11 @@
                         <div>
                             <ul>
                                 <li><strong>CRUD completo funcionando</strong> com leitura/escrita no
-                                    Supabase.</li>
+                                    Firestore.</li>
                                 <li><strong>Resultado dos testes de integração</strong> (checklist preenchido).</li>
                                 <li><strong>Integração com API externa</strong> (se aplicável ao projeto).</li>
                                 <li><strong>Vídeo ou screenshots</strong> demonstrando o app funcionando
-                                    com dados reais no Supabase.</li>
+                                    com dados reais no Firebase.</li>
                             </ul>
                         </div>
                     </td>
@@ -295,7 +302,8 @@
 
         <section id='caso-sem10'>
             <h2>10.6 Estudo de Caso: FinanCampus</h2>
-            <p>Veja os resultados dos testes de integração do <strong>FinanCampus</strong> com o Supabase.</p>
+            <p>Veja os resultados dos testes de integração do <strong>FinanCampus</strong> com o
+                Firebase.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -306,18 +314,16 @@
                         <div>
                             <p><strong>Resultado dos testes de integração (7/7 aprovados):</strong></p>
                             <ul>
-                                <li>✅ Cadastro: novo usuário criado no Supabase Auth e registro inserido em
-                                    <code>perfis</code> automaticamente.
-                                </li>
-                                <li>✅ Login: token JWT retornado e armazenado; redirecionamento para Home.</li>
-                                <li>✅ Insert: despesa inserida, visível na tabela <code>despesas</code> no painel do
-                                    Supabase.</li>
-                                <li>✅ Select: listagem exibe apenas as despesas do usuário logado (RLS funcionando).
-                                </li>
+                                <li>✅ Cadastro: novo usuário criado no Firebase Auth com sucesso.</li>
+                                <li>✅ Login: autenticação bem-sucedida; redirecionamento para Home.</li>
+                                <li>✅ Create: despesa inserida, visível na coleção <code>despesas</code>
+                                    no console do Firestore.</li>
+                                <li>✅ Read: listagem exibe apenas as despesas do usuário logado (Security
+                                    Rules funcionando).</li>
                                 <li>✅ Update: edição de despesa refletida no banco em menos de 1 segundo.</li>
-                                <li>✅ Delete: despesa excluída do banco e removida da lista sem recarregar.</li>
-                                <li>✅ Logout: sessão encerrada, tentativa de acessar dados retorna erro 401 (RLS
-                                    bloqueou).</li>
+                                <li>✅ Delete: despesa excluída do banco e removida da lista.</li>
+                                <li>✅ Logout: sessão encerrada, tentativa de acessar dados bloqueada
+                                    pelas Security Rules.</li>
                             </ul>
                             <p><strong>API externa integrada:</strong> a API <strong>ViaCEP</strong> foi
                                 configurada via API Call para preencher automaticamente o endereço na tela

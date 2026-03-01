@@ -20,7 +20,7 @@
         <hr />
 
         <p>Chegamos à fase de <strong>revisão e consolidação</strong> do projeto. Com o back-end
-            integrado ao Supabase, é hora de verificar se tudo que foi planejado foi implementado
+            integrado ao Firebase, é hora de verificar se tudo que foi planejado foi implementado
             corretamente e identificar gaps antes da fase final de publicação.</p>
 
         <table class="box-table tip-table">
@@ -68,7 +68,7 @@
                         <td>RF01</td>
                         <td>Cadastro de usuário</td>
                         <td>✅ Implementado</td>
-                        <td>Tela de cadastro com Supabase Auth</td>
+                        <td>Tela de cadastro com Firebase Auth</td>
                     </tr>
                     <tr>
                         <td>RF02</td>
@@ -80,7 +80,7 @@
                         <td>RF03</td>
                         <td>Cadastro de despesa</td>
                         <td>✅ Implementado</td>
-                        <td>Formulário com validação e Insert no Supabase</td>
+                        <td>Formulário com validação e Create Document no Firestore</td>
                     </tr>
                     <tr>
                         <td>RF04</td>
@@ -185,7 +185,7 @@
                 do usuário e termina no Firebase Cloud Messaging (FCM). O conceito mais importante a
                 entender é o <strong>FCM Token</strong> — um identificador único gerado para cada
                 instalação do app em um dispositivo específico. Pense nele como o "endereço de entrega"
-                da notificação. Sem armazená-lo (geralmente em uma tabela no Supabase), não é possível
+                da notificação. Sem armazená-lo (geralmente em uma coleção no Firestore), não é possível
                 enviar notificações para usuários específicos.</p>
 
             <p>A <strong>Figura 11.2</strong> ilustra o fluxo técnico completo, desde o registro do
@@ -193,7 +193,7 @@
 
             <figure class='figure'>
                 <img src='../images/fig11_2_fcm_fluxo.png'
-                    alt='Fluxo técnico de push notification: App Firebase → FCM Token → Supabase armazena → FlutterFlow envia via FCM → usuário recebe'
+                    alt='Fluxo técnico de push notification: App Firebase → FCM Token → Firestore armazena → FlutterFlow envia via FCM → usuário recebe'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 11.2 — </strong>Fluxo técnico de Push Notification com
                     FCM: o token do dispositivo é o "endereço" que garante a entrega da notificação ao usuário correto.
@@ -217,7 +217,7 @@
                 <tbody>
                     <tr>
                         <td>Upload de fotos/imagens</td>
-                        <td>Supabase Storage + Widget de upload</td>
+                        <td>Firebase Storage + Widget de upload</td>
                     </tr>
                     <tr>
                         <td>Câmera do dispositivo</td>

@@ -60,15 +60,15 @@
                 <tbody>
                     <tr>
                         <td><strong>Nunca armazenar senhas em texto puro</strong></td>
-                        <td>O Supabase Auth já usa bcrypt automaticamente para hashes de senha</td>
+                        <td>O Firebase Auth já gerencia hashes de senha automaticamente</td>
                     </tr>
                     <tr>
                         <td><strong>Usar HTTPS em todas as chamadas</strong></td>
-                        <td>O Supabase usa HTTPS por padrão; não use URLs HTTP em API Calls</td>
+                        <td>O Firebase usa HTTPS por padrão; não use URLs HTTP em API Calls</td>
                     </tr>
                     <tr>
                         <td><strong>Validar dados no backend</strong></td>
-                        <td>Use RLS e constraints do PostgreSQL, não confie apenas no frontend</td>
+                        <td>Use Security Rules do Firebase, não confie apenas no frontend</td>
                     </tr>
                     <tr>
                         <td><strong>Não expor chaves privadas</strong></td>
@@ -76,7 +76,7 @@
                     </tr>
                     <tr>
                         <td><strong>Session timeout</strong></td>
-                        <td>Configure o tempo de expiração do token no Supabase</td>
+                        <td>Configure o tempo de expiração do token no Firebase</td>
                     </tr>
                 </tbody>
             </table>
@@ -263,10 +263,10 @@
                         <div>
                             <p><strong>Checklist de segurança (todos verificados):</strong></p>
                             <ul>
-                                <li>✅ Senhas armazenadas com bcrypt (Supabase Auth gerencia automaticamente)</li>
+                                <li>✅ Senhas armazenadas com hash seguro (Firebase Auth gerencia automaticamente)</li>
                                 <li>✅ API Key <em>anon</em> usada no app; <em>service role key</em> não exposta</li>
-                                <li>✅ RLS ativo em todas as tabelas com dados de usuários</li>
-                                <li>✅ HTTPS em todas as chamadas (Supabase por padrão)</li>
+                                <li>✅ Security Rules ativas em todas as coleções com dados de usuários</li>
+                                <li>✅ HTTPS em todas as chamadas (Firebase por padrão)</li>
                                 <li>✅ Política de privacidade LGPD publicada</li>
                             </ul>
                             <p><strong>Checklist de acessibilidade:</strong></p>

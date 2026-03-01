@@ -34,8 +34,9 @@
                                 de dados.</li>
                             <li>Um banco de dados bem modelado pode ser até <strong>10x mais eficiente</strong>
                                 em consultas do que um banco não normalizado.</li>
-                            <li>O Supabase (usado neste projeto) utiliza <strong>PostgreSQL</strong>, um dos
-                                bancos de dados relacionais mais robustos e usados no mundo.</li>
+                            <li>O Firebase (usado neste projeto) utiliza o <strong>Firestore</strong>, um banco
+                                de dados NoSQL orientado a documentos, ideal para apps mobile pela sua
+                                flexibilidade e performance em tempo real.</li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Chen,
                             P. (1976). The Entity-Relationship Model.</p>
@@ -55,7 +56,9 @@
                         <div>
                             <p><strong>Entidade:</strong> representa um objeto do mundo real sobre o qual queremos
                                 armazenar informações. Exemplos: <em>Usuário</em>, <em>Despesa</em>,
-                                <em>Categoria</em>. Em um banco de dados, cada entidade vira uma tabela.
+                                <em>Categoria</em>. Em um banco de dados NoSQL como o Firestore, cada entidade
+                                vira uma <strong>coleção</strong> (collection), e cada registro vira um
+                                <strong>documento</strong> (document).
                             </p>
                         </div>
                     </td>
@@ -83,14 +86,14 @@
                         <td>nome, e-mail, data_nascimento</td>
                     </tr>
                     <tr>
-                        <td><strong>Chave Primária (PK)</strong></td>
-                        <td>Atributo que identifica unicamente cada registro</td>
-                        <td>id (gerado automaticamente)</td>
+                        <td><strong>Chave Primária (PK) / Document ID</strong></td>
+                        <td>Identificador único de cada registro (documento)</td>
+                        <td>Document ID (gerado automaticamente pelo Firestore)</td>
                     </tr>
                     <tr>
-                        <td><strong>Chave Estrangeira (FK)</strong></td>
-                        <td>Atributo que referencia a PK de outra tabela</td>
-                        <td>usuario_id em Despesa</td>
+                        <td><strong>Chave Estrangeira (FK) / Reference</strong></td>
+                        <td>Campo que referencia um documento de outra coleção</td>
+                        <td>usuarioRef em Despesa (Reference para Users)</td>
                     </tr>
                     <tr>
                         <td><strong>Relacionamento</strong></td>
@@ -226,10 +229,10 @@
                         <div id="warn-s4" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
-                            <p>Nomeie as entidades e atributos em <strong>letras minúsculas e sem acentos</strong>,
-                                usando underscores para separar palavras (<em>snake_case</em>). Por exemplo:
-                                <code>data_criacao</code>, <code>usuario_id</code>. Isso facilita a integração
-                                com o Supabase nas próximas semanas.
+                            <p>Nomeie as coleções e campos em <strong>letras minúsculas sem acentos</strong>,
+                                usando a convenção <em>camelCase</em> (padrão do Firebase). Por exemplo:
+                                <code>criadoEm</code>, <code>usuarioRef</code>, <code>categoriaRef</code>.
+                                Isso facilita a integração com o Firestore nas próximas semanas.
                             </p>
                         </div>
                     </td>
@@ -280,8 +283,8 @@
                 </tr>
             </table>
 
-            <p>Na próxima semana, você irá criar o banco de dados local no FlutterFlow e definir as
-                tabelas e relacionamentos identificados neste modelo.</p>
+            <p>Na próxima semana, você irá configurar o projeto Firebase, criar o banco de dados
+                Firestore e definir as coleções e campos identificados neste modelo.</p>
         </section>
 
         <section id='caso-sem4'>
@@ -297,13 +300,13 @@
                         <div>
                             <p><strong>Entidades identificadas:</strong></p>
                             <ul>
-                                <li><strong>Usuario</strong> (id, nome, email, created_at) — gerenciado pelo
-                                    Supabase Auth</li>
+                                <li><strong>Usuario</strong> (id, nome, email, criadoEm) — gerenciado pelo
+                                    Firebase Auth</li>
                                 <li><strong>Categoria</strong> (id, nome, icone, cor)</li>
-                                <li><strong>Despesa</strong> (id, descricao, valor, data, usuario_id FK,
-                                    categoria_id FK, created_at)</li>
-                                <li><strong>Receita</strong> (id, descricao, valor, data, usuario_id FK,
-                                    created_at)</li>
+                                <li><strong>Despesa</strong> (id, descricao, valor, data, usuarioRef,
+                                    categoriaRef, criadoEm)</li>
+                                <li><strong>Receita</strong> (id, descricao, valor, data, usuarioRef,
+                                    criadoEm)</li>
                             </ul>
                             <p><strong>Relacionamentos:</strong></p>
                             <ul>

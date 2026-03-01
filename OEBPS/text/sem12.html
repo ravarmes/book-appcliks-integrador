@@ -110,7 +110,8 @@
             </p>
             <ol>
                 <li><strong>Loading</strong> — enquanto a Backend Query carrega (use
-                    <em>CircularProgressIndicator</em>).</li>
+                    <em>CircularProgressIndicator</em>).
+                </li>
                 <li><strong>Sucesso (Data)</strong> — quando há dados para exibir (seu ListView normal).</li>
                 <li><strong>Vazio (Empty State)</strong> — quando a query retorna 0 resultados.</li>
                 <li><strong>Erro</strong> — quando a chamada falha (sem internet, token expirado, servidor
@@ -140,7 +141,7 @@
 
             <h3>Configurando Error Handling no FlutterFlow</h3>
             <ol>
-                <li>No painel de Actions, clique na Action que pode falhar (ex: Insert Row).</li>
+                <li>No painel de Actions, clique na Action que pode falhar (ex: Create Document).</li>
                 <li>Ative a opção <strong>Error Handling</strong>.</li>
                 <li>No bloco de erro, adicione uma Action <strong>Show Snack Bar</strong> ou
                     <strong>Alert Dialog</strong> com a mensagem de erro amigável.
@@ -297,7 +298,7 @@
                             <ul>
                                 <li>Insert de despesa: SnackBar "Não foi possível salvar. Verifique sua conexão."</li>
                                 <li>Login: Alert Dialog "E-mail ou senha incorretos." (sem expor o erro técnico do
-                                    Supabase)</li>
+                                    Firestore)</li>
                                 <li>Cadastro: Alert Dialog "E-mail já cadastrado."</li>
                                 <li>Carregamento da lista: empty state com ícone e texto "Nenhuma despesa ainda. Toque
                                     em + para começar!"</li>

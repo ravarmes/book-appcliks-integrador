@@ -231,17 +231,17 @@
             </ul>
 
             <p>A <strong>Figura 7.2</strong> representa visualmente o fluxo completo de um ListView com
-                Backend Query: os dados saem da tabela do Supabase, passam pelo filtro configurado no
+                Backend Query: os dados saem da coleção do Firestore, passam pelo filtro configurado no
                 Query Builder e chegam até os widgets Card da tela, com cada campo mapeado via
                 <em>Set from Variable</em>.
             </p>
 
             <figure class='figure'>
                 <img src='../images/fig07_2_listview_query.png'
-                    alt='Diagrama mostrando o fluxo de dados do Supabase para o ListView via Backend Query no FlutterFlow'
+                    alt='Diagrama mostrando o fluxo de dados do Firestore para o ListView via Backend Query no FlutterFlow'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 7.2 — </strong>ListView com Backend Query: dados do
-                    Supabase → filtro/ordenação → Card na tela, com campos vinculados via Set from Variable.
+                    Firestore → filtro/ordenação → Card na tela, com campos vinculados via Set from Variable.
                 </figcaption>
             </figure>
 
@@ -251,7 +251,7 @@
                         <div id="tip-s7-fk" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
                                 alt="Dica"><strong>Foreign Keys já carregadas pelo Get Schema</strong></div>
                         <div>
-                            <p>Quando o FlutterFlow importou o schema do Supabase via <em>Get Schema</em>
+                            <p>Quando o FlutterFlow importou as coleções do Firestore
                                 na Semana 6, ele também reconheceu as <strong>Foreign Keys</strong>
                                 definidas entre as tabelas. Isso significa que, ao configurar o
                                 <em>Backend Query</em> do ListView de Despesas, você pode acessar
@@ -263,7 +263,7 @@
                                 <li><code>despesa.categoria.cor</code> — usa a cor da categoria para
                                     colorir o ícone do card, mantendo coerência visual com o banco.</li>
                             </ul>
-                            <p>Esse acesso via FK é possível porque o Supabase retorna os dados
+                            <p>Esse acesso via Reference é possível porque o Firestore retorna os dados
                                 já com os relacionamentos resolvidos quando configurado corretamente
                                 na query. Explore esses campos ao mapear os widgets do Card para
                                 enriquecer a listagem com dados reais relacionados.</p>
@@ -279,7 +279,7 @@
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
                             <p>Sempre filtre os dados pelo <strong>usuário logado</strong> em listas que
-                                exibem informações pessoais. Use <code>auth.uid()</code> no filtro do Supabase
+                                exibem informações pessoais. Use o filtro <code>usuarioRef == Authenticated User</code>
                                 ou <code>currentUserUid</code> no FlutterFlow para garantir que cada usuário
                                 veja apenas seus próprios dados.</p>
                         </div>
@@ -343,7 +343,7 @@
                                 pelo botão de edição.
                             </p>
                             <p><strong>Lista dinâmica implementada</strong> na tela "Lista de Despesas":
-                                widget <em>ListView</em> com <em>Backend Query</em> no Supabase,
+                                widget <em>ListView</em> com <em>Backend Query</em> no Firestore,
                                 filtrado por <code>usuario_id = auth.uid()</code>, ordenado por
                                 <code>data DESC</code>, limite de 50 registros. Cada item exibe um
                                 widget <em>Card</em> com <em>Row</em> contendo: ícone da categoria,
