@@ -76,7 +76,8 @@
 
             <h3>Exemplo</h3>
             <p>Para estudantes universitários que têm dificuldade em controlar os gastos mensais, o
-                <strong>FinanCampus</strong> é um aplicativo mobile que registra receitas e despesas de forma
+                <strong>FinanCampus</strong> é um aplicativo mobile que registra transações financeiras (rendas e
+                despesas) de forma
                 simples e visual. Diferentemente de planilhas e aplicativos complexos, nosso produto oferece
                 categorização automática e alertas de orçamento com interface intuitiva.
             </p>
@@ -123,12 +124,13 @@
                     </tr>
                     <tr>
                         <td>RF02</td>
-                        <td>O sistema deve permitir o registro de uma despesa com valor, categoria e data.</td>
+                        <td>O sistema deve permitir o registro de uma transação com tipo (Renda/Despesa), valor,
+                            categoria e data.</td>
                         <td>Alta</td>
                     </tr>
                     <tr>
                         <td>RF03</td>
-                        <td>O sistema deve exibir um gráfico de despesas por categoria no mês atual.</td>
+                        <td>O sistema deve exibir um gráfico de transações por categoria no mês atual.</td>
                         <td>Média</td>
                     </tr>
                     <tr>
@@ -230,7 +232,7 @@
                     </tr>
                     <tr>
                         <td><strong>Usabilidade</strong></td>
-                        <td>Um usuário novo deve conseguir cadastrar sua primeira despesa em menos de 1 minuto.</td>
+                        <td>Um usuário novo deve conseguir cadastrar sua primeira transação em menos de 1 minuto.</td>
                     </tr>
                     <tr>
                         <td><strong>Compatibilidade</strong></td>
@@ -250,7 +252,7 @@
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
                             <p>Nunca confunda o <strong>que</strong> com o <strong>como</strong>. Um requisito
-                                funcional descreve uma funcionalidade ("o usuário pode cadastrar despesas").
+                                funcional descreve uma funcionalidade ("o usuário pode cadastrar transações").
                                 Um requisito não funcional define a qualidade desse comportamento ("o cadastro
                                 deve ser concluído em menos de 3 segundos").</p>
                         </div>
@@ -296,7 +298,7 @@
                         <div>
                             <p><strong>Frase de Visão:</strong> Para <em>estudantes universitários</em> que
                                 <em>perdem o controle dos gastos mensais</em>, o <strong>FinanCampus</strong>
-                                é um <em>aplicativo mobile</em> que <em>registra e categoriza despesas de
+                                é um <em>aplicativo mobile</em> que <em>registra e categoriza transações financeiras de
                                     forma simples e visual</em>. Diferentemente de <em>planilhas e apps
                                     bancários complexos</em>, nosso produto oferece <em>visão rápida do saldo
                                     com alertas de orçamento</em>.
@@ -304,14 +306,16 @@
                             <p><strong>Requisitos Funcionais (RF) — Alta Prioridade:</strong></p>
                             <ul>
                                 <li>RF01 — O sistema deve permitir cadastro e login por e-mail e senha.</li>
-                                <li>RF02 — O sistema deve permitir registrar uma despesa (valor, categoria, data,
-                                    observação).</li>
-                                <li>RF03 — O sistema deve listar todas as despesas do mês atual do usuário logado.</li>
-                                <li>RF04 — O sistema deve exibir o saldo do mês (receitas − despesas).</li>
+                                <li>RF02 — O sistema deve permitir registrar uma transação (tipo, valor, categoria,
+                                    data,
+                                    descrição).</li>
+                                <li>RF03 — O sistema deve listar todas as transações do mês atual do usuário logado.
+                                </li>
+                                <li>RF04 — O sistema deve exibir o saldo do mês (rendas − despesas).</li>
+                                <li>RF05 — Gráfico de transações por categoria.</li>
                             </ul>
                             <p><strong>Requisitos Funcionais (RF) — Média/Baixa Prioridade:</strong></p>
                             <ul>
-                                <li>RF05 — Gráfico de despesas por categoria.</li>
                                 <li>RF06 — Definir orçamento mensal por categoria.</li>
                                 <li>RF07 — Notificação ao atingir 80% do orçamento.</li>
                                 <li>RF08 — Exportar extrato mensal em PDF.</li>
@@ -321,7 +325,7 @@
                                 <li>RNF01 — Desempenho: tela principal deve carregar em menos de 2 segundos.</li>
                                 <li>RNF02 — Segurança: senhas armazenadas com hash (Supabase Auth — bcrypt).</li>
                                 <li>RNF03 — Compatibilidade: Android 8.0 ou superior.</li>
-                                <li>RNF04 — Usabilidade: novo usuário registra primeira despesa em menos de 1 minuto.
+                                <li>RNF04 — Usabilidade: novo usuário registra primeira transação em menos de 1 minuto.
                                 </li>
                             </ul>
                         </div>

@@ -82,19 +82,19 @@
                     </tr>
                     <tr>
                         <td><strong>Listagens</strong></td>
-                        <td>Lista de Despesas, Lista de Produtos, Histórico</td>
+                        <td>Lista de Transações, Lista de Produtos, Histórico</td>
                     </tr>
                     <tr>
                         <td><strong>Detalhe / Edição</strong></td>
-                        <td>Detalhe do Item, Editar Perfil, Editar Despesa</td>
+                        <td>Detalhe do Item, Editar Transação, Editar Evento</td>
                     </tr>
                     <tr>
                         <td><strong>Criação</strong></td>
-                        <td>Nova Despesa, Adicionar Produto, Criar Evento</td>
+                        <td>Nova Transação, Adicionar Produto, Criar Evento</td>
                     </tr>
                     <tr>
-                        <td><strong>Configurações / Perfil</strong></td>
-                        <td>Perfil do Usuário, Configurações, Notificações</td>
+                        <td><strong>Configurações</strong></td>
+                        <td>Configurações, Notificações</td>
                     </tr>
                 </tbody>
             </table>
@@ -254,13 +254,13 @@
                             <p>Quando o FlutterFlow importou o schema do Supabase via <em>Get Schema</em>
                                 na Semana 6, ele também reconheceu as <strong>Foreign Keys</strong>
                                 definidas entre as tabelas. Isso significa que, ao configurar o
-                                <em>Backend Query</em> do ListView de Despesas, você pode acessar
-                                diretamente os campos da tabela relacionada — por exemplo:
+                                <em>Backend Query</em> do ListView de Transações, você pode acessar
+                                diretamente os campos da categoria relacionada via a Foreign Key. Exemplos:
                             </p>
                             <ul>
-                                <li><code>despesa.categoria.nome</code> — exibe o nome da categoria
-                                    sem precisar fazer uma segunda query.</li>
-                                <li><code>despesa.categoria.cor</code> — usa a cor da categoria para
+                                <li><code>transacao.categoria.nome</code> — exibe o nome da categoria
+                                    no card do item</li>
+                                <li><code>transacao.categoria.cor</code> — usa a cor da categoria para
                                     colorir o ícone do card, mantendo coerência visual com o banco.</li>
                             </ul>
                             <p>Esse acesso via FK é possível porque o Supabase retorna os dados
@@ -289,7 +289,79 @@
         </section>
 
         <section id='sec7-4'>
-            <h2>7.4 Entregável da Semana</h2>
+            <h2>7.4 Validando com o Storyboard do FlutterFlow</h2>
+            <p>O FlutterFlow possui uma ferramenta chamada <strong>Storyboard</strong> que
+                oferece uma visão panorâmica de todas as telas do app e suas conexões de
+                navegação. É uma excelente forma de <strong>validar visualmente</strong> se
+                o diagrama de navegação que você planejou está implementado corretamente.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s7-storyboard">
+                        <div id="def-s7-storyboard" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>O Storyboard é somente
+                                visualização</strong></div>
+                        <div>
+                            <p>O Storyboard do FlutterFlow <strong>não permite criar navegações</strong> —
+                                ele apenas <strong>mostra as conexões</strong> já definidas nas
+                                propriedades de cada página (Actions → Navigate To). Pense nele como
+                                uma "planta baixa" do app: mostra o que já existe, mas não constrói
+                                nada novo.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>Como usar o Storyboard</h3>
+            <ol>
+                <li>No FlutterFlow, clique no ícone de <strong>Storyboard</strong> no menu
+                    lateral (ícone de mapa/grid).</li>
+                <li>Todas as telas do app aparecerão com <strong>linhas conectando</strong> as
+                    navegações:
+                    <ul>
+                        <li><strong>Linha sólida:</strong> Navigate To / Navigate & Remove All</li>
+                        <li><strong>Linha pontilhada:</strong> Bottom Sheet / Dialog</li>
+                    </ul>
+                </li>
+                <li>Clique em uma tela para <strong>destacar</strong> todas as rotas de entrada
+                    e saída daquela página.</li>
+                <li>Compare com o diagrama de navegação que você desenhou — se existem telas
+                    desconectadas ou fluxos faltando, é sinal de que alguma Action de navegação
+                    não foi configurada.</li>
+            </ol>
+        </section>
+
+        <section id='sec7-5'>
+            <h2>7.5 Bônus: Publicação Web Rápida</h2>
+            <p>Quer ver seu app funcionando online e compartilhar com amigos antes da
+                publicação final na Play Store? O FlutterFlow permite gerar uma
+                <strong>URL pública</strong> em poucos minutos:
+            </p>
+            <ol>
+                <li>Acesse <strong>Settings → Platforms</strong> e habilite <strong>Web</strong>.</li>
+                <li>Clique em <strong>Web Publishing</strong>.</li>
+                <li>Defina uma URL personalizada para o seu app.</li>
+                <li>Clique em <strong>Publish</strong> e aguarde cerca de 5 minutos.</li>
+            </ol>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s7-webpub">
+                        <div id="tip-s7-webpub" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Isso não substitui a Play Store</strong></div>
+                        <div>
+                            <p>A publicação web é ótima para <strong>testes e demonstrações</strong>,
+                                mas o app completo será publicado na <strong>Google Play Store</strong>
+                                nas Semanas 12–14. A versão web é um bônus motivacional — aproveite
+                                para compartilhar com o professor e colegas!</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec7-6'>
+            <h2>7.6 Entregável da Semana</h2>
 
             <table class="box-table tip-table">
                 <tr>
@@ -303,6 +375,8 @@
                                 <li><strong>Diagrama de navegação</strong> mostrando os fluxos entre as telas.</li>
                                 <li><strong>Listas dinâmicas implementadas</strong> para as entidades principais
                                     do projeto.</li>
+                                <li><strong>Storyboard validado</strong> — screenshot mostrando que todas
+                                    as telas estão conectadas corretamente.</li>
                             </ul>
                         </div>
                     </td>
@@ -314,7 +388,7 @@
         </section>
 
         <section id='caso-sem7'>
-            <h2>7.5 Estudo de Caso: FinanCampus</h2>
+            <h2>7.7 Estudo de Caso: FinanCampus</h2>
             <p>Veja o mapeamento completo de telas que o grupo do <strong>FinanCampus</strong>
                 elaborou nesta semana.</p>
 
@@ -329,20 +403,19 @@
                             <ul>
                                 <li><strong>Autenticação:</strong> Splash | Login | Cadastro | Recuperar Senha</li>
                                 <li><strong>Principal (Bottom Nav — 4 abas):</strong> Home/Dashboard |
-                                    Lista de Despesas | Nova Despesa | Perfil</li>
-                                <li><strong>Detalhes/Edição:</strong> Detalhe da Despesa | Editar Despesa |
-                                    Definir Orçamento</li>
+                                    Lista de Transações | Nova Transação | Configurações</li>
+                                <li><strong>Detalhes/Edição:</strong> Detalhe da Transação | Editar Transação</li>
                             </ul>
                             <p><strong>Diagrama de navegação</strong> criado no
                                 <a href="https://whimsical.com" target="_blank">Whimsical</a>. Fluxo principal:
                                 <em>Splash → [usuário logado?] → sim: Home / não: Login → Home</em>.
                                 A partir do <em>Home</em>, o usuário acessa as 4 abas pelo Bottom
                                 Navigation Bar. O botão flutuante (+) no Home navega diretamente para
-                                <em>Nova Despesa</em>. Toque em um item da lista navega para
-                                <em>Detalhe da Despesa</em>, que dá acesso a <em>Editar Despesa</em>
+                                <em>Nova Transação</em>. Toque em um item da lista navega para
+                                <em>Detalhe da Transação</em>, que dá acesso a <em>Editar Transação</em>
                                 pelo botão de edição.
                             </p>
-                            <p><strong>Lista dinâmica implementada</strong> na tela "Lista de Despesas":
+                            <p><strong>Lista dinâmica implementada</strong> na tela "Lista de Transações":
                                 widget <em>ListView</em> com <em>Backend Query</em> no Supabase,
                                 filtrado por <code>usuario_id = auth.uid()</code>, ordenado por
                                 <code>data DESC</code>, limite de 50 registros. Cada item exibe um

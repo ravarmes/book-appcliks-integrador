@@ -19,8 +19,9 @@
         </header>
         <hr />
 
-        <p>Com o Supabase configurado desde a Semana 6, o CRUD implementado e a autenticação
-            ativada na Semana 9, chegou o momento de <strong>validar o conjunto completo</strong>:
+        <p>Com o Supabase configurado e a autenticação implementada desde a Semana 6, o CRUD
+            funcionando e o RLS configurado na Semana 9, chegou o momento de <strong>validar o conjunto
+                completo</strong>:
             testar o app de ponta a ponta com dados reais, verificar se o RLS está protegendo
             corretamente os dados de cada usuário e explorar recursos avançados como o Realtime e
             integrações com APIs externas.</p>
@@ -81,29 +82,29 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ler todas as despesas</td>
+                        <td>Ler todas as transações</td>
                         <td>GET</td>
-                        <td><code>/rest/v1/despesas?select=*</code></td>
+                        <td><code>/rest/v1/transacoes?select=*</code></td>
                     </tr>
                     <tr>
                         <td>Filtrar por usuário</td>
                         <td>GET</td>
-                        <td><code>/rest/v1/despesas?usuario_id=eq.{uid}</code></td>
+                        <td><code>/rest/v1/transacoes?usuario_id=eq.{uid}</code></td>
                     </tr>
                     <tr>
-                        <td>Inserir despesa</td>
+                        <td>Inserir transação</td>
                         <td>POST</td>
-                        <td><code>/rest/v1/despesas</code></td>
+                        <td><code>/rest/v1/transacoes</code></td>
                     </tr>
                     <tr>
-                        <td>Atualizar despesa</td>
+                        <td>Atualizar transação</td>
                         <td>PATCH</td>
-                        <td><code>/rest/v1/despesas?id=eq.{id}</code></td>
+                        <td><code>/rest/v1/transacoes?id=eq.{id}</code></td>
                     </tr>
                     <tr>
-                        <td>Excluir despesa</td>
+                        <td>Excluir transação</td>
                         <td>DELETE</td>
-                        <td><code>/rest/v1/despesas?id=eq.{id}</code></td>
+                        <td><code>/rest/v1/transacoes?id=eq.{id}</code></td>
                     </tr>
                 </tbody>
             </table>
@@ -307,21 +308,21 @@
                             <p><strong>Resultado dos testes de integração (7/7 aprovados):</strong></p>
                             <ul>
                                 <li>✅ Cadastro: novo usuário criado no Supabase Auth e registro inserido em
-                                    <code>perfis</code> automaticamente.
+                                    <code>transacoes</code> automaticamente.
                                 </li>
                                 <li>✅ Login: token JWT retornado e armazenado; redirecionamento para Home.</li>
-                                <li>✅ Insert: despesa inserida, visível na tabela <code>despesas</code> no painel do
+                                <li>✅ Insert: transação inserida, visível na tabela <code>transacoes</code> no painel do
                                     Supabase.</li>
-                                <li>✅ Select: listagem exibe apenas as despesas do usuário logado (RLS funcionando).
+                                <li>✅ Select: listagem exibe apenas as transações do usuário logado (RLS funcionando).
                                 </li>
-                                <li>✅ Update: edição de despesa refletida no banco em menos de 1 segundo.</li>
-                                <li>✅ Delete: despesa excluída do banco e removida da lista sem recarregar.</li>
+                                <li>✅ Update: edição de transação refletida no banco em menos de 1 segundo.</li>
+                                <li>✅ Delete: transação excluída do banco e removida da lista sem recarregar.</li>
                                 <li>✅ Logout: sessão encerrada, tentativa de acessar dados retorna erro 401 (RLS
                                     bloqueou).</li>
                             </ul>
                             <p><strong>API externa integrada:</strong> a API <strong>ViaCEP</strong> foi
                                 configurada via API Call para preencher automaticamente o endereço na tela
-                                de Perfil quando o usuário informa o CEP.</p>
+                                de Configurações quando o usuário informa o CEP.</p>
                         </div>
                     </td>
                 </tr>

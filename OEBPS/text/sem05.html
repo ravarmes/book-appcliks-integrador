@@ -169,10 +169,11 @@ CREATE TABLE categorias (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Tabela de Despesas
-CREATE TABLE despesas (
+-- Tabela de Transações
+CREATE TABLE transacoes (
   id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  descricao    TEXT NOT NULL,
+  tipo         TEXT NOT NULL CHECK (tipo IN ('Renda', 'Despesa')),
+  descricao    TEXT,
   valor        NUMERIC(10,2) NOT NULL,
   data         DATE NOT NULL,
   usuario_id   UUID REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -190,7 +191,7 @@ CREATE TABLE despesas (
                         <div>
                             <p>Use sempre <code>REFERENCES tabela(id)</code> para definir chaves estrangeiras
                                 e garanta integridade referencial. O <code>ON DELETE CASCADE</code> indica que,
-                                ao excluir o usuário, suas despesas também serão excluídas automaticamente.</p>
+                                ao excluir o usuário, suas transações também serão excluídas automaticamente.</p>
                         </div>
                     </td>
                 </tr>
@@ -251,19 +252,19 @@ CREATE TABLE despesas (
                 na hora de configurar os formulários no FlutterFlow na Semana 6.</p>
 
             <p>A <strong>Figura 5.1</strong> exemplifica uma tabela de planejamento completa para o
-                formulário "Nova Despesa" do app FinanCampus, mostrando campo, tipo de widget,
+                formulário "Nova Transação" do app FinanCampus, mostrando campo, tipo de widget,
                 regra de validação e mensagem de erro esperada.</p>
 
             <figure class='figure'>
                 <img src='../images/fig05_1_validacao.png'
-                    alt='Tabela de planejamento de validações do formulário Nova Despesa' class='figure-img' />
+                    alt='Tabela de planejamento de validações do formulário Nova Transação' class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 5.1 — </strong>Tabela de planejamento de validações
-                    para o formulário "Nova Despesa" (FinanCampus).</figcaption>
+                    para o formulário "Nova Transação" (FinanCampus).</figcaption>
             </figure>
 
             <table class='content-table'>
                 <caption><strong>Tabela 5.3 - </strong>Exemplo de tabela de planejamento de validações
-                    para o formulário "Nova Despesa".</caption>
+                    para o formulário "Nova Transação".</caption>
                 <thead>
                     <tr>
                         <th>Campo</th>
@@ -336,7 +337,80 @@ CREATE TABLE despesas (
         </section>
 
         <section id='sec5-4'>
-            <h2>5.4 Entregável da Semana</h2>
+            <h2>5.4 Script SQL Completo do FinanCampus</h2>
+            <p>Abaixo está o <strong>script SQL completo</strong> para criar todas as tabelas do
+                FinanCampus. Você pode copiar e colar diretamente no <strong>SQL Editor do
+                    Supabase</strong> na Semana 6 — ou usar como referência para gerar o seu
+                próprio script a partir do brModelo.</p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Código 5.1 - </strong>Script SQL completo
+                    para criação das tabelas do FinanCampus</figcaption>
+                <pre class='code'>
+-- =============================================
+-- Script SQL — FinanCampus
+-- Gere seu próprio script no brModelo Web
+-- (Exportar → SQL) ou use este como referência.
+-- =============================================
+
+-- 1) Categorias (tabela auxiliar, sem FK)
+CREATE TABLE categorias (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    nome TEXT NOT NULL,
+    icone TEXT,
+    cor TEXT
+);
+
+-- Tabela de Transações (Renda e Despesa)
+CREATE TABLE transacoes (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    tipo TEXT NOT NULL CHECK (tipo IN ('Renda', 'Despesa')),
+    descricao TEXT,
+    valor NUMERIC(10,2) NOT NULL,
+    data DATE NOT NULL DEFAULT CURRENT_DATE,
+    categoria_id UUID REFERENCES categorias(id),
+    usuario_id UUID REFERENCES auth.users(id) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+                </pre>
+            </figure>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-authusers">
+                        <div id="tip-s5-authusers" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Onde ficam os dados do usuário?</strong></div>
+                        <div>
+                            <p>O Supabase Auth gerencia automaticamente os dados de login
+                                (e-mail, senha, UID) na tabela interna <code>auth.users</code>.
+                                <strong>Você não precisa criar tabela de usuários</strong> —
+                                o campo <code>usuario_id UUID REFERENCES auth.users(id)</code>
+                                na tabela <code>transacoes</code> é a <strong>"ponte"</strong>
+                                entre o login e os dados do app.
+                            </p>
+                            <p>Se no futuro precisar armazenar dados extras do usuário
+                                (foto de perfil, preferências), você pode criar uma tabela
+                                auxiliar — mas para o MVP isso não é necessário.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>A <strong>Figura 5.2</strong> apresenta o fluxo de dados entre o FlutterFlow
+                e o Supabase, mostrando como os formulários do app se traduzem em registros
+                nas tabelas do banco.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig05_2_supabase_fluxo.png'
+                    alt='Diagrama de arquitetura mostrando o fluxo de dados entre FlutterFlow e Supabase'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
+                    Supabase: cada campo do formulário se traduz em uma coluna na tabela do banco.</figcaption>
+            </figure>
+        </section>
+
+        <section id='sec5-5'>
+            <h2>5.5 Entregável da Semana</h2>
 
             <table class="box-table tip-table">
                 <tr>
@@ -360,12 +434,12 @@ CREATE TABLE despesas (
             </table>
 
             <p>Na próxima semana (<strong>Semana 6</strong>), você criará o projeto no Supabase,
-                criará as tabelas usando os scripts preparados aqui e conectará o banco ao FlutterFlow
-                para começar a implementar o CRUD.</p>
+                executará os scripts SQL preparados aqui, habilitará a autenticação e começará a
+                implementar o CRUD conectado ao banco real.</p>
         </section>
 
         <section id='caso-sem5'>
-            <h2>5.5 Estudo de Caso: FinanCampus</h2>
+            <h2>5.6 Estudo de Caso: FinanCampus</h2>
             <p>Veja como o grupo do <strong>FinanCampus</strong> criou o banco de dados e as validações nesta semana.
             </p>
 
@@ -376,25 +450,24 @@ CREATE TABLE despesas (
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 5</strong>
                         </div>
                         <div>
-                            <p><strong>Scripts SQL preparados (4 tabelas):</strong></p>
+                            <p><strong>Scripts SQL preparados (2 tabelas):</strong></p>
                             <ul>
                                 <li><strong>categorias:</strong> id (UUID PK), nome (TEXT NOT NULL), icone (TEXT), cor
                                     (TEXT)</li>
-                                <li><strong>despesas:</strong> id (UUID PK), descricao (TEXT NOT NULL), valor (NUMERIC
-                                    NOT NULL), data (DATE NOT NULL), usuario_id (UUID FK), categoria_id (UUID FK)</li>
-                                <li><strong>receitas:</strong> id (UUID PK), descricao (TEXT NOT NULL), valor (NUMERIC
-                                    NOT NULL), data (DATE NOT NULL), usuario_id (UUID FK)</li>
-                                <li><strong>perfis:</strong> id (UUID PK, FK para auth.users), nome (TEXT),
-                                    orcamento_mensal (NUMERIC DEFAULT 0)</li>
+                                <li><strong>transacoes:</strong> id (UUID PK), <strong>tipo</strong> (TEXT NOT NULL:
+                                    'Renda' ou 'Despesa'),
+                                    descricao (TEXT), valor (NUMERIC NOT NULL), data (DATE NOT NULL),
+                                    usuario_id (UUID FK → auth.users), categoria_id (UUID FK → categorias)</li>
                             </ul>
                             <p>Os scripts SQL estão prontos para serem executados no Supabase na
                                 <strong>Semana 6</strong>. As tabelas ainda <strong>não foram criadas
                                     no banco</strong> — isso acontece na próxima etapa.
                             </p>
-                            <p><strong>Tabela de planejamento de validações (formulário "Nova Despesa"):</strong></p>
+                            <p><strong>Tabela de planejamento de validações (formulário "Nova Transação"):</strong></p>
                             <ul>
+                                <li>Campo "Tipo": DropDown — obrigatório (Renda ou Despesa).</li>
                                 <li>Campo "Valor": TextField numérico — obrigatório, maior que zero.</li>
-                                <li>Campo "Descrição": TextField texto — obrigatório, mínimo 3 caracteres.</li>
+                                <li>Campo "Descrição": TextField texto — opcional.</li>
                                 <li>Campo "Data": DatePicker — obrigatório, sem datas futuras.</li>
                                 <li>Campo "Categoria": DropDown vinculado à tabela <code>categorias</code> —
                                     obrigatório.</li>

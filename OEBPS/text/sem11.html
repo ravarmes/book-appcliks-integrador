@@ -78,13 +78,13 @@
                     </tr>
                     <tr>
                         <td>RF03</td>
-                        <td>Cadastro de despesa</td>
+                        <td>Cadastro de transação</td>
                         <td>✅ Implementado</td>
                         <td>Formulário com validação e Insert no Supabase</td>
                     </tr>
                     <tr>
                         <td>RF04</td>
-                        <td>Gráfico de despesas</td>
+                        <td>Gráfico de transações</td>
                         <td>⚠️ Parcial</td>
                         <td>Componente adicionado, mas sem dados reais ainda</td>
                     </tr>
@@ -167,7 +167,7 @@
                 <tbody>
                     <tr>
                         <td><strong>Notificação Local</strong></td>
-                        <td>Lembretes agendados (ex: lembrar de registrar despesa diária)</td>
+                        <td>Lembretes agendados (ex: lembrar de registrar transação diária)</td>
                     </tr>
                     <tr>
                         <td><strong>Push (usuário específico)</strong></td>
@@ -285,16 +285,16 @@
                             <p><strong>Checklist de requisitos (7/8 RFs implementados):</strong></p>
                             <ul>
                                 <li>✅ RF01 — Cadastro e login por e-mail e senha</li>
-                                <li>✅ RF02 — Registrar despesa (valor, categoria, data, observação)</li>
-                                <li>✅ RF03 — Listar despesas do mês atual</li>
-                                <li>✅ RF04 — Exibir saldo do mês (receitas − despesas)</li>
-                                <li>✅ RF05 — Gráfico de despesas por categoria (PieChart)</li>
+                                <li>✅ RF02 — Registrar transação (tipo, valor, categoria, data, descrição)</li>
+                                <li>✅ RF03 — Listar transações do mês atual</li>
+                                <li>✅ RF04 — Exibir saldo do mês (rendas − despesas)</li>
+                                <li>✅ RF05 — Gráfico de transações por categoria (PieChart)</li>
                                 <li>⚠️ RF06 — Definir orçamento mensal por categoria (parcial — orçamento global
                                     implementado)</li>
                                 <li>✅ RF07 — Notificação ao atingir 80% do orçamento</li>
                                 <li>❌ RF08 — Exportar extrato em PDF (movido para backlog v2.0)</li>
                             </ul>
-                            <p><strong>Notificação implementada:</strong> ao salvar uma nova despesa, um
+                            <p><strong>Notificação implementada:</strong> ao salvar uma nova transação, um
                                 condicional verifica se o total mensal ultrapassou 80% do
                                 <code>orcamento_mensal</code> do usuário. Se sim, dispara uma
                                 <strong>notificação local</strong> com a mensagem "Atenção, Mariana! Você

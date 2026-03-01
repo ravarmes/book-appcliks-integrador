@@ -95,7 +95,7 @@
                         <div>
                             <p><strong>Empty State</strong> é a tela exibida quando não há dados para mostrar
                                 em uma lista ou seção. Um bom empty state indica ao usuário o que fazer para
-                                criar o primeiro registro. Exemplo: uma ilustração com o texto "Nenhuma despesa
+                                criar o primeiro registro. Exemplo: uma ilustração com o texto "Nenhuma transação
                                 ainda. Toque em + para adicionar."</p>
                         </div>
                     </td>
@@ -110,7 +110,8 @@
             </p>
             <ol>
                 <li><strong>Loading</strong> — enquanto a Backend Query carrega (use
-                    <em>CircularProgressIndicator</em>).</li>
+                    <em>CircularProgressIndicator</em>).
+                </li>
                 <li><strong>Sucesso (Data)</strong> — quando há dados para exibir (seu ListView normal).</li>
                 <li><strong>Vazio (Empty State)</strong> — quando a query retorna 0 resultados.</li>
                 <li><strong>Erro</strong> — quando a chamada falha (sem internet, token expirado, servidor
@@ -234,7 +235,7 @@
                 <li>Tela de listagem principal</li>
                 <li>Tela de criação/formulário</li>
                 <li>Tela de detalhe</li>
-                <li>Tela de perfil ou configurações</li>
+                <li>Tela de configurações</li>
             </ul>
 
             <table class="box-table tip-table">
@@ -295,11 +296,11 @@
                         <div>
                             <p><strong>Error handling implementado em 5 Actions:</strong></p>
                             <ul>
-                                <li>Insert de despesa: SnackBar "Não foi possível salvar. Verifique sua conexão."</li>
+                                <li>Insert de transação: SnackBar "Não foi possível salvar. Verifique sua conexão."</li>
                                 <li>Login: Alert Dialog "E-mail ou senha incorretos." (sem expor o erro técnico do
                                     Supabase)</li>
                                 <li>Cadastro: Alert Dialog "E-mail já cadastrado."</li>
-                                <li>Carregamento da lista: empty state com ícone e texto "Nenhuma despesa ainda. Toque
+                                <li>Carregamento da lista: empty state com ícone e texto "Nenhuma transação ainda. Toque
                                     em + para começar!"</li>
                                 <li>Perda de conexão: SnackBar "Sem conexão com a internet. Tente novamente."</li>
                             </ul>

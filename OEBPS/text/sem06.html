@@ -151,11 +151,138 @@
             </ol>
         </section>
 
-        <section id='sec6-2-teoria'>
-            <h2>6.2 As Quatro Operações CRUD</h2>
+        <section id='sec6-2-auth'>
+            <h2>6.2 Autenticação com Supabase</h2>
+            <p>Antes de implementar o CRUD, vamos configurar a <strong>autenticação</strong> do
+                app. Isso é fundamental: ao criar registros no banco, o campo
+                <code>usuario_id</code> será preenchido automaticamente com o
+                <code>auth.uid()</code> do usuário logado — garantindo que cada pessoa acesse
+                apenas seus próprios dados.
+            </p>
+
+            <h3>Passo 1 — Habilitar a Autenticação no Supabase</h3>
+            <ol>
+                <li>No painel do Supabase, acesse <strong>Authentication → Providers</strong>.</li>
+                <li>Habilite o provedor <strong>Email</strong> (e-mail e senha).</li>
+                <li>Desative a opção <em>Confirm email</em> para facilitar os testes (em produção,
+                    mantenha ativada).</li>
+            </ol>
+
+            <h3>Passo 2 — Ativar a Autenticação no FlutterFlow</h3>
+            <ol>
+                <li>No FlutterFlow, acesse <strong>Settings → Supabase</strong>.</li>
+                <li>Ative a opção <strong>Use Supabase Auth</strong>.</li>
+                <li>Configure a <strong>Entry Page</strong> (tela de Login) e a
+                    <strong>Logged In Page</strong> (tela Home). O FlutterFlow redirecionará
+                    automaticamente o usuário para a tela correta ao abrir o app.
+                </li>
+            </ol>
+
+            <h3>Passo 3 — Implementar as Telas de Autenticação</h3>
+            <p>As telas de Login e Cadastro usam as <strong>Actions de autenticação</strong>
+                do Supabase, listadas na tabela abaixo:</p>
 
             <table class='content-table'>
-                <caption><strong>Tabela 6.1 - </strong>Correspondência entre operações CRUD e SQL/API.</caption>
+                <caption><strong>Tabela 6.1 - </strong>Actions de autenticação Supabase no
+                    FlutterFlow.</caption>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Descrição</th>
+                        <th>Onde usar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sign Up (Email)</strong></td>
+                        <td>Cria um novo usuário com e-mail e senha</td>
+                        <td>Botão "Criar Conta"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sign In (Email)</strong></td>
+                        <td>Autentica um usuário existente</td>
+                        <td>Botão "Entrar"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sign Out</strong></td>
+                        <td>Encerra a sessão do usuário</td>
+                        <td>Botão "Sair" (Configurações)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reset Password</strong></td>
+                        <td>Envia e-mail para redefinir a senha</td>
+                        <td>Link "Esqueci minha senha"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Implementando o Cadastro (Sign Up)</h4>
+            <ol>
+                <li>Na tela de <strong>Cadastro</strong>, adicione campos para
+                    <strong>E-mail</strong>, <strong>Senha</strong> e
+                    <strong>Confirmar Senha</strong>.
+                </li>
+                <li>No botão "Criar Conta", configure a Action:
+                    <strong>Supabase Auth → Sign Up (Email)</strong>.
+                </li>
+                <li>Mapeie os campos de e-mail e senha aos respectivos TextFields.</li>
+                <li>Adicione uma Action subsequente: <strong>Navigate To → Home</strong>.</li>
+            </ol>
+
+            <h4>Implementando o Login (Sign In)</h4>
+            <ol>
+                <li>Na tela de <strong>Login</strong>, adicione campos para
+                    <strong>E-mail</strong> e <strong>Senha</strong>.
+                </li>
+                <li>No botão "Entrar", configure a Action:
+                    <strong>Supabase Auth → Sign In (Email)</strong>.
+                </li>
+                <li>Mapeie os campos e adicione: <strong>Navigate To → Home</strong>.</li>
+            </ol>
+
+            <h4>Implementando o Logout (Sign Out)</h4>
+            <ol>
+                <li>Na tela de <strong>Configurações</strong> (ou Perfil), adicione um botão "Sair".</li>
+                <li>Configure a Action: <strong>Supabase Auth → Sign Out</strong>.</li>
+                <li>Adicione: <strong>Navigate To → Login</strong> (com <em>Replace Route</em>
+                    ativado para evitar que o botão "Voltar" retorne à tela anterior).</li>
+            </ol>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s6-jwt">
+                        <div id="tip-s6-jwt" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Como funciona o JWT</strong></div>
+                        <div>
+                            <p>Ao fazer login, o Supabase retorna um <strong>JWT (JSON Web Token)</strong>
+                                — um token criptografado que identifica o usuário. O FlutterFlow armazena
+                                automaticamente esse token e o envia em cada requisição ao banco. O Supabase
+                                usa o <code>auth.uid()</code> nas políticas RLS para filtrar os dados.
+                                Por isso é fundamental implementar o login <strong>antes</strong> de
+                                testar o CRUD com dados pessoais.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>A <strong>Figura 6.1</strong> detalha o fluxo completo de autenticação, incluindo
+                a verificação de sessão na Splash Screen e o redirecionamento automático.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig09_2_fluxo_auth.png'
+                    alt='Fluxograma de autenticação: Splash Screen verifica sessão JWT, vai para Login ou Home'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 6.1 — </strong>Fluxo de autenticação:
+                    verificação de sessão na Splash Screen, Login com Supabase Auth e redirecionamento
+                    automático para a Home.</figcaption>
+            </figure>
+        </section>
+
+        <section id='sec6-3-teoria'>
+            <h2>6.3 As Quatro Operações CRUD</h2>
+
+            <table class='content-table'>
+                <caption><strong>Tabela 6.2 - </strong>Correspondência entre operações CRUD e SQL/API.</caption>
                 <thead>
                     <tr>
                         <th>Operação</th>
@@ -208,7 +335,7 @@
         </section>
 
         <section id='sec6-3'>
-            <h2>6.3 Implementando os Fluxos CRUD</h2>
+            <h2>6.4 Implementando os Fluxos CRUD</h2>
             <p>Com o banco criado e o schema carregado, é hora de implementar os fluxos de interação
                 com os dados. O <strong>CRUD</strong> (Create, Read, Update, Delete) representa as
                 quatro operações fundamentais sobre qualquer tabela. No FlutterFlow, cada operação
@@ -310,12 +437,12 @@
                                     <li>Mapeie o campo <code>nome</code> como <strong>label</strong>
                                         (o texto exibido ao usuário) e o campo <code>id</code> como
                                         <strong>value</strong> (o valor armazenado no banco como
-                                        <em>categoria_id</em> na despesa).
+                                        <em>categoria_id</em> na transação).
                                     </li>
                                 </ol>
                                 <p>Dessa forma, quando o usuário selecionar uma categoria, o
                                     <code>id</code> real da categoria será salvo na tabela
-                                    <code>despesas</code> via a action <em>Insert Row</em>, mantendo
+                                    <code>transacoes</code> via a action <em>Insert Row</em>, mantendo
                                     a integridade referencial da Foreign Key.
                                 </p>
                             </div>
@@ -380,26 +507,26 @@
                     <strong>Crie (ou duplique) a tela de edição.</strong><br>
                     Você pode duplicar a tela de criação para reaproveitar os widgets já configurados.
                     Adicione um <em>Page Parameter</em> do tipo <code>int</code> (ou <code>uuid</code>)
-                    chamado <code>despesaId</code> para receber o ID do registro.
+                    chamado <code>transacaoId</code> para receber o ID do registro.
                 </li>
                 <li>
                     <strong>Carregue os dados existentes.</strong><br>
                     Configure um <em>Backend Query</em> do tipo <strong>Get Single Row</strong> na tela,
-                    filtrando por <code>id = despesaId</code>. Isso busca o registro ao abrir a tela.
+                    filtrando por <code>id = transacaoId</code>. Isso busca o registro ao abrir a tela.
                 </li>
                 <li>
                     <strong>Pré-preencha os campos.</strong><br>
                     Para cada widget <strong>TextField</strong>, configure a propriedade
                     <strong>Initial Value</strong> como o campo correspondente do resultado da query
                     (ex.: o <em>initialValue</em> do campo "Descrição" recebe o valor de
-                    <code>despesa.descricao</code>).
+                    <code>transacao.descricao</code>).
                 </li>
                 <li>
                     <strong>Configure a Action do botão "Salvar".</strong><br>
                     <ol type="a">
                         <li><strong>Validate Form</strong> — valida os campos.</li>
                         <li><strong>Supabase → Update Row</strong> — selecione a tabela, defina o filtro
-                            <code>id = despesaId</code> e mapeie cada coluna ao novo valor do campo.
+                            <code>id = transacaoId</code> e mapeie cada coluna ao novo valor do campo.
                         </li>
                         <li><strong>Navigate Back</strong> — retorna para a tela de detalhe.</li>
                     </ol>
@@ -425,7 +552,7 @@
                     <strong>Configure a Action de exclusão.</strong><br>
                     Dentro da ramificação "Confirmar" do diálogo, adicione:
                     <ol type="a">
-                        <li><strong>Supabase → Delete Row</strong> → filtre por <code>id = despesaId</code>.</li>
+                        <li><strong>Supabase → Delete Row</strong> → filtre por <code>id = transacaoId</code>.</li>
                         <li><strong>Navigate Back</strong> → retorna para a listagem após a exclusão.</li>
                     </ol>
                 </li>
@@ -521,7 +648,7 @@ Elementos:
                 <figcaption class='listing-title'><strong>Prompt 6.2 - </strong>Prompt completo do app
                     FinanCampus (referência para geração de cada tela)</figcaption>
                 <pre class='code'>Crie um aplicativo mobile chamado "FinanCampus", um app simples e visual
-para controle de despesas pessoais.
+para controle financeiro pessoal.
 
 Utilize design moderno e limpo com Material Design, cards com cantos
 arredondados, sombra suave e cor principal para destacar informações
@@ -532,10 +659,8 @@ Usar autenticação com Supabase (e-mail e senha).
 Cada usuário deve visualizar apenas seus próprios dados.
 
 ESTRUTURA DE DADOS
-Usuário: nome, email, orcamento_mensal
 Categoria: nome, icone, cor
-Despesa: descricao, valor, data, categoria, usuario
-Receita: descricao, valor, data, usuario
+Transação: tipo (Renda ou Despesa), descricao, valor, data, categoria, usuario
 
 TELAS
 
@@ -548,43 +673,41 @@ TELAS
 
 2) Home / Dashboard
 - AppBar com título "FinanCampus"
-- Card com o saldo do mês (receitas – despesas)
-- Destaque para o orçamento restante
-- Lista com as 3 últimas despesas
-- Botão flutuante (+) para adicionar despesa
+- Card com o saldo do mês (rendas – despesas)
+- Lista com as 3 últimas transações
+- Botão flutuante (+) para adicionar transação
 
-3) Lista de Despesas
-- ListView com as despesas do mês atual
+3) Lista de Transações
+- ListView com as transações do mês atual
 - Filtro por mês
+- Filtro por tipo (Renda / Despesa / Todas)
 - Filtro por categoria
 - Cada item em formato de card contendo:
-  ícone da categoria | descrição | valor | data
+  ícone da categoria | tipo | descrição | valor | data
 
-4) Nova Despesa
-- Campo numérico para valor
+4) Nova Transação
+- Dropdown para tipo (Renda ou Despesa)
 - Dropdown para categoria
+- Campo numérico para valor
 - Seletor de data
-- Campo de observação
+- Campo de descrição (opcional)
 - Botão "Salvar"
 
-5) Detalhe da Despesa / Editar
-- Exibir todos os dados da despesa
+5) Detalhe da Transação / Editar
+- Exibir todos os dados da transação
 - Botão "Editar"
 - Botão "Excluir"
 
-6) Perfil
-- Nome do usuário
-- E-mail
-- Campo editável para orçamento mensal
+6) Configurações
+- E-mail do usuário
 - Botão "Sair"
 
 FUNCIONALIDADES EXTRAS
-- Gráfico de despesas por categoria no dashboard
-- Indicador visual de progresso do orçamento
-- Exibir alerta ao atingir 80% do orçamento
+- Gráfico de transações por categoria no dashboard
+- Totalizadores de renda e despesa no mês
 
 NAVEGAÇÃO
-Utilizar navegação clara entre Dashboard, Despesas e Perfil.
+Utilizar navegação clara entre Dashboard, Transações e Configurações.
 Garantir responsividade para celulares Android.</pre>
             </figure>
 
@@ -607,7 +730,7 @@ Garantir responsividade para celulares Android.</pre>
         </section>
 
         <section id='sec6-3'>
-            <h2>6.3 Dados Iniciais (Seeds)</h2>
+            <h2>6.5 Dados Iniciais (Seeds)</h2>
             <p>Os <strong>seeds</strong> (ou dados de semente) são registros iniciais inseridos no banco
                 de dados para popular as tabelas com informações de exemplo. Eles são essenciais para
                 testar o funcionamento do app durante o desenvolvimento.</p>
@@ -648,12 +771,12 @@ INSERT INTO categorias (nome, icone, cor) VALUES
         </section>
 
         <section id='sec6-4'>
-            <h2>6.4 Documentando os Fluxos de CRUD</h2>
+            <h2>6.6 Documentando os Fluxos de CRUD</h2>
             <p>Documente cada fluxo CRUD do projeto em uma tabela ou diagrama simples, indicando
                 quais telas estão envolvidas e quais Actions são executadas.</p>
 
             <table class='content-table'>
-                <caption><strong>Tabela 6.2 - </strong>Exemplo de documentação de fluxos CRUD para a entidade Despesa.
+                <caption><strong>Tabela 6.2 - </strong>Exemplo de documentação de fluxos CRUD para a entidade Transação.
                 </caption>
                 <thead>
                     <tr>
@@ -666,40 +789,40 @@ INSERT INTO categorias (nome, icone, cor) VALUES
                 <tbody>
                     <tr>
                         <td><strong>Create</strong></td>
-                        <td>Tela "Nova Despesa"</td>
-                        <td>Insert Row em <em>despesas</em></td>
-                        <td>Tela "Listagem de Despesas"</td>
+                        <td>Tela "Nova Transação"</td>
+                        <td>Insert Row em <em>transacoes</em></td>
+                        <td>Tela "Listagem de Transações"</td>
                     </tr>
                     <tr>
                         <td><strong>Read (lista)</strong></td>
-                        <td>Tela "Listagem de Despesas"</td>
-                        <td>Query Rows em <em>despesas</em></td>
+                        <td>Tela "Listagem de Transações"</td>
+                        <td>Query Rows em <em>transacoes</em></td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td><strong>Read (detalhe)</strong></td>
                         <td>Listagem → clique no item</td>
-                        <td>Get Single Row em <em>despesas</em></td>
-                        <td>Tela "Detalhe da Despesa"</td>
+                        <td>Get Single Row em <em>transacoes</em></td>
+                        <td>Tela "Detalhe da Transação"</td>
                     </tr>
                     <tr>
                         <td><strong>Update</strong></td>
-                        <td>Tela "Editar Despesa"</td>
-                        <td>Update Row em <em>despesas</em></td>
-                        <td>Tela "Detalhe da Despesa"</td>
+                        <td>Tela "Editar Transação"</td>
+                        <td>Update Row em <em>transacoes</em></td>
+                        <td>Tela "Detalhe da Transação"</td>
                     </tr>
                     <tr>
                         <td><strong>Delete</strong></td>
-                        <td>Tela "Detalhe da Despesa"</td>
-                        <td>Delete Row em <em>despesas</em></td>
-                        <td>Tela "Listagem de Despesas"</td>
+                        <td>Tela "Detalhe da Transação"</td>
+                        <td>Delete Row em <em>transacoes</em></td>
+                        <td>Tela "Listagem de Transações"</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
         <section id='sec6-5'>
-            <h2>6.5 Entregável da Semana</h2>
+            <h2>6.7 Entregável da Semana</h2>
 
             <table class="box-table tip-table">
                 <tr>
@@ -747,7 +870,7 @@ INSERT INTO categorias (nome, icone, cor) VALUES
         </section>
 
         <section id='caso-sem6'>
-            <h2>6.6 Estudo de Caso: FinanCampus</h2>
+            <h2>6.8 Estudo de Caso: FinanCampus</h2>
             <p>Veja como o grupo do <strong>FinanCampus</strong> implementou o CRUD e documentou os fluxos.</p>
 
             <table class="box-table tip-table">
@@ -757,24 +880,26 @@ INSERT INTO categorias (nome, icone, cor) VALUES
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 6</strong>
                         </div>
                         <div>
-                            <p><strong>Fluxos CRUD implementados para a entidade Despesa:</strong></p>
+                            <p><strong>Fluxos CRUD implementados para a entidade Transação:</strong></p>
                             <ul>
-                                <li><strong>Create:</strong> Tela "Nova Despesa" → Action: Validate Form → Insert Row em
-                                    <em>despesas</em> → Navigate Back para "Lista de Despesas".
+                                <li><strong>Create:</strong> Tela "Nova Transação" → Action: Validate Form → Insert Row
+                                    em
+                                    <em>transacoes</em> → Navigate Back para "Lista de Transações".
                                 </li>
                                 <li><strong>Read (lista):</strong> Tela "Home" e "Lista" → Query Rows em
-                                    <em>despesas</em> filtrado por <code>usuario_id = currentUserUid</code>, ordenado
+                                    <em>transacoes</em> filtrado por <code>usuario_id = currentUserUid</code>, ordenado
                                     por <code>data DESC</code>.
                                 </li>
                                 <li><strong>Read (detalhe):</strong> Toque no item da lista → passa o ID como parâmetro
-                                    → Get Single Row em <em>despesas</em>.</li>
-                                <li><strong>Update:</strong> Tela "Editar Despesa" → pré-preenche campos → Update Row
-                                    onde <code>id = despesa.id</code>.</li>
+                                    → Get Single Row em <em>transacoes</em>.</li>
+                                <li><strong>Update:</strong> Tela "Editar Transação" → pré-preenche campos → Update Row
+                                    onde <code>id = transacao.id</code>.</li>
                                 <li><strong>Delete:</strong> Botão "Excluir" na tela de detalhe → Alert Dialog de
                                     confirmação → Delete Row → Navigate Back.</li>
                             </ul>
-                            <p><strong>Seeds adicionais inseridos:</strong> 10 despesas de exemplo distribuídas
-                                em 5 categorias, com valores e datas variados, para testar a listagem e os
+                            <p><strong>Seeds adicionais inseridos:</strong> 10 transações de exemplo (5 rendas + 5
+                                despesas)
+                                distribuídas em 5 categorias, com valores e datas variados, para testar a listagem e os
                                 filtros da tela principal.</p>
                         </div>
                     </td>

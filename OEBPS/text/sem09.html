@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width,initial-scale=1' />
-    <title>Semana 9 — Autenticação e Migração para Supabase</title>
+    <title>Semana 9 — Segurança com RLS</title>
     <link rel='stylesheet' type='text/css' href='../css/style.css' />
 </head>
 
@@ -12,36 +12,30 @@
     <div class='container'>
 
         <header>
-            <h1 id='sem9'>SEMANA 9 – Segurança e Autenticação com Supabase</h1>
-            <p class='lead'>Nesta semana, você irá ativar as políticas de segurança (RLS) no banco de
-                dados Supabase criado na Semana 6 e implementar o sistema completo de autenticação
-                no FlutterFlow — login, cadastro e logout de usuários.</p>
+            <h1 id='sem9'>SEMANA 9 – Segurança com RLS (Row Level Security)</h1>
+            <p class='lead'>Nesta semana, você irá ativar e configurar as políticas de segurança
+                (RLS) no banco de dados Supabase, garantindo que cada usuário acesse apenas os
+                seus próprios dados — mesmo que tente acessar diretamente pela API.</p>
         </header>
         <hr />
 
-        <p>Na <strong>Semana 6</strong> você criou o projeto no Supabase, criou as tabelas e conectou
-            o banco ao FlutterFlow. Naquela etapa, o RLS (Row Level Security) estava desabilitado para
-            facilitar os testes de CRUD. Agora é o momento de <strong>ativar a segurança</strong>:
-            configurar políticas que garantam que cada usuário acesse apenas seus próprios dados, e
-            implementar o fluxo de <strong>autenticação</strong> (login e cadastro) no app.</p>
+        <p>Na <strong>Semana 6</strong> você criou o projeto no Supabase, implementou a autenticação
+            e o CRUD. Naquela etapa, o RLS estava <strong>desabilitado</strong> para facilitar
+            os testes iniciais. Agora é o momento de <strong>ativar a segurança</strong>:
+            configurar políticas que garantam que cada usuário acesse apenas seus próprios dados.</p>
 
         <table class="box-table tip-table">
             <tr>
-                <td class="box-content tip" role="note" aria-labelledby="tip-s9-noauth">
-                    <div id="tip-s9-noauth" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                            alt="Dica"><strong>Como funcionaram os testes sem autenticação</strong></div>
+                <td class="box-content tip" role="note" aria-labelledby="tip-s9-rls-why">
+                    <div id="tip-s9-rls-why" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                            alt="Dica"><strong>Por que ativar o RLS agora?</strong></div>
                     <div>
-                        <p>Nas Semanas 6 e 7, o CRUD foi testado com o RLS <strong>desabilitado</strong>
-                            e sem login implementado. Para isso, os seeds (dados de exemplo) foram inseridos
-                            diretamente pelo painel do Supabase, e as Backend Queries não usavam filtro por
-                            usuário. Ao ativar o RLS nesta semana, duas mudanças ocorrerão:</p>
-                        <ul>
-                            <li>As queries que não enviam o token JWT (usuário não logado) passarão a
-                                retornar <strong>zero resultados</strong> — comportamento correto e esperado.</li>
-                            <li>As Actions de Insert/Update/Delete exigirão que <code>auth.uid()</code>
-                                coincida com o <code>usuario_id</code> do registro — por isso é essencial
-                                implementar o login <strong>antes</strong> de testar o app com o RLS ativo.</li>
-                        </ul>
+                        <p>Sem o RLS, qualquer usuário autenticado poderia, em teoria,
+                            <strong>ver e modificar os dados de todos os outros</strong> — basta conhecer
+                            a URL da API. O RLS é a camada de segurança que impede isso, filtrando
+                            automaticamente as linhas do banco com base no
+                            <code>auth.uid()</code> do usuário logado.
+                        </p>
                     </div>
                 </td>
             </tr>
@@ -56,25 +50,21 @@
                         <ul>
                             <li>O Supabase usa o <strong>PostgreSQL</strong>, o banco de dados relacional
                                 open source mais avançado do mundo, com mais de 35 anos de desenvolvimento.</li>
-                            <li>O plano gratuito do Supabase oferece <strong>500 MB de banco de dados</strong>
-                                e até <strong>50.000 usuários autenticados por mês</strong> — mais do que
-                                suficiente para projetos acadêmicos.</li>
-                            <li>A autenticação JWT usada pelo Supabase é o mesmo padrão adotado por
-                                Google, GitHub e outras plataformas de grande escala.</li>
+                            <li>O RLS é um recurso <strong>nativo do PostgreSQL</strong> — não é uma
+                                camada inventada pelo Supabase. Isso significa que a segurança opera no
+                                nível mais baixo possível: dentro do próprio banco.</li>
+                            <li>Grandes empresas como Netflix e Spotify usam PostgreSQL com RLS para
+                                proteger dados de milhões de usuários.</li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
-                            Supabase Documentation; PostgreSQL.org.</p>
+                            PostgreSQL.org; Supabase Documentation.</p>
                     </div>
                 </td>
             </tr>
         </table>
 
         <section id='sec9-1'>
-            <h2>9.1 Ativando o RLS (Row Level Security)</h2>
-            <p>Com o CRUD funcionando e testado (Semana 6), chegou o momento de ativar a segurança
-                do banco. O <strong>RLS (Row Level Security)</strong> é um mecanismo do PostgreSQL
-                que controla quais linhas cada usuário pode ler, inserir, atualizar ou excluir.
-                Sem ele, qualquer usuário autenticado poderia ver os dados de todos os outros.</p>
+            <h2>9.1 O que é RLS (Row Level Security)</h2>
 
             <table class="box-table tip-table">
                 <tr>
@@ -83,25 +73,29 @@
                                 alt="Definição"><strong>Definição</strong></div>
                         <div>
                             <p><strong>Row Level Security (RLS):</strong> mecanismo de segurança do PostgreSQL
-                                que permite controlar quais linhas cada usuário pode ler, inserir, atualizar
-                                ou excluir. No Supabase, as políticas RLS são definidas usando SQL ou o editor
-                                visual de políticas.</p>
+                                que permite controlar quais <strong>linhas</strong> cada usuário pode ler,
+                                inserir, atualizar ou excluir. No Supabase, as políticas RLS são definidas
+                                usando SQL ou o editor visual de políticas.</p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p>A <strong>Figura 9.1</strong> ilustra o fluxo completo de autenticação com JWT e como
-                o RLS usa o <code>auth.uid()</code> para filtrar os dados de cada usuário no banco.</p>
+            <p>A <strong>Figura 9.1</strong> ilustra como o RLS funciona na prática: o usuário
+                faz login (recebe um JWT com seu <code>auth.uid()</code>), e ao consultar o banco,
+                o PostgreSQL automaticamente filtra as linhas usando a condição definida na política
+                (<code>auth.uid() = usuario_id</code>).</p>
 
             <figure class='figure'>
                 <img src='../images/fig09_1_rls_auth.png'
                     alt='Fluxo de autenticação JWT e funcionamento do RLS no Supabase' class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 9.1 — </strong>Fluxo de autenticação com JWT e
-                    filtragem de dados via RLS (<code>auth.uid() = usuario_id</code>).</figcaption>
+                    filtragem automática de dados via RLS (<code>auth.uid() = usuario_id</code>).</figcaption>
             </figure>
+        </section>
 
-            <h3>Como ativar o RLS nas tabelas</h3>
+        <section id='sec9-2'>
+            <h2>9.2 Ativando o RLS nas Tabelas</h2>
             <ol>
                 <li>No painel do Supabase, acesse <strong>Table Editor → [nome da tabela]</strong>.</li>
                 <li>Clique em <strong>RLS disabled → Enable RLS</strong>.</li>
@@ -109,119 +103,74 @@
                 <li>Crie políticas para SELECT, INSERT, UPDATE e DELETE usando
                     <code>auth.uid() = usuario_id</code> como condição.
                 </li>
-                <li>Repita para todas as tabelas que contêm dados pessoais dos usuários.</li>
+                <li>Repita para <strong>todas as tabelas</strong> que contêm dados pessoais dos
+                    usuários (<code>transacoes</code>).</li>
             </ol>
-        </section>
-
-        <section id='sec9-2'>
-            <h2>9.2 Exemplo de Políticas RLS</h2>
-            <p>Veja abaixo o SQL para criar as políticas RLS completas na tabela
-                <code>despesas</code>. O mesmo padrão deve ser aplicado às demais tabelas
-                que armazenam dados do usuário (<code>receitas</code>, <code>perfis</code>).
-            </p>
-
-            <figure class='listing'>
-                <figcaption class='listing-title'><strong>Código 9.1 - </strong>Políticas RLS básicas para a tabela
-                    despesas</figcaption>
-                <pre class='code'>
--- Habilitar RLS na tabela
-ALTER TABLE despesas ENABLE ROW LEVEL SECURITY;
-
--- Política: usuário só vê suas próprias despesas
-CREATE POLICY "Usuários veem suas despesas"
-  ON despesas FOR SELECT
-  USING (auth.uid() = usuario_id);
-
--- Política: usuário só insere despesas suas
-CREATE POLICY "Usuários inserem suas despesas"
-  ON despesas FOR INSERT
-  WITH CHECK (auth.uid() = usuario_id);
-
--- Política: usuário só atualiza suas despesas
-CREATE POLICY "Usuários atualizam suas despesas"
-  ON despesas FOR UPDATE
-  USING (auth.uid() = usuario_id);
-
--- Política: usuário só exclui suas despesas
-CREATE POLICY "Usuários excluem suas despesas"
-  ON despesas FOR DELETE
-  USING (auth.uid() = usuario_id);
-                </pre>
-            </figure>
-        </section>
-
-        <section id='sec9-3'>
-            <h2>9.3 Autenticação com Supabase no FlutterFlow</h2>
-            <p>O Supabase oferece autenticação integrada com vários provedores. Para este projeto,
-                usaremos <strong>e-mail e senha</strong>.</p>
-
-            <p>Uma parte crítica da autenticação é o <strong>fluxo da Splash Screen</strong>: ao abrir
-                o app, ele verifica se existe uma sessão ativa (token JWT válido). Se sim, vai
-                diretamente para a Home. Se não, vai para o Login. A <strong>Figura 9.2</strong>
-                detalha esse fluxo completo, incluindo as Actions de <em>Navigate &amp; Remove All</em>
-                que garantem que o usuário não consiga voltar para a tela de login após autenticar.</p>
-
-            <figure class='figure'>
-                <img src='../images/fig09_2_fluxo_auth.png'
-                    alt='Fluxograma de autenticação: Splash Screen verifica sessão JWT, vai para Login ou Home com Navigate & Remove All'
-                    class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 9.2 — </strong>Fluxo completo de autenticação:
-                    verificação de sessão na Splash Screen, Login com Supabase Auth e redirecionamento via Navigate
-                    &amp; Remove All.</figcaption>
-            </figure>
-
-            <h3>Configurando no FlutterFlow</h3>
-            <ol>
-                <li>No FlutterFlow, acesse <strong>Settings → Supabase</strong>.</li>
-                <li>Informe a <strong>Project URL</strong> e a <strong>API Key (anon)</strong>.</li>
-                <li>Ative a opção <strong>Use Supabase Auth</strong>.</li>
-                <li>Implemente as telas de <strong>Login</strong> e <strong>Cadastro</strong> usando
-                    as Actions de autenticação do Supabase.</li>
-            </ol>
-
-            <h3>Actions de Autenticação Disponíveis</h3>
-            <table class='content-table'>
-                <caption><strong>Tabela 9.1 - </strong>Actions de autenticação Supabase no FlutterFlow.</caption>
-                <thead>
-                    <tr>
-                        <th>Action</th>
-                        <th>Descrição</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Sign Up (Email)</strong></td>
-                        <td>Cria um novo usuário com e-mail e senha</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sign In (Email)</strong></td>
-                        <td>Autentica um usuário existente</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sign Out</strong></td>
-                        <td>Encerra a sessão do usuário</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Reset Password</strong></td>
-                        <td>Envia e-mail para redefinir a senha</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Update User</strong></td>
-                        <td>Atualiza dados do perfil do usuário autenticado</td>
-                    </tr>
-                </tbody>
-            </table>
 
             <table class="box-table tip-table">
                 <tr>
-                    <td class="box-content tip" role="note" aria-labelledby="tip-s9-jwt">
-                        <div id="tip-s9-jwt" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                                alt="Dica"><strong>Como funciona o JWT</strong></div>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s9-categorias">
+                        <div id="tip-s9-categorias" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>E a tabela de categorias?</strong></div>
                         <div>
-                            <p>Ao fazer login, o Supabase retorna um <strong>JWT (JSON Web Token)</strong>
-                                — um token criptografado que identifica o usuário. O FlutterFlow armazena
-                                automaticamente esse token e o envia em cada requisição ao banco. O Supabase
-                                usa o <code>auth.uid()</code> nas políticas RLS para filtrar os dados.</p>
+                            <p>A tabela <code>categorias</code> é uma tabela auxiliar compartilhada por
+                                todos os usuários (não tem <code>usuario_id</code>). Configure-a com uma
+                                política de <strong>SELECT público</strong> (todos podem ler) e
+                                <strong>INSERT/UPDATE/DELETE restrito</strong> ao service role — assim
+                                somente o administrador pode alterar as categorias.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section id='sec9-3'>
+            <h2>9.3 Exemplo de Políticas RLS (SQL Completo)</h2>
+            <p>Veja abaixo o SQL para criar as políticas RLS completas na tabela
+                <code>transacoes</code>. O mesmo padrão pode ser aplicado a outras tabelas
+                que armazenem dados por usuário no futuro.
+            </p>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Código 9.1 - </strong>Políticas RLS completas
+                    para a tabela transacoes</figcaption>
+                <pre class='code'>
+-- Habilitar RLS na tabela
+ALTER TABLE transacoes ENABLE ROW LEVEL SECURITY;
+
+-- Política: usuário só vê suas próprias transações
+CREATE POLICY "Usuários veem suas transações"
+  ON transacoes FOR SELECT
+  USING (auth.uid() = usuario_id);
+
+-- Política: usuário só insere transações suas
+CREATE POLICY "Usuários inserem suas transações"
+  ON transacoes FOR INSERT
+  WITH CHECK (auth.uid() = usuario_id);
+
+-- Política: usuário só atualiza suas transações
+CREATE POLICY "Usuários atualizam suas transações"
+  ON transacoes FOR UPDATE
+  USING (auth.uid() = usuario_id);
+
+-- Política: usuário só exclui suas transações
+CREATE POLICY "Usuários excluem suas transações"
+  ON transacoes FOR DELETE
+  USING (auth.uid() = usuario_id);
+                </pre>
+            </figure>
+
+            <table class="box-table warning-table">
+                <tr>
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s9-rls">
+                        <div id="warn-s9-rls" class="box-title"><img src="../images/icon-importante.png"
+                                class="icon-img" alt="Importante"><strong>Importante</strong></div>
+                        <div>
+                            <p>Após ativar o RLS, <strong>toda consulta sem token JWT válido retornará
+                                    zero resultados</strong>. Isso é o comportamento esperado e correto.
+                                Certifique-se de que o login está funcionando (Semana 6) antes de ativar
+                                o RLS.</p>
                         </div>
                     </td>
                 </tr>
@@ -229,7 +178,21 @@ CREATE POLICY "Usuários excluem suas despesas"
         </section>
 
         <section id='sec9-4'>
-            <h2>9.4 Entregável da Semana</h2>
+            <h2>9.4 Testando a Segurança</h2>
+            <p>Para validar que o RLS está funcionando corretamente:</p>
+            <ol>
+                <li>Crie <strong>dois usuários diferentes</strong> no app (e-mails distintos).</li>
+                <li>Com o <strong>Usuário A</strong>, crie uma transação qualquer.</li>
+                <li>Faça logout e faça login com o <strong>Usuário B</strong>.</li>
+                <li>Verifique que a transação do Usuário A <strong>não aparece</strong> na listagem
+                    do Usuário B — se não aparece, o RLS está funcionando!</li>
+                <li>Tente editar ou excluir a transação do Usuário A diretamente pela API
+                    (usando a URL do Supabase) — a operação deve ser <strong>bloqueada</strong>.</li>
+            </ol>
+        </section>
+
+        <section id='sec9-5'>
+            <h2>9.5 Entregável da Semana</h2>
 
             <table class="box-table tip-table">
                 <tr>
@@ -238,12 +201,12 @@ CREATE POLICY "Usuários excluem suas despesas"
                                 alt="Resumo"><strong>Resumo da Semana</strong></div>
                         <div>
                             <ul>
-                                <li><strong>Projeto Supabase criado</strong> com as tabelas migradas.</li>
-                                <li><strong>Políticas RLS configuradas</strong> para todas as tabelas.</li>
-                                <li><strong>Autenticação funcionando</strong> no FlutterFlow (cadastro
-                                    e login com e-mail/senha).</li>
+                                <li><strong>Políticas RLS configuradas</strong> para todas as tabelas com
+                                    dados de usuários.</li>
+                                <li><strong>Teste de isolamento</strong> realizado com dois usuários
+                                    (comprovando que cada um vê apenas seus dados).</li>
                                 <li><strong>Screenshot</strong> do painel do Supabase mostrando as
-                                    tabelas e os primeiros registros.</li>
+                                    políticas RLS ativas nas tabelas.</li>
                             </ul>
                         </div>
                     </td>
@@ -255,9 +218,8 @@ CREATE POLICY "Usuários excluem suas despesas"
         </section>
 
         <section id='caso-sem9'>
-            <h2>9.5 Estudo de Caso: FinanCampus</h2>
-            <p>Veja como o grupo do <strong>FinanCampus</strong> configurou o RLS e a autenticação
-                nesta semana (o projeto e as tabelas já haviam sido criados na Semana 6).</p>
+            <h2>9.6 Estudo de Caso: FinanCampus</h2>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> configurou o RLS nesta semana.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -268,18 +230,16 @@ CREATE POLICY "Usuários excluem suas despesas"
                         <div>
                             <p><strong>RLS ativado em todas as tabelas:</strong></p>
                             <ul>
-                                <li><code>despesas</code>: políticas SELECT, INSERT, UPDATE e DELETE
+                                <li><code>transacoes</code>: políticas SELECT, INSERT, UPDATE e DELETE
                                     com condição <code>auth.uid() = usuario_id</code>.</li>
-                                <li><code>receitas</code>: mesmas políticas de <code>despesas</code>.</li>
-                                <li><code>perfis</code>: usuário pode ver e editar apenas o próprio perfil.</li>
                                 <li><code>categorias</code>: SELECT público (todos leem as categorias
                                     pré-definidas); INSERT restrito a service role.</li>
                             </ul>
-                            <p><strong>Autenticação implementada:</strong> telas de cadastro e login com
-                                Supabase Auth (e-mail + senha). Token JWT armazenado automaticamente
-                                pelo FlutterFlow. Trigger criado para inserir automaticamente na tabela
-                                <code>perfis</code> quando um novo usuário se cadastra.
-                            </p>
+                            <p><strong>Teste de isolamento:</strong> criaram dois usuários
+                                (aluno1@teste.com e aluno2@teste.com). Cada um inseriu 3 transações.
+                                Ao alternar entre as contas, a listagem exibiu apenas as despesas do
+                                usuário logado ✅. Tentativa de acesso direto via API resultou em
+                                resposta vazia ✅.</p>
                         </div>
                     </td>
                 </tr>
