@@ -662,52 +662,68 @@ ESTRUTURA DE DADOS
 Categoria: nome, icone, cor
 Transação: tipo (Renda ou Despesa), descricao, valor, data, categoria, usuario
 
-TELAS
+PÁGINAS (gerar uma por vez no FlutterFlow)
 
-1) Login / Cadastro
+1) Login (página: login)
+- Abas "Criar Conta" e "Entrar"
 - Campo de e-mail
-- Campo de senha
-- Botão "Entrar"
-- Link "Criar conta"
-- Layout centralizado e simples
+- Campo de senha com botão mostrar/ocultar
+- Campo de confirmar senha (aba Criar Conta)
+- Botão principal "Começar" / "Entrar"
+- Opção "Continuar com Google"
+- Logo do app no topo com fundo azul suave
 
-2) Home / Dashboard
-- AppBar com título "FinanCampus"
-- Card com o saldo do mês (rendas – despesas)
-- Lista com as 3 últimas transações
-- Botão flutuante (+) para adicionar transação
+2) Início (página: inicio)
+- AppBar com logo, ícone de busca e avatar do usuário
+- Seletor de mês com setas de navegação (◀ mês ▶)
+- Cards de resumo: Despesas, Saldo e Rendas
+- Lista de transações agrupadas por categoria
+  Cada grupo mostra: ícone da categoria | nome | descrição | valor
+- Botão flutuante "Adicionar" para nova transação
+- Barra de navegação inferior com 3 abas:
+  Estatísticas | Início | Configurações
 
-3) Lista de Transações
-- ListView com as transações do mês atual
-- Filtro por mês
-- Filtro por tipo (Renda / Despesa / Todas)
-- Filtro por categoria
-- Cada item em formato de card contendo:
-  ícone da categoria | tipo | descrição | valor | data
+3) Relatório (página: relatorio)
+- Título "Estatísticas" com ícone de busca
+- Seletor de mês com setas de navegação
+- Barra de overview (gráfico horizontal) com proporção visual
+  de despesas vs. rendas
+- Seção "Detalhes" com lista por categoria:
+  ícone da categoria | nome | quantidade de transações | valor | percentual
+- Ícone decorativo (caixa vazia) quando não houver dados
 
-4) Nova Transação
+4) Configurações (página: configuracoes)
+- Título "Configurações"
+- Card com avatar, nome e e-mail do usuário
+- Lista de opções:
+  Escolher idioma | Redefinir senha | Sair | Excluir conta | Doação
+- Cada opção com ícone à esquerda e seta à direita
+- Barra de navegação inferior (mesma das outras telas)
+
+5) Nova Transação (página: novaTransacao)
+- AppBar com seta de voltar e título "Nova transação"
 - Dropdown para tipo (Renda ou Despesa)
 - Dropdown para categoria
 - Campo numérico para valor
-- Seletor de data
 - Campo de descrição (opcional)
-- Botão "Salvar"
+- Seletor de data
+- Botão "Adicionar" com largura total
 
-5) Detalhe da Transação / Editar
-- Exibir todos os dados da transação
-- Botão "Editar"
-- Botão "Excluir"
+6) Editar Transação (página: editarTransacao)
+- AppBar com seta de voltar e título "Editar"
+- Mesmos campos da tela Nova Transação, pré-preenchidos
+  com os dados da transação selecionada
+- Botão "Editar" com largura total
+- Link "Excluir" em vermelho abaixo do botão
 
-6) Configurações
-- E-mail do usuário
-- Botão "Sair"
-
-FUNCIONALIDADES EXTRAS
-- Gráfico de transações por categoria no dashboard
-- Totalizadores de renda e despesa no mês
+7) Buscar Transação (página: buscarTransacao)
+- Campo de busca por texto (descrição da transação)
+- Filtros por tipo, categoria e período
+- Lista de resultados no mesmo formato da tela Início
 
 NAVEGAÇÃO
-Utilizar navegação clara entre Dashboard, Transações e Configurações.
+Barra de navegação inferior fixa com 3 abas:
+Estatísticas (relatorio) | Início (inicio) | Configurações (configuracoes).
 Garantir responsividade para celulares Android.</pre>
             </figure>
 
@@ -789,33 +805,33 @@ INSERT INTO categorias (nome, icone, cor) VALUES
                 <tbody>
                     <tr>
                         <td><strong>Create</strong></td>
-                        <td>Tela "Nova Transação"</td>
+                        <td>Tela "Nova Transação" (<code>novaTransacao</code>)</td>
                         <td>Insert Row em <em>transacoes</em></td>
-                        <td>Tela "Listagem de Transações"</td>
+                        <td>Tela "Início" (<code>inicio</code>)</td>
                     </tr>
                     <tr>
                         <td><strong>Read (lista)</strong></td>
-                        <td>Tela "Listagem de Transações"</td>
+                        <td>Tela "Início" (<code>inicio</code>)</td>
                         <td>Query Rows em <em>transacoes</em></td>
                         <td>—</td>
                     </tr>
                     <tr>
                         <td><strong>Read (detalhe)</strong></td>
-                        <td>Listagem → clique no item</td>
+                        <td>Início → clique no item</td>
                         <td>Get Single Row em <em>transacoes</em></td>
-                        <td>Tela "Detalhe da Transação"</td>
+                        <td>Tela "Editar Transação" (<code>editarTransacao</code>)</td>
                     </tr>
                     <tr>
                         <td><strong>Update</strong></td>
-                        <td>Tela "Editar Transação"</td>
+                        <td>Tela "Editar Transação" (<code>editarTransacao</code>)</td>
                         <td>Update Row em <em>transacoes</em></td>
-                        <td>Tela "Detalhe da Transação"</td>
+                        <td>Tela "Início" (<code>inicio</code>)</td>
                     </tr>
                     <tr>
                         <td><strong>Delete</strong></td>
-                        <td>Tela "Detalhe da Transação"</td>
+                        <td>Tela "Editar Transação" (<code>editarTransacao</code>)</td>
                         <td>Delete Row em <em>transacoes</em></td>
-                        <td>Tela "Listagem de Transações"</td>
+                        <td>Tela "Início" (<code>inicio</code>)</td>
                     </tr>
                 </tbody>
             </table>
@@ -880,27 +896,43 @@ INSERT INTO categorias (nome, icone, cor) VALUES
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 6</strong>
                         </div>
                         <div>
+                            <p><strong>Telas implementadas nesta semana:</strong></p>
+                            <ul>
+                                <li><strong>Login</strong> (<code>login</code>) — Criar conta / Entrar com e-mail e
+                                    senha.</li>
+                                <li><strong>Nova Transação</strong> (<code>novaTransacao</code>) — Formulário de
+                                    criação.</li>
+                                <li><strong>Editar Transação</strong> (<code>editarTransacao</code>) — Formulário de
+                                    edição e exclusão.</li>
+                            </ul>
                             <p><strong>Fluxos CRUD implementados para a entidade Transação:</strong></p>
                             <ul>
-                                <li><strong>Create:</strong> Tela "Nova Transação" → Action: Validate Form → Insert Row
-                                    em
-                                    <em>transacoes</em> → Navigate Back para "Lista de Transações".
+                                <li><strong>Create:</strong> Tela "Nova Transação" (<code>novaTransacao</code>)
+                                    → Action: Validate Form → Insert Row em
+                                    <em>transacoes</em> → Navigate Back para "Início".
                                 </li>
-                                <li><strong>Read (lista):</strong> Tela "Home" e "Lista" → Query Rows em
+                                <li><strong>Read (lista):</strong> Tela "Início" (<code>inicio</code>)
+                                    → Query Rows em
                                     <em>transacoes</em> filtrado por <code>usuario_id = currentUserUid</code>, ordenado
-                                    por <code>data DESC</code>.
+                                    por <code>data DESC</code>, agrupado por categoria.
                                 </li>
-                                <li><strong>Read (detalhe):</strong> Toque no item da lista → passa o ID como parâmetro
-                                    → Get Single Row em <em>transacoes</em>.</li>
-                                <li><strong>Update:</strong> Tela "Editar Transação" → pré-preenche campos → Update Row
-                                    onde <code>id = transacao.id</code>.</li>
-                                <li><strong>Delete:</strong> Botão "Excluir" na tela de detalhe → Alert Dialog de
-                                    confirmação → Delete Row → Navigate Back.</li>
+                                <li><strong>Read (detalhe):</strong> Toque no item da lista
+                                    → passa o ID como parâmetro
+                                    → Get Single Row em <em>transacoes</em>
+                                    → abre a tela "Editar Transação" (<code>editarTransacao</code>)
+                                    com os campos pré-preenchidos.</li>
+                                <li><strong>Update:</strong> Tela "Editar Transação" (<code>editarTransacao</code>)
+                                    → pré-preenche campos → Update Row
+                                    onde <code>id = transacao.id</code>
+                                    → Navigate Back para "Início".</li>
+                                <li><strong>Delete:</strong> Link "Excluir" (em vermelho) na tela
+                                    "Editar Transação" → Alert Dialog de
+                                    confirmação → Delete Row → Navigate Back para "Início".</li>
                             </ul>
                             <p><strong>Seeds adicionais inseridos:</strong> 10 transações de exemplo (5 rendas + 5
                                 despesas)
                                 distribuídas em 5 categorias, com valores e datas variados, para testar a listagem e os
-                                filtros da tela principal.</p>
+                                filtros da tela Início.</p>
                         </div>
                     </td>
                 </tr>
