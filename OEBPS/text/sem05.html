@@ -13,17 +13,17 @@
 
         <header>
             <h1 id='sem5'>SEMANA 5 – Formulários, Validação e Definição do Banco</h1>
-            <p class='lead'>Nesta semana, você irá definir a estrutura final do banco de dados do seu
-                projeto, preparar os scripts SQL das tabelas e configurar as validações dos
-                formulários no FlutterFlow. Na próxima semana, esse banco será criado no Supabase.</p>
+            <p class='lead'>Nesta semana, você irá detalhar a estrutura final das coleções do seu
+                projeto no Firestore, definir os tipos de cada campo e planejar as validações dos
+                formulários no FlutterFlow. Na próxima semana, essas coleções serão criadas no Firebase.</p>
         </header>
         <hr />
 
-        <p>Agora que você tem o modelo conceitual do banco de dados (DER), é hora de transformar
-            esse modelo em uma <strong>estrutura real de tabelas</strong>: definindo colunas, tipos de
-            dados, chaves primárias e chaves estrangeiras. Nesta semana você prepara tudo isso —
-            inclusive os scripts SQL — para que na <strong>Semana 6</strong> o banco seja criado
-            diretamente no Supabase e conectado ao FlutterFlow.</p>
+        <p>Agora que você tem o modelo conceitual das coleções (Semana 4), é hora de transformar
+            esse modelo em uma <strong>estrutura detalhada de campos</strong>: definindo nomes, tipos de
+            dados e referências entre coleções. Nesta semana você prepara tudo isso — o planejamento
+            completo — para que na <strong>Semana 6</strong> as coleções sejam criadas diretamente
+            no Firebase via FlutterFlow.</p>
 
         <table class="box-table tip-table">
             <tr>
@@ -32,17 +32,17 @@
                             alt="Curiosidade"><strong>Você Sabia?</strong></div>
                     <div>
                         <ul>
-                            <li>O <strong>brModelo Web</strong> permite exportar o DER diretamente como
-                                script SQL — basta acessar <em>Exportar → SQL</em> após modelar as
-                                entidades e relacionamentos.</li>
-                            <li>Esse script SQL pode ser colado e executado no <strong>SQL Editor do
-                                    Supabase</strong> para criar todas as tabelas do projeto de uma vez,
-                                sem precisar criá-las manualmente pela interface visual.</li>
+                            <li>O <strong>FlutterFlow</strong> possui integração nativa com o Firebase —
+                                as coleções e campos são criados diretamente pelo editor visual, sem
+                                necessidade de scripts ou código.</li>
+                            <li>No Firestore, o <strong>schema é flexível</strong>: cada documento pode ter
+                                campos diferentes. Porém, para manter a consistência, é fundamental
+                                planejar quais campos cada coleção terá antes de criá-la.</li>
                             <li>A validação de formulários no frontend evita que dados incorretos cheguem
                                 ao banco — é mais barato corrigir no início do que depois.</li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
-                            brModelo Web Documentation; Supabase Documentation.</p>
+                            FlutterFlow Documentation; Firebase Documentation.</p>
                     </div>
                 </td>
             </tr>
@@ -68,29 +68,29 @@
                                 <li><strong>App State:</strong> variáveis em memória que são perdidas
                                     ao fechar o app — úteis para dados temporários de sessão, não para
                                     persistência de dados do usuário.</li>
-                                <li><strong>Supabase (nuvem):</strong> banco de dados PostgreSQL real,
-                                    gratuito, acessado via internet. É o que usaremos a partir da
-                                    <strong>Semana 6</strong>.
-                                </li>
                                 <li><strong>Firebase / Firestore (nuvem):</strong> banco de dados
-                                    NoSQL do Google, também integrado nativamente ao FlutterFlow.
-                                    É uma alternativa popular, mas como é não-relacional (NoSQL),
-                                    não utiliza SQL — por isso optamos pelo Supabase neste projeto,
-                                    que é relacional e permite praticar comandos SQL.
+                                    NoSQL do Google, integrado nativamente ao FlutterFlow. É o que
+                                    usaremos a partir da <strong>Semana 6</strong>. Gratuito no plano
+                                    Spark, visual, escalável e com autenticação integrada.
+                                </li>
+                                <li><strong>Supabase (nuvem):</strong> banco de dados PostgreSQL real,
+                                    também integrado ao FlutterFlow. É uma alternativa relacional (SQL),
+                                    mas neste projeto optamos pelo Firebase por sua integração mais
+                                    direta com o FlutterFlow e por não exigir conhecimento de SQL.
                                 </li>
                             </ul>
-                            <p>Por isso, a estratégia adotada neste projeto é: <strong>preparar a
-                                    estrutura do banco nesta semana</strong> (scripts SQL, tipos, relacionamentos)
-                                e <strong>criar o banco no Supabase na Semana 6</strong>, já pronto
+                            <p>Por isso, a estratégia adotada neste projeto é: <strong>planejar a
+                                    estrutura das coleções nesta semana</strong> (campos, tipos, referências)
+                                e <strong>criar as coleções no Firebase na Semana 6</strong>, já prontas
                                 para receber os dados do app.</p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <h3>Tipos de Dados Comuns no FlutterFlow/Supabase</h3>
+            <h3>Tipos de Dados Comuns no FlutterFlow/Firestore</h3>
             <table class='content-table'>
-                <caption><strong>Tabela 5.1 - </strong>Tipos de dados disponíveis para as colunas das tabelas.</caption>
+                <caption><strong>Tabela 5.1 - </strong>Tipos de dados disponíveis para os campos das coleções.</caption>
                 <thead>
                     <tr>
                         <th>Tipo</th>
@@ -100,104 +100,101 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>String / Text</strong></td>
+                        <td><strong>String</strong></td>
                         <td>Texto de tamanho variável</td>
                         <td>nome, descrição, e-mail</td>
                     </tr>
                     <tr>
-                        <td><strong>Integer / int8</strong></td>
+                        <td><strong>int (Integer)</strong></td>
                         <td>Número inteiro</td>
-                        <td>id, quantidade, pontuação</td>
+                        <td>quantidade, pontuação</td>
                     </tr>
                     <tr>
-                        <td><strong>Float / numeric</strong></td>
-                        <td>Número decimal</td>
+                        <td><strong>double</strong></td>
+                        <td>Número decimal (ponto flutuante)</td>
                         <td>valor, preco, peso</td>
                     </tr>
                     <tr>
-                        <td><strong>Boolean / bool</strong></td>
+                        <td><strong>bool (Boolean)</strong></td>
                         <td>Verdadeiro ou falso</td>
                         <td>ativo, concluido, favorito</td>
                     </tr>
                     <tr>
-                        <td><strong>Timestamp / DateTime</strong></td>
+                        <td><strong>Timestamp</strong></td>
                         <td>Data e hora</td>
                         <td>created_at, data_vencimento</td>
                     </tr>
                     <tr>
-                        <td><strong>UUID</strong></td>
-                        <td>Identificador único universal</td>
-                        <td>id (chave primária no Supabase)</td>
+                        <td><strong>Document Reference</strong></td>
+                        <td>Referência a um documento de outra coleção</td>
+                        <td>categoria_ref (referência à coleção categorias)</td>
                     </tr>
                 </tbody>
             </table>
 
-            <p>Esses tipos de dados são exatamente os que você usará ao criar as tabelas no
-                <strong>Supabase</strong> na Semana 6. Na prática, o FlutterFlow se comunica com o Supabase
-                enviando e recebendo dados nestes formatos. Entender como cada coluna se mapeia para um
+            <p>Esses tipos de dados são exatamente os que você usará ao criar as coleções no
+                <strong>Firebase</strong> na Semana 6. Na prática, o FlutterFlow se comunica com o Firestore
+                enviando e recebendo dados nestes formatos. Entender como cada campo se mapeia para um
                 campo de formulário (widget) é a chave para construir o CRUD corretamente.
             </p>
             <p>A <strong>Figura 5.2</strong> mostra o fluxo completo de dados entre o app FlutterFlow e
-                o banco de dados Supabase, evidenciando como as Actions de escrita (Insert/Update) e
-                as Queries de leitura (Query Rows) transitam pela API do Supabase.</p>
+                o banco de dados Firestore, evidenciando como as Actions de escrita (Create Document) e
+                as Queries de leitura (Query Collection) transitam pela SDK do Firebase.</p>
 
             <figure class='figure'>
-                <img src='../images/fig05_2_supabase_fluxo.png'
-                    alt='Diagrama de arquitetura em três camadas mostrando o fluxo de dados entre FlutterFlow (frontend), API e Supabase (banco de dados)'
+                <img src='../images/fig05_2_firebase_fluxo.png'
+                    alt='Diagrama de arquitetura em três camadas mostrando o fluxo de dados entre FlutterFlow (frontend), Firebase SDK e Firestore (banco de dados)'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
-                    Supabase: cada campo do formulário se traduz em uma coluna na tabela do banco.</figcaption>
+                    Firestore: cada campo do formulário se traduz em um campo no documento da coleção.</figcaption>
             </figure>
         </section>
 
         <section id='sec5-2'>
-            <h2>5.2 Definindo Tabelas e Relacionamentos</h2>
-            <p>Com base no DER criado na semana 4, agora é hora de definir a estrutura final das tabelas:
-                nome das colunas, tipos de dados, chaves primárias e estrangeiras. Prepare os scripts
-                SQL nesta semana — eles serão usados para criar as tabelas no Supabase na
-                <strong>Semana 6</strong>.
+            <h2>5.2 Definindo Coleções e Relacionamentos</h2>
+            <p>Com base no modelo criado na Semana 4, agora é hora de definir a estrutura final das coleções:
+                nome dos campos, tipos de dados e referências entre coleções. Documente essa estrutura —
+                ela será o guia para criar as coleções no Firebase na <strong>Semana 6</strong>.
             </p>
 
-            <h3>Criando a Tabela no Supabase (SQL)</h3>
-            <p>Embora o Supabase tenha editor visual, conhecer o SQL equivalente ajuda a entender a
-                estrutura. Veja o exemplo para o app FinanCampus:</p>
+            <h3>Estrutura das Coleções no Firestore</h3>
+            <p>Diferente de bancos SQL, no Firestore não usamos scripts SQL para criar tabelas. As coleções
+                e campos são definidos pelo FlutterFlow ao configurar a integração com o Firebase.
+                Porém, é essencial documentar a estrutura planejada:</p>
 
             <figure class='listing'>
-                <figcaption class='listing-title'><strong>Código 5.1 - </strong>Criação das tabelas no Supabase (SQL)
+                <figcaption class='listing-title'><strong>Estrutura 5.1 - </strong>Definição das coleções no Firestore
+                    (FinanCampus)
                 </figcaption>
                 <pre class='code'>
--- Tabela de Categorias
-CREATE TABLE categorias (
-  id        UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  nome      TEXT NOT NULL,
-  icone     TEXT,
-  cor       TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+Coleção: categorias
+├── nome      (String, obrigatório)
+├── icone     (String)
+├── cor       (String)
+└── created_at (Timestamp, automático)
 
--- Tabela de Transações
-CREATE TABLE transacoes (
-  id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  tipo         TEXT NOT NULL CHECK (tipo IN ('Renda', 'Despesa')),
-  descricao    TEXT,
-  valor        NUMERIC(10,2) NOT NULL,
-  data         DATE NOT NULL,
-  usuario_id   UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  categoria_id UUID REFERENCES categorias(id),
-  created_at   TIMESTAMPTZ DEFAULT NOW()
-);
+Coleção: transacoes
+├── tipo         (String, obrigatório: 'Renda' ou 'Despesa')
+├── descricao    (String)
+├── valor        (double, obrigatório)
+├── data         (Timestamp, obrigatório)
+├── usuario_uid  (String, obrigatório — UID do Firebase Auth)
+├── categoria_ref (Document Reference → categorias)
+└── created_at   (Timestamp, automático)
                 </pre>
             </figure>
 
             <table class="box-table tip-table">
                 <tr>
-                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-fk">
-                        <div id="tip-s5-fk" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                                alt="Dica"><strong>Dica: Chaves Estrangeiras</strong></div>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s5-ref">
+                        <div id="tip-s5-ref" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Dica"><strong>Dica: Document Reference</strong></div>
                         <div>
-                            <p>Use sempre <code>REFERENCES tabela(id)</code> para definir chaves estrangeiras
-                                e garanta integridade referencial. O <code>ON DELETE CASCADE</code> indica que,
-                                ao excluir o usuário, suas transações também serão excluídas automaticamente.</p>
+                            <p>No Firestore, use o tipo <strong>Document Reference</strong> para criar
+                                relacionamentos entre coleções. Quando uma transação referencia uma
+                                categoria, o campo <code>categoria_ref</code> armazena o caminho completo
+                                do documento na coleção <code>categorias</code>. Isso permite que o
+                                FlutterFlow resolva a referência automaticamente ao exibir os dados.</p>
                         </div>
                     </td>
                 </tr>
@@ -208,10 +205,10 @@ CREATE TABLE transacoes (
             <h2>5.3 Planejamento das Validações de Formulário</h2>
             <p>A <strong>validação</strong> garante que os dados inseridos pelo usuário estejam corretos
                 antes de serem salvos no banco. No FlutterFlow, a validação é configurada nos campos
-                do formulário via <strong>Form Validation</strong> — mas como o banco de dados ainda
-                será criado na <strong>Semana 6</strong>, o trabalho desta semana é <em>planejar e
+                do formulário via <strong>Form Validation</strong> — mas como as coleções ainda
+                serão criadas na <strong>Semana 6</strong>, o trabalho desta semana é <em>planejar e
                     documentar</em> as validações de cada campo, para que a implementação seja feita
-                diretamente com os widgets já vinculados às tabelas reais.</p>
+                diretamente com os widgets já vinculados às coleções reais.</p>
 
             <h3>Tipos de Validação Comuns</h3>
             <table class='content-table'>
@@ -300,7 +297,7 @@ CREATE TABLE transacoes (
                     </tr>
                     <tr>
                         <td>Categoria</td>
-                        <td>DropDown (vinculado à tabela <code>categorias</code>)</td>
+                        <td>DropDown (vinculado à coleção <code>categorias</code>)</td>
                         <td>Obrigatório (seleção não pode ser vazia)</td>
                         <td>"Selecione uma categoria"</td>
                     </tr>
@@ -314,11 +311,11 @@ CREATE TABLE transacoes (
                                 class="icon-img" alt="Dica"><strong>Implementação na Semana 6</strong></div>
                         <div>
                             <p>As validações serão implementadas no FlutterFlow na
-                                <strong>Semana 6</strong>, quando o banco de dados já estará criado
-                                no Supabase e conectado ao projeto. Dessa forma, os widgets TextField
-                                e DropDown serão configurados <em>já vinculados às tabelas reais</em>
+                                <strong>Semana 6</strong>, quando as coleções já estarão criadas
+                                no Firebase e conectadas ao projeto. Dessa forma, os widgets TextField
+                                e DropDown serão configurados <em>já vinculados às coleções reais</em>
                                 — por exemplo, o campo Categoria já exibirá as opções carregadas
-                                diretamente da tabela <code>categorias</code> do Supabase, sem
+                                diretamente da coleção <code>categorias</code> do Firestore, sem
                                 necessidade de reconfiguração posterior.
                             </p>
                         </div>
@@ -332,10 +329,10 @@ CREATE TABLE transacoes (
                         <div id="warn-s5" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
-                            <p>Nunca confie somente na validação do frontend. A validação no banco de dados
-                                (constraints como <code>NOT NULL</code> e <code>CHECK</code>) é essencial como
-                                segunda camada de proteção. As <strong>regras RLS do Supabase</strong> (Row Level
-                                Security) também protegem os dados no backend.</p>
+                            <p>Nunca confie somente na validação do frontend. As <strong>Firestore Security
+                                    Rules</strong> (regras de segurança do Firestore) são a segunda camada de
+                                proteção — elas definem quem pode ler e escrever em cada coleção
+                                diretamente no servidor, independente do que o app enviar.</p>
                         </div>
                     </td>
                 </tr>
@@ -343,43 +340,98 @@ CREATE TABLE transacoes (
         </section>
 
         <section id='sec5-4'>
-            <h2>5.4 Script SQL Completo do FinanCampus</h2>
-            <p>Abaixo está o <strong>script SQL completo</strong> para criar todas as tabelas do
-                FinanCampus. Você pode copiar e colar diretamente no <strong>SQL Editor do
-                    Supabase</strong> na Semana 6 — ou usar como referência para gerar o seu
-                próprio script a partir do brModelo.</p>
+            <h2>5.4 Estrutura Completa das Coleções do FinanCampus</h2>
+            <p>Abaixo está a <strong>documentação completa</strong> das coleções do
+                FinanCampus. Essa estrutura será usada como referência na <strong>Semana 6</strong>
+                para criar as coleções no Firebase via FlutterFlow.</p>
 
-            <figure class='listing'>
-                <figcaption class='listing-title'><strong>Código 5.1 - </strong>Script SQL completo
-                    para criação das tabelas do FinanCampus</figcaption>
-                <pre class='code'>
--- =============================================
--- Script SQL — FinanCampus
--- Gere seu próprio script no brModelo Web
--- (Exportar → SQL) ou use este como referência.
--- =============================================
+            <table class='content-table'>
+                <caption><strong>Tabela 5.4 - </strong>Estrutura da coleção <code>categorias</code></caption>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Tipo Firestore</th>
+                        <th>Obrigatório</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>nome</td>
+                        <td>String</td>
+                        <td>Sim</td>
+                        <td>Nome da categoria</td>
+                    </tr>
+                    <tr>
+                        <td>icone</td>
+                        <td>String</td>
+                        <td>Não</td>
+                        <td>Nome do ícone Material</td>
+                    </tr>
+                    <tr>
+                        <td>cor</td>
+                        <td>String</td>
+                        <td>Não</td>
+                        <td>Cor em hexadecimal (ex.: #FF6B6B)</td>
+                    </tr>
+                </tbody>
+            </table>
 
--- 1) Categorias (tabela auxiliar, sem FK)
-CREATE TABLE categorias (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    nome TEXT NOT NULL,
-    icone TEXT,
-    cor TEXT
-);
-
--- Tabela de Transações (Renda e Despesa)
-CREATE TABLE transacoes (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    tipo TEXT NOT NULL CHECK (tipo IN ('Renda', 'Despesa')),
-    descricao TEXT,
-    valor NUMERIC(10,2) NOT NULL,
-    data DATE NOT NULL DEFAULT CURRENT_DATE,
-    categoria_id UUID REFERENCES categorias(id),
-    usuario_id UUID REFERENCES auth.users(id) NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT now()
-);
-                </pre>
-            </figure>
+            <table class='content-table'>
+                <caption><strong>Tabela 5.5 - </strong>Estrutura da coleção <code>transacoes</code></caption>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Tipo Firestore</th>
+                        <th>Obrigatório</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>tipo</td>
+                        <td>String</td>
+                        <td>Sim</td>
+                        <td>'Renda' ou 'Despesa'</td>
+                    </tr>
+                    <tr>
+                        <td>descricao</td>
+                        <td>String</td>
+                        <td>Não</td>
+                        <td>Descrição da transação</td>
+                    </tr>
+                    <tr>
+                        <td>valor</td>
+                        <td>double</td>
+                        <td>Sim</td>
+                        <td>Valor monetário</td>
+                    </tr>
+                    <tr>
+                        <td>data</td>
+                        <td>Timestamp</td>
+                        <td>Sim</td>
+                        <td>Data da transação</td>
+                    </tr>
+                    <tr>
+                        <td>usuario_uid</td>
+                        <td>String</td>
+                        <td>Sim</td>
+                        <td>UID do Firebase Auth</td>
+                    </tr>
+                    <tr>
+                        <td>categoria_ref</td>
+                        <td>Document Reference</td>
+                        <td>Não</td>
+                        <td>Referência à coleção categorias</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>Timestamp</td>
+                        <td>Sim</td>
+                        <td>Data de criação (automático)</td>
+                    </tr>
+                </tbody>
+            </table>
 
             <table class="box-table tip-table">
                 <tr>
@@ -387,31 +439,32 @@ CREATE TABLE transacoes (
                         <div id="tip-s5-authusers" class="box-title"><img src="../images/icon-definicao.png"
                                 class="icon-img" alt="Definição"><strong>Onde ficam os dados do usuário?</strong></div>
                         <div>
-                            <p>O Supabase Auth gerencia automaticamente os dados de login
-                                (e-mail, senha, UID) na tabela interna <code>auth.users</code>.
-                                <strong>Você não precisa criar tabela de usuários</strong> —
-                                o campo <code>usuario_id UUID REFERENCES auth.users(id)</code>
-                                na tabela <code>transacoes</code> é a <strong>"ponte"</strong>
-                                entre o login e os dados do app.
+                            <p>O Firebase Authentication gerencia automaticamente os dados de login
+                                (e-mail, senha, UID). <strong>Você não precisa criar uma coleção de
+                                    usuários</strong> — o campo <code>usuario_uid</code> (String) na coleção
+                                <code>transacoes</code> armazena o UID do usuário logado, que é a
+                                <strong>"ponte"</strong> entre o login e os dados do app.
                             </p>
                             <p>Se no futuro precisar armazenar dados extras do usuário
-                                (foto de perfil, preferências), você pode criar uma tabela
-                                auxiliar — mas para o MVP isso não é necessário.</p>
+                                (foto de perfil, preferências), você pode criar uma coleção
+                                <code>usuarios</code> usando o UID como ID do documento — mas para
+                                o MVP isso não é necessário.
+                            </p>
                         </div>
                     </td>
                 </tr>
             </table>
 
             <p>A <strong>Figura 5.2</strong> apresenta o fluxo de dados entre o FlutterFlow
-                e o Supabase, mostrando como os formulários do app se traduzem em registros
-                nas tabelas do banco.</p>
+                e o Firestore, mostrando como os formulários do app se traduzem em documentos
+                nas coleções do banco.</p>
 
             <figure class='figure'>
-                <img src='../images/fig05_2_supabase_fluxo.png'
-                    alt='Diagrama de arquitetura mostrando o fluxo de dados entre FlutterFlow e Supabase'
+                <img src='../images/fig05_2_firebase_fluxo.png'
+                    alt='Diagrama de arquitetura mostrando o fluxo de dados entre FlutterFlow e Firestore'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
-                    Supabase: cada campo do formulário se traduz em uma coluna na tabela do banco.</figcaption>
+                    Firestore: cada campo do formulário se traduz em um campo no documento da coleção.</figcaption>
             </figure>
         </section>
 
@@ -425,28 +478,28 @@ CREATE TABLE transacoes (
                                 alt="Resumo"><strong>Resumo da Semana</strong></div>
                         <div>
                             <ul>
-                                <li><strong>Scripts SQL</strong> de todas as tabelas do projeto
-                                    (prontos para executar no Supabase na Semana 6).</li>
-                                <li><strong>Tabela de definição de campos</strong> (nome, tipo, obrigatório,
-                                    chave) para cada tabela do projeto.</li>
+                                <li><strong>Documentação das coleções</strong> do projeto com todos os
+                                    campos, tipos e referências (pronta para criar no Firebase na Semana 6).</li>
+                                <li><strong>Tabela de definição de campos</strong> (nome, tipo Firestore,
+                                    obrigatório, referência) para cada coleção do projeto.</li>
                                 <li><strong>Tabela de planejamento de validações</strong> para cada
                                     formulário do projeto (campo, tipo de widget, regra de validação
                                     e mensagem de erro). A implementação no FlutterFlow acontecerá
-                                    na Semana 6, quando o banco estiver conectado.</li>
+                                    na Semana 6, quando as coleções estiverem conectadas.</li>
                             </ul>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p>Na próxima semana (<strong>Semana 6</strong>), você criará o projeto no Supabase,
-                executará os scripts SQL preparados aqui, habilitará a autenticação e começará a
+            <p>Na próxima semana (<strong>Semana 6</strong>), você criará o projeto no Firebase,
+                configurará as coleções no FlutterFlow, habilitará a autenticação e começará a
                 implementar o CRUD conectado ao banco real.</p>
         </section>
 
         <section id='caso-sem5'>
             <h2>5.6 Estudo de Caso: FinanCampus</h2>
-            <p>Veja como o grupo do <strong>FinanCampus</strong> criou o banco de dados e as validações nesta semana.
+            <p>Veja como o grupo do <strong>FinanCampus</strong> documentou as coleções e as validações nesta semana.
             </p>
 
             <table class="box-table tip-table">
@@ -456,18 +509,18 @@ CREATE TABLE transacoes (
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 5</strong>
                         </div>
                         <div>
-                            <p><strong>Scripts SQL preparados (2 tabelas):</strong></p>
+                            <p><strong>Coleções documentadas (2 coleções):</strong></p>
                             <ul>
-                                <li><strong>categorias:</strong> id (UUID PK), nome (TEXT NOT NULL), icone (TEXT), cor
-                                    (TEXT)</li>
-                                <li><strong>transacoes:</strong> id (UUID PK), <strong>tipo</strong> (TEXT NOT NULL:
+                                <li><strong>categorias:</strong> nome (String, obrigatório), icone (String), cor
+                                    (String)</li>
+                                <li><strong>transacoes:</strong> <strong>tipo</strong> (String, obrigatório:
                                     'Renda' ou 'Despesa'),
-                                    descricao (TEXT), valor (NUMERIC NOT NULL), data (DATE NOT NULL),
-                                    usuario_id (UUID FK → auth.users), categoria_id (UUID FK → categorias)</li>
+                                    descricao (String), valor (double, obrigatório), data (Timestamp, obrigatório),
+                                    usuario_uid (String — UID do Firebase Auth), categoria_ref (Document Reference →
+                                    categorias)</li>
                             </ul>
-                            <p>Os scripts SQL estão prontos para serem executados no Supabase na
-                                <strong>Semana 6</strong>. As tabelas ainda <strong>não foram criadas
-                                    no banco</strong> — isso acontece na próxima etapa.
+                            <p>A documentação está pronta para ser usada como referência na
+                                <strong>Semana 6</strong> ao criar as coleções no Firebase via FlutterFlow.
                             </p>
                             <p><strong>Tabela de planejamento de validações (formulário "Nova Transação"):</strong></p>
                             <ul>
@@ -475,12 +528,12 @@ CREATE TABLE transacoes (
                                 <li>Campo "Valor": TextField numérico — obrigatório, maior que zero.</li>
                                 <li>Campo "Descrição": TextField texto — opcional.</li>
                                 <li>Campo "Data": DatePicker — obrigatório, sem datas futuras.</li>
-                                <li>Campo "Categoria": DropDown vinculado à tabela <code>categorias</code> —
+                                <li>Campo "Categoria": DropDown vinculado à coleção <code>categorias</code> —
                                     obrigatório.</li>
                             </ul>
                             <p>As validações serão implementadas no FlutterFlow na <strong>Semana 6</strong>,
-                                quando o banco já estará conectado e o DropDown de Categoria poderá
-                                ser vinculado diretamente à tabela <code>categorias</code> do Supabase.</p>
+                                quando as coleções já estarão conectadas e o DropDown de Categoria poderá
+                                ser vinculado diretamente à coleção <code>categorias</code> do Firestore.</p>
                         </div>
                     </td>
                 </tr>

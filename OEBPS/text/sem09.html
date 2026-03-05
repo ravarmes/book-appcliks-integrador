@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width,initial-scale=1' />
-    <title>Semana 9 — Segurança com RLS</title>
+    <title>Semana 9 — Segurança com Firestore Security Rules</title>
     <link rel='stylesheet' type='text/css' href='../css/style.css' />
 </head>
 
@@ -12,29 +12,31 @@
     <div class='container'>
 
         <header>
-            <h1 id='sem9'>SEMANA 9 – Segurança com RLS (Row Level Security)</h1>
-            <p class='lead'>Nesta semana, você irá ativar e configurar as políticas de segurança
-                (RLS) no banco de dados Supabase, garantindo que cada usuário acesse apenas os
+            <h1 id='sem9'>SEMANA 9 – Segurança com Firestore Security Rules</h1>
+            <p class='lead'>Nesta semana, você irá configurar as regras de segurança
+                (Security Rules) no Firestore, garantindo que cada usuário acesse apenas os
                 seus próprios dados — mesmo que tente acessar diretamente pela API.</p>
         </header>
         <hr />
 
-        <p>Na <strong>Semana 6</strong> você criou o projeto no Supabase, implementou a autenticação
-            e o CRUD. Naquela etapa, o RLS estava <strong>desabilitado</strong> para facilitar
-            os testes iniciais. Agora é o momento de <strong>ativar a segurança</strong>:
-            configurar políticas que garantam que cada usuário acesse apenas seus próprios dados.</p>
+        <p>Na <strong>Semana 6</strong> você criou o projeto no Firebase, implementou a autenticação
+            e o CRUD. Naquela etapa, as Security Rules estavam no <strong>modo de teste</strong>
+            (qualquer pessoa autenticada podia ler/escrever). Agora é o momento de <strong>configurar
+                a segurança real</strong>: definir regras que garantam que cada usuário acesse apenas
+            seus próprios dados.</p>
 
         <table class="box-table tip-table">
             <tr>
-                <td class="box-content tip" role="note" aria-labelledby="tip-s9-rls-why">
-                    <div id="tip-s9-rls-why" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                            alt="Dica"><strong>Por que ativar o RLS agora?</strong></div>
+                <td class="box-content tip" role="note" aria-labelledby="tip-s9-rules-why">
+                    <div id="tip-s9-rules-why" class="box-title"><img src="../images/icon-observacao.png"
+                            class="icon-img" alt="Dica"><strong>Por que configurar as Security Rules agora?</strong>
+                    </div>
                     <div>
-                        <p>Sem o RLS, qualquer usuário autenticado poderia, em teoria,
+                        <p>Sem regras de segurança adequadas, qualquer usuário autenticado poderia, em teoria,
                             <strong>ver e modificar os dados de todos os outros</strong> — basta conhecer
-                            a URL da API. O RLS é a camada de segurança que impede isso, filtrando
-                            automaticamente as linhas do banco com base no
-                            <code>auth.uid()</code> do usuário logado.
+                            o ID do documento. As Security Rules são a camada de segurança que impede isso,
+                            filtrando automaticamente as operações com base no
+                            <code>request.auth.uid</code> do usuário logado.
                         </p>
                     </div>
                 </td>
@@ -48,77 +50,77 @@
                             alt="Curiosidade"><strong>Você Sabia?</strong></div>
                     <div>
                         <ul>
-                            <li>O Supabase usa o <strong>PostgreSQL</strong>, o banco de dados relacional
-                                open source mais avançado do mundo, com mais de 35 anos de desenvolvimento.</li>
-                            <li>O RLS é um recurso <strong>nativo do PostgreSQL</strong> — não é uma
-                                camada inventada pelo Supabase. Isso significa que a segurança opera no
-                                nível mais baixo possível: dentro do próprio banco.</li>
-                            <li>Grandes empresas como Netflix e Spotify usam PostgreSQL com RLS para
-                                proteger dados de milhões de usuários.</li>
+                            <li>O Firebase Firestore é um banco de dados NoSQL do <strong>Google</strong>,
+                                usado por milhões de apps no mundo todo, incluindo apps de empresas como
+                                Alibaba, Duolingo e The New York Times.</li>
+                            <li>As Security Rules do Firestore são avaliadas <strong>no servidor</strong>,
+                                antes de qualquer leitura ou escrita — não dependem do código do app.
+                                Isso significa que mesmo que alguém tente burlar o app, as regras
+                                continuam protegendo os dados.</li>
+                            <li>O Firebase oferece um <strong>simulador de regras</strong> integrado
+                                no console, onde você pode testar se as regras funcionam antes de
+                                publicá-las.</li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte:
-                            PostgreSQL.org; Supabase Documentation.</p>
+                            Firebase Documentation — Security Rules.</p>
                     </div>
                 </td>
             </tr>
         </table>
 
         <section id='sec9-1'>
-            <h2>9.1 O que é RLS (Row Level Security)</h2>
+            <h2>9.1 O que são Firestore Security Rules</h2>
 
             <table class="box-table tip-table">
                 <tr>
-                    <td class="box-content tip" role="note" aria-labelledby="def-s9-rls">
-                        <div id="def-s9-rls" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
-                                alt="Definição"><strong>Definição</strong></div>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s9-rules">
+                        <div id="def-s9-rules" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Definição</strong></div>
                         <div>
-                            <p><strong>Row Level Security (RLS):</strong> mecanismo de segurança do PostgreSQL
-                                que permite controlar quais <strong>linhas</strong> cada usuário pode ler,
-                                inserir, atualizar ou excluir. No Supabase, as políticas RLS são definidas
-                                usando SQL ou o editor visual de políticas.</p>
+                            <p><strong>Firestore Security Rules:</strong> conjunto de regras declarativas
+                                que controlam quais <strong>documentos</strong> cada usuário pode ler,
+                                criar, atualizar ou excluir. As regras são escritas em uma linguagem própria
+                                do Firebase e publicadas diretamente no console ou via CLI.</p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p>A <strong>Figura 9.1</strong> ilustra como o RLS funciona na prática: o usuário
-                faz login (recebe um JWT com seu <code>auth.uid()</code>), e ao consultar o banco,
-                o PostgreSQL automaticamente filtra as linhas usando a condição definida na política
-                (<code>auth.uid() = usuario_id</code>).</p>
+            <p>A <strong>Figura 9.1</strong> ilustra como as Security Rules funcionam na prática: o usuário
+                faz login (recebe um token com seu <code>uid</code>), e ao consultar o Firestore,
+                o servidor automaticamente verifica a regra definida
+                (<code>request.auth.uid == resource.data.usuario_uid</code>) antes de permitir a operação.</p>
 
             <figure class='figure'>
-                <img src='../images/fig09_1_rls_auth.png'
-                    alt='Fluxo de autenticação JWT e funcionamento do RLS no Supabase' class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 9.1 — </strong>Fluxo de autenticação com JWT e
-                    filtragem automática de dados via RLS (<code>auth.uid() = usuario_id</code>).</figcaption>
+                <img src='../images/fig09_1_security_rules.png'
+                    alt='Fluxo de autenticação Firebase e funcionamento das Security Rules no Firestore'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 9.1 — </strong>Fluxo de autenticação Firebase e
+                    filtragem automática de dados via Security Rules
+                    (<code>request.auth.uid == resource.data.usuario_uid</code>).</figcaption>
             </figure>
         </section>
 
         <section id='sec9-2'>
-            <h2>9.2 Ativando o RLS nas Tabelas</h2>
+            <h2>9.2 Configurando as Security Rules</h2>
             <ol>
-                <li>No painel do Supabase, acesse <strong>Table Editor → [nome da tabela]</strong>.</li>
-                <li>Clique em <strong>RLS disabled → Enable RLS</strong>.</li>
-                <li>Acesse <strong>Authentication → Policies → New Policy</strong>.</li>
-                <li>Crie políticas para SELECT, INSERT, UPDATE e DELETE usando
-                    <code>auth.uid() = usuario_id</code> como condição.
-                </li>
-                <li>Repita para <strong>todas as tabelas</strong> que contêm dados pessoais dos
-                    usuários (<code>transacoes</code>).</li>
+                <li>No <a href="https://console.firebase.google.com" target="_blank">console do Firebase</a>,
+                    acesse <strong>Firestore Database → Rules</strong> (aba Regras).</li>
+                <li>Substitua as regras de teste pelas regras de produção (veja o exemplo abaixo).</li>
+                <li>Clique em <strong>Publish</strong> (Publicar) para ativar as novas regras.</li>
             </ol>
 
             <table class="box-table tip-table">
                 <tr>
                     <td class="box-content tip" role="note" aria-labelledby="tip-s9-categorias">
                         <div id="tip-s9-categorias" class="box-title"><img src="../images/icon-observacao.png"
-                                class="icon-img" alt="Dica"><strong>E a tabela de categorias?</strong></div>
+                                class="icon-img" alt="Dica"><strong>E a coleção de categorias?</strong></div>
                         <div>
-                            <p>A tabela <code>categorias</code> é uma tabela auxiliar compartilhada por
-                                todos os usuários (não tem <code>usuario_id</code>). Configure-a com uma
-                                política de <strong>SELECT público</strong> (todos podem ler) e
-                                <strong>INSERT/UPDATE/DELETE restrito</strong> ao service role — assim
-                                somente o administrador pode alterar as categorias.
-                            </p>
+                            <p>A coleção <code>categorias</code> é uma coleção auxiliar compartilhada por
+                                todos os usuários (não tem <code>usuario_uid</code>). Configure-a com
+                                regra de <strong>leitura pública</strong> (todos podem ler as categorias)
+                                e <strong>escrita restrita</strong> — assim somente administradores
+                                autorizados podem alterar as categorias.</p>
                         </div>
                     </td>
                 </tr>
@@ -126,51 +128,78 @@
         </section>
 
         <section id='sec9-3'>
-            <h2>9.3 Exemplo de Políticas RLS (SQL Completo)</h2>
-            <p>Veja abaixo o SQL para criar as políticas RLS completas na tabela
-                <code>transacoes</code>. O mesmo padrão pode ser aplicado a outras tabelas
-                que armazenem dados por usuário no futuro.
+            <h2>9.3 Exemplo de Security Rules (Código Completo)</h2>
+            <p>Veja abaixo as regras de segurança completas para as coleções do FinanCampus.
+                O mesmo padrão pode ser aplicado a outras coleções que armazenem dados por usuário.
             </p>
 
             <figure class='listing'>
-                <figcaption class='listing-title'><strong>Código 9.1 - </strong>Políticas RLS completas
-                    para a tabela transacoes</figcaption>
+                <figcaption class='listing-title'><strong>Código 9.1 - </strong>Security Rules completas
+                    para o Firestore (FinanCampus)</figcaption>
                 <pre class='code'>
--- Habilitar RLS na tabela
-ALTER TABLE transacoes ENABLE ROW LEVEL SECURITY;
+rules_version = '2';
 
--- Política: usuário só vê suas próprias transações
-CREATE POLICY "Usuários veem suas transações"
-  ON transacoes FOR SELECT
-  USING (auth.uid() = usuario_id);
+service cloud.firestore {
+  match /databases/{database}/documents {
 
--- Política: usuário só insere transações suas
-CREATE POLICY "Usuários inserem suas transações"
-  ON transacoes FOR INSERT
-  WITH CHECK (auth.uid() = usuario_id);
+    // Coleção: categorias
+    // Qualquer usuário autenticado pode ler
+    // Apenas admin pode criar/editar/excluir
+    match /categorias/{categoriaId} {
+      allow read: if request.auth != null;
+      allow write: if false; // restrito a admin (via console)
+    }
 
--- Política: usuário só atualiza suas transações
-CREATE POLICY "Usuários atualizam suas transações"
-  ON transacoes FOR UPDATE
-  USING (auth.uid() = usuario_id);
+    // Coleção: transacoes
+    // Usuário só acessa suas próprias transações
+    match /transacoes/{transacaoId} {
+      // Leitura: somente o dono da transação
+      allow read: if request.auth != null
+                  && request.auth.uid == resource.data.usuario_uid;
 
--- Política: usuário só exclui suas transações
-CREATE POLICY "Usuários excluem suas transações"
-  ON transacoes FOR DELETE
-  USING (auth.uid() = usuario_id);
+      // Criação: usuário autenticado, campo usuario_uid deve ser o uid do autor
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.usuario_uid;
+
+      // Atualização: somente o dono, e não pode alterar o usuario_uid
+      allow update: if request.auth != null
+                    && request.auth.uid == resource.data.usuario_uid
+                    && request.resource.data.usuario_uid == resource.data.usuario_uid;
+
+      // Exclusão: somente o dono
+      allow delete: if request.auth != null
+                    && request.auth.uid == resource.data.usuario_uid;
+    }
+  }
+}
                 </pre>
             </figure>
 
             <table class="box-table warning-table">
                 <tr>
-                    <td class="box-content warning" role="note" aria-labelledby="warn-s9-rls">
-                        <div id="warn-s9-rls" class="box-title"><img src="../images/icon-importante.png"
+                    <td class="box-content warning" role="note" aria-labelledby="warn-s9-rules">
+                        <div id="warn-s9-rules" class="box-title"><img src="../images/icon-importante.png"
                                 class="icon-img" alt="Importante"><strong>Importante</strong></div>
                         <div>
-                            <p>Após ativar o RLS, <strong>toda consulta sem token JWT válido retornará
-                                    zero resultados</strong>. Isso é o comportamento esperado e correto.
-                                Certifique-se de que o login está funcionando (Semana 6) antes de ativar
-                                o RLS.</p>
+                            <p>Após publicar as Security Rules, <strong>qualquer consulta sem token
+                                    de autenticação válido será bloqueada</strong>. Isso é o comportamento
+                                esperado e correto. Certifique-se de que o login está funcionando (Semana 6)
+                                antes de publicar as regras de segurança.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s9-simulator">
+                        <div id="tip-s9-simulator" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Dica: Simulador de Regras</strong></div>
+                        <div>
+                            <p>O Firebase console possui um <strong>Rules Playground</strong> integrado
+                                (botão ao lado do editor de regras). Use-o para simular operações de
+                                leitura e escrita com diferentes UIDs e verificar se as regras estão
+                                bloqueando ou permitindo corretamente cada cenário.</p>
                         </div>
                     </td>
                 </tr>
@@ -179,15 +208,16 @@ CREATE POLICY "Usuários excluem suas transações"
 
         <section id='sec9-4'>
             <h2>9.4 Testando a Segurança</h2>
-            <p>Para validar que o RLS está funcionando corretamente:</p>
+            <p>Para validar que as Security Rules estão funcionando corretamente:</p>
             <ol>
                 <li>Crie <strong>dois usuários diferentes</strong> no app (e-mails distintos).</li>
                 <li>Com o <strong>Usuário A</strong>, crie uma transação qualquer.</li>
                 <li>Faça logout e faça login com o <strong>Usuário B</strong>.</li>
                 <li>Verifique que a transação do Usuário A <strong>não aparece</strong> na listagem
-                    do Usuário B — se não aparece, o RLS está funcionando!</li>
-                <li>Tente editar ou excluir a transação do Usuário A diretamente pela API
-                    (usando a URL do Supabase) — a operação deve ser <strong>bloqueada</strong>.</li>
+                    do Usuário B — se não aparece, as regras estão funcionando!</li>
+                <li>No console do Firebase, use o <strong>Rules Playground</strong> para tentar
+                    acessar a transação do Usuário A com o UID do Usuário B — a operação deve
+                    ser <strong>bloqueada</strong>.</li>
             </ol>
         </section>
 
@@ -201,25 +231,25 @@ CREATE POLICY "Usuários excluem suas transações"
                                 alt="Resumo"><strong>Resumo da Semana</strong></div>
                         <div>
                             <ul>
-                                <li><strong>Políticas RLS configuradas</strong> para todas as tabelas com
+                                <li><strong>Security Rules configuradas</strong> para todas as coleções com
                                     dados de usuários.</li>
                                 <li><strong>Teste de isolamento</strong> realizado com dois usuários
                                     (comprovando que cada um vê apenas seus dados).</li>
-                                <li><strong>Screenshot</strong> do painel do Supabase mostrando as
-                                    políticas RLS ativas nas tabelas.</li>
+                                <li><strong>Screenshot</strong> do console do Firebase mostrando as
+                                    Security Rules publicadas.</li>
                             </ul>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p>Na próxima semana, você irá realizar os testes de integração completos do app,
-                explorar o Realtime do Supabase e integrar APIs externas ao seu projeto.</p>
+            <p>Na próxima semana, você irá realizar os testes de integração completos do app
+                e integrar APIs externas ao seu projeto.</p>
         </section>
 
         <section id='caso-sem9'>
             <h2>9.6 Estudo de Caso: FinanCampus</h2>
-            <p>Veja como o grupo do <strong>FinanCampus</strong> configurou o RLS nesta semana.</p>
+            <p>Veja como o grupo do <strong>FinanCampus</strong> configurou as Security Rules nesta semana.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -228,18 +258,18 @@ CREATE POLICY "Usuários excluem suas transações"
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 9</strong>
                         </div>
                         <div>
-                            <p><strong>RLS ativado em todas as tabelas:</strong></p>
+                            <p><strong>Security Rules configuradas em todas as coleções:</strong></p>
                             <ul>
-                                <li><code>transacoes</code>: políticas SELECT, INSERT, UPDATE e DELETE
-                                    com condição <code>auth.uid() = usuario_id</code>.</li>
-                                <li><code>categorias</code>: SELECT público (todos leem as categorias
-                                    pré-definidas); INSERT restrito a service role.</li>
+                                <li><code>transacoes</code>: regras de read, create, update e delete
+                                    com condição <code>request.auth.uid == resource.data.usuario_uid</code>.</li>
+                                <li><code>categorias</code>: leitura pública (todos leem as categorias
+                                    pré-definidas); escrita restrita ao console.</li>
                             </ul>
                             <p><strong>Teste de isolamento:</strong> criaram dois usuários
                                 (aluno1@teste.com e aluno2@teste.com). Cada um inseriu 3 transações.
-                                Ao alternar entre as contas, a listagem exibiu apenas as despesas do
-                                usuário logado ✅. Tentativa de acesso direto via API resultou em
-                                resposta vazia ✅.</p>
+                                Ao alternar entre as contas, a listagem exibiu apenas as transações do
+                                usuário logado ✅. Tentativa de acesso via Rules Playground com UID
+                                diferente resultou em operação bloqueada ✅.</p>
                         </div>
                     </td>
                 </tr>

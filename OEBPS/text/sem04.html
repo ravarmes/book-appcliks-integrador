@@ -13,8 +13,9 @@
 
         <header>
             <h1 id='sem4'>SEMANA 4 – Lógica Condicional e Modelagem de Dados</h1>
-            <p class='lead'>Nesta semana, você aprenderá a modelar o banco de dados do seu projeto,
-                criando o Diagrama Entidade-Relacionamento (DER) e o Modelo Entidade-Relacionamento (MER).</p>
+            <p class='lead'>Nesta semana, você aprenderá a modelar os dados do seu projeto,
+                definindo as coleções (collections) e os campos (fields) que serão criados
+                diretamente no Firebase — o banco de dados em nuvem integrado ao FlutterFlow.</p>
         </header>
         <hr />
 
@@ -34,11 +35,12 @@
                                 de dados.</li>
                             <li>Um banco de dados bem modelado pode ser até <strong>10x mais eficiente</strong>
                                 em consultas do que um banco não normalizado.</li>
-                            <li>O Supabase (usado neste projeto) utiliza <strong>PostgreSQL</strong>, um dos
-                                bancos de dados relacionais mais robustos e usados no mundo.</li>
+                            <li>O Firebase (usado neste projeto) utiliza o <strong>Firestore</strong>, um banco
+                                de dados NoSQL baseado em documentos — cada registro é um documento JSON
+                                armazenado dentro de uma coleção (collection).</li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Chen,
-                            P. (1976). The Entity-Relationship Model.</p>
+                            P. (1976). The Entity-Relationship Model; Firebase Documentation.</p>
                     </div>
                 </td>
             </tr>
@@ -55,7 +57,8 @@
                         <div>
                             <p><strong>Entidade:</strong> representa um objeto do mundo real sobre o qual queremos
                                 armazenar informações. Exemplos: <em>Transação</em>,
-                                <em>Categoria</em>. Em um banco de dados, cada entidade vira uma tabela.
+                                <em>Categoria</em>. No Firestore, cada entidade vira uma <strong>coleção
+                                (collection)</strong>, e cada registro vira um <strong>documento</strong>.
                             </p>
                         </div>
                     </td>
@@ -73,28 +76,28 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Entidade</strong></td>
-                        <td>Objeto ou conceito do mundo real</td>
-                        <td>Usuário, Categoria, Transação</td>
+                        <td><strong>Entidade / Coleção</strong></td>
+                        <td>Objeto ou conceito do mundo real (no Firestore, uma collection)</td>
+                        <td>usuarios, categorias, transacoes</td>
                     </tr>
                     <tr>
-                        <td><strong>Atributo</strong></td>
-                        <td>Propriedade/característica de uma entidade</td>
+                        <td><strong>Atributo / Campo</strong></td>
+                        <td>Propriedade/característica de uma entidade (no Firestore, um field do documento)</td>
                         <td>nome, e-mail, data_nascimento</td>
                     </tr>
                     <tr>
-                        <td><strong>Chave Primária (PK)</strong></td>
-                        <td>Atributo que identifica unicamente cada registro</td>
-                        <td>id (gerado automaticamente)</td>
+                        <td><strong>Documento</strong></td>
+                        <td>Registro individual dentro de uma coleção (equivale a uma "linha" em bancos relacionais)</td>
+                        <td>um documento na coleção transacoes</td>
                     </tr>
                     <tr>
-                        <td><strong>Chave Estrangeira (FK)</strong></td>
-                        <td>Atributo que referencia a PK de outra tabela</td>
-                        <td>usuario_id em Transação</td>
+                        <td><strong>Referência</strong></td>
+                        <td>Campo que armazena o ID de um documento de outra coleção (equivale à chave estrangeira)</td>
+                        <td>categoria_ref em transacoes</td>
                     </tr>
                     <tr>
                         <td><strong>Relacionamento</strong></td>
-                        <td>Associação entre duas entidades</td>
+                        <td>Associação entre duas coleções via referência</td>
                         <td>Usuário <em>possui</em> Transações</td>
                     </tr>
                 </tbody>
@@ -138,12 +141,14 @@
                 <tr>
                     <td class="box-content tip" role="note" aria-labelledby="tip-s4-nm">
                         <div id="tip-s4-nm" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                                alt="Dica"><strong>Dica: Relacionamento N:M</strong></div>
+                                alt="Dica"><strong>Dica: Relacionamento N:M no Firestore</strong></div>
                         <div>
-                            <p>Relacionamentos muitos-para-muitos (N:M) são implementados com uma
-                                <strong>tabela intermediária (tabela associativa)</strong>. Por exemplo,
-                                a relação entre <em>Produto</em> e <em>Pedido</em> gera a tabela
-                                <em>ItemPedido</em> com as chaves estrangeiras de ambos.
+                            <p>No Firestore, não existem JOINs automáticos como em bancos SQL. Para
+                                relacionamentos muitos-para-muitos (N:M), usamos um <strong>array de
+                                referências</strong> dentro do documento ou uma <strong>subcoleção</strong>.
+                                Por exemplo, um documento de <em>Produto</em> pode ter um campo
+                                <code>categorias</code> (array de Document References) apontando para
+                                a coleção <em>categorias</em>.
                             </p>
                         </div>
                     </td>
@@ -152,61 +157,49 @@
         </section>
 
         <section id='sec4-3'>
-            <h2>4.3 Criando o DER do Projeto</h2>
-            <p>O <strong>Diagrama Entidade-Relacionamento (DER)</strong> é a representação visual do modelo
-                conceitual do banco de dados. Ele mostra as entidades, seus atributos e os relacionamentos
-                entre elas.</p>
+            <h2>4.3 Planejando as Coleções do Projeto</h2>
+            <p>Com o Firebase/Firestore, não é necessário usar uma ferramenta externa de modelagem como
+                brModelo ou MySQL Workbench. As coleções (<em>collections</em>) e seus campos (<em>fields</em>)
+                serão criados <strong>diretamente no FlutterFlow</strong> quando configurarmos a integração
+                com o Firebase na <strong>Semana 6</strong>. Porém, é essencial <strong>planejar a estrutura
+                antes</strong> — definindo quais coleções existirão, quais campos cada uma terá e como
+                elas se relacionam.</p>
 
-            <h3>Passo a Passo para criar o DER</h3>
+            <h3>Passo a Passo para planejar as coleções</h3>
             <ol>
                 <li>Liste todas as <strong>entidades</strong> identificadas nos seus requisitos funcionais.</li>
-                <li>Para cada entidade, defina seus <strong>atributos</strong> (nome, tipo, obrigatório?).</li>
-                <li>Identifique os <strong>relacionamentos</strong> entre as entidades.</li>
+                <li>Para cada entidade, defina seus <strong>campos</strong> (nome, tipo de dado, obrigatório?).</li>
+                <li>Identifique os <strong>relacionamentos</strong> entre as coleções.</li>
                 <li>Defina a <strong>cardinalidade</strong> de cada relacionamento.</li>
-                <li>Identifique as <strong>chaves primárias</strong> de cada entidade.</li>
-                <li>Desenhe o diagrama usando uma ferramenta adequada.</li>
+                <li>Decida como implementar os relacionamentos: <strong>Document Reference</strong>
+                    (campo de referência) ou <strong>subcoleção</strong>.</li>
+                <li>Documente tudo em uma tabela ou diagrama simples.</li>
             </ol>
 
-            <h3>Ferramentas para criar o DER</h3>
-            <table class='content-table'>
-                <caption><strong>Tabela 4.3 - </strong>Ferramentas recomendadas para modelagem de dados.</caption>
-                <thead>
-                    <tr>
-                        <th>Ferramenta</th>
-                        <th>Acesso</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>brModelo Web</strong></td>
-                        <td>Online, gratuito — <a href="https://www.brmodeloweb.com/lang/pt-br/index.html"
-                                target="_blank">brmodeloweb.com</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>draw.io (diagrams.net)</strong></td>
-                        <td>Online, gratuito — app.diagrams.net</td>
-                    </tr>
-                    <tr>
-                        <td><strong>dbdiagram.io</strong></td>
-                        <td>Online, gratuito — dbdiagram.io</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Lucidchart</strong></td>
-                        <td>Online, gratuito (plano educação)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>MySQL Workbench</strong></td>
-                        <td>Desktop, gratuito</td>
-                    </tr>
-                </tbody>
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s4-nobrmodelo">
+                        <div id="tip-s4-nobrmodelo" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Dica"><strong>Por que não usar brModelo?</strong></div>
+                        <div>
+                            <p>O brModelo é uma ferramenta de modelagem para bancos <strong>relacionais
+                                (SQL)</strong>. Como o Firestore é um banco <strong>NoSQL baseado em
+                                documentos</strong>, a modelagem é diferente: não existem tabelas com
+                                colunas fixas, chaves estrangeiras formais ou JOINs. Em vez disso,
+                                as coleções e campos são criados diretamente no ambiente do FlutterFlow
+                                (via integração Firebase), tornando o processo mais visual e prático.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
             </table>
 
-            <h3>Exemplo: DER de um App Financeiro</h3>
-            <p>Para o app <em>FinanCampus</em>, as entidades e relacionamentos seriam:</p>
+            <h3>Exemplo: Coleções do App Financeiro</h3>
+            <p>Para o app <em>FinanCampus</em>, as coleções e relacionamentos seriam:</p>
             <ul>
-                <li><strong>Categoria</strong> (id, nome, icone, cor) — 1 categoria classifica N transações</li>
-                <li><strong>Transação</strong> (id, <strong>tipo</strong>, descricao, valor, data, usuario_id FK,
-                    categoria_id FK) — cada registro é uma renda ou uma despesa</li>
+                <li><strong>categorias</strong> (nome, icone, cor) — 1 categoria classifica N transações</li>
+                <li><strong>transacoes</strong> (<strong>tipo</strong>, descricao, valor, data, usuario_uid,
+                    categoria_ref) — cada documento é uma renda ou uma despesa</li>
             </ul>
 
             <table class="box-table tip-table">
@@ -215,15 +208,18 @@
                         <div id="tip-s4-auth" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
                                 alt="Definição"><strong>Onde ficam os dados do usuário?</strong></div>
                         <div>
-                            <p>O Supabase Auth gerencia automaticamente os dados de login
-                                (e-mail, senha, UID) na tabela interna <code>auth.users</code>.
-                                Essa tabela <strong>não é criada por você</strong> — ela já existe
-                                no Supabase. O campo <code>usuario_id</code> na tabela
-                                <code>transacoes</code> referencia o <code>auth.users(id)</code>
-                                para vincular cada transação ao usuário logado.
+                            <p>O <strong>Firebase Authentication</strong> gerencia automaticamente os dados de
+                                login (e-mail, senha, UID). Quando um usuário se cadastra, o Firebase cria
+                                um registro interno com um <strong>UID</strong> (User ID) único.
+                                O campo <code>usuario_uid</code> na coleção
+                                <code>transacoes</code> armazena esse UID para vincular cada transação
+                                ao usuário logado.
                             </p>
-                            <p>Por isso, <strong>não criamos uma tabela de usuários</strong>
-                                no nosso modelo — o Supabase cuida disso.</p>
+                            <p>Por isso, <strong>não precisamos criar uma coleção de usuários</strong>
+                                no nosso modelo inicial — o Firebase Authentication cuida disso.
+                                Se no futuro precisar armazenar dados extras do usuário
+                                (foto de perfil, preferências), você pode criar uma coleção
+                                <code>usuarios</code> com o UID como ID do documento.</p>
                         </div>
                     </td>
                 </tr>
@@ -233,18 +229,18 @@
                 <tr>
                     <td class="box-content tip" role="note" aria-labelledby="tip-s4-tipo">
                         <div id="tip-s4-tipo" class="box-title"><img src="../images/icon-observacao.png"
-                                class="icon-img" alt="Dica"><strong>Por que usar "tipo" em vez de tabelas
+                                class="icon-img" alt="Dica"><strong>Por que usar "tipo" em vez de coleções
                                 separadas?</strong></div>
                         <div>
-                            <p>Em vez de criar duas tabelas quase idênticas (<em>despesas</em>
-                                e <em>receitas</em>), usamos uma <strong>tabela única</strong>
+                            <p>Em vez de criar duas coleções quase idênticas (<em>despesas</em>
+                                e <em>receitas</em>), usamos uma <strong>coleção única</strong>
                                 <code>transacoes</code> com o campo <code>tipo</code>
                                 (<em>'Renda'</em> ou <em>'Despesa'</em>). Vantagens:
                             </p>
                             <ul>
-                                <li>Menos tabelas para gerenciar e manter</li>
+                                <li>Menos coleções para gerenciar e manter</li>
                                 <li>CRUD único (mesma tela serve para renda e despesa)</li>
-                                <li>Filtros simples: <code>WHERE tipo = 'Despesa'</code></li>
+                                <li>Filtros simples: <code>where tipo == 'Despesa'</code></li>
                                 <li>Alinhado com templates profissionais do FlutterFlow</li>
                             </ul>
                         </div>
@@ -252,15 +248,15 @@
                 </tr>
             </table>
 
-            <p>A <strong>Figura 4.1</strong> apresenta o DER completo do app FinanCampus, com as entidades,
-                seus atributos e os relacionamentos de cardinalidade entre elas.</p>
+            <p>A <strong>Figura 4.1</strong> apresenta a estrutura de coleções do app FinanCampus, com as
+                entidades, seus campos e os relacionamentos entre elas.</p>
 
             <figure class='figure'>
                 <img src='../images/fig04_1_der.png'
-                    alt='Diagrama Entidade-Relacionamento do app FinanCampus com 2 tabelas e auth.users'
+                    alt='Diagrama de coleções do app FinanCampus com 2 coleções e Firebase Auth'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 4.1 — </strong>Diagrama Entidade-Relacionamento (DER)
-                    do app FinanCampus. A entidade <em>auth.users</em> é gerenciada pelo Supabase.</figcaption>
+                <figcaption class='figure-caption'><strong>Figura 4.1 — </strong>Estrutura de coleções
+                    do app FinanCampus. A autenticação de usuários é gerenciada pelo Firebase Authentication.</figcaption>
             </figure>
 
             <table class="box-table warning-table">
@@ -269,31 +265,32 @@
                         <div id="warn-s4" class="box-title"><img src="../images/icon-importante.png" class="icon-img"
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
-                            <p>Nomeie as entidades e atributos em <strong>letras minúsculas e sem acentos</strong>,
+                            <p>Nomeie as coleções e campos em <strong>letras minúsculas e sem acentos</strong>,
                                 usando underscores para separar palavras (<em>snake_case</em>). Por exemplo:
-                                <code>data_criacao</code>, <code>usuario_id</code>. Isso facilita a integração
-                                com o Supabase nas próximas semanas.
+                                <code>data_criacao</code>, <code>usuario_uid</code>. Isso facilita a integração
+                                com o Firebase nas próximas semanas.
                             </p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <h3>Por Que Separar os Dados em Tabelas? — Normalização</h3>
-            <p>Um dos objetivos do DER é garantir que os dados não se repitam desnecessariamente no banco.
-                Esse processo se chama <strong>normalização</strong>. Imagine uma tabela única que
-                armazenasse, em cada linha de transação, o nome e o e-mail do usuário e o nome da categoria.
+            <h3>Por Que Separar os Dados em Coleções? — Normalização</h3>
+            <p>Um dos objetivos da modelagem é garantir que os dados não se repitam desnecessariamente no banco.
+                Esse processo se chama <strong>normalização</strong>. Imagine uma coleção única que
+                armazenasse, em cada documento de transação, o nome e o e-mail do usuário e o nome da categoria.
                 Se a categoria "Alimentação" for renomeada para "Comida", você teria que atualizar centenas
-                de linhas. Ao separá-la em uma tabela própria, basta alterar uma única linha.</p>
-            <p>A <strong>Figura 4.2</strong> compara um design sem normalização ("tabela plana") com o
-                design normalizado equivalente, mostrando como as chaves estrangeiras eliminam a redundância.</p>
+                de documentos. Ao separá-la em uma coleção própria e usar uma referência, basta alterar um
+                único documento.</p>
+            <p>A <strong>Figura 4.2</strong> compara um design sem normalização ("coleção plana") com o
+                design normalizado equivalente, mostrando como as referências eliminam a redundância.</p>
 
             <figure class='figure'>
                 <img src='../images/fig04_2_normalizacao.png'
-                    alt='Comparação entre tabela sem normalização com dados repetidos e tabela normalizada com três entidades separadas'
+                    alt='Comparação entre coleção sem normalização com dados repetidos e coleções normalizadas separadas'
                     class='figure-img' />
                 <figcaption class='figure-caption'><strong>Figura 4.2 — </strong>Antes e depois da normalização: separar
-                    dados em tabelas elimina redundância e facilita manutenção.</figcaption>
+                    dados em coleções elimina redundância e facilita manutenção.</figcaption>
             </figure>
         </section>
 
@@ -307,13 +304,13 @@
                                 alt="Resumo"><strong>Resumo da Semana</strong></div>
                         <div>
                             <ul>
-                                <li><strong>DER completo</strong> do projeto com todas as entidades e
-                                    relacionamentos identificados.</li>
-                                <li><strong>Tabela de atributos</strong> de cada entidade (nome, tipo de dado,
-                                    obrigatório, chave primária/estrangeira).</li>
+                                <li><strong>Diagrama de coleções completo</strong> do projeto com todas as
+                                    entidades e relacionamentos identificados.</li>
+                                <li><strong>Tabela de campos</strong> de cada coleção (nome, tipo de dado,
+                                    obrigatório, referência a outra coleção).</li>
                                 <li><strong>Justificativa</strong> breve dos relacionamentos escolhidos
                                     (por que 1:N? por que N:M?).</li>
-                                <li><strong>Distribuição de CRUDs por integrante:</strong> com base no DER
+                                <li><strong>Distribuição de CRUDs por integrante:</strong> com base no modelo
                                     finalizado, cada membro do grupo define qual entidade irá implementar
                                     completamente — do banco de dados até as telas de listagem, criação,
                                     edição e exclusão — nas semanas seguintes.</li>
@@ -323,8 +320,8 @@
                 </tr>
             </table>
 
-            <p>Na próxima semana, você irá criar o banco de dados local no FlutterFlow e definir as
-                tabelas e relacionamentos identificados neste modelo.</p>
+            <p>Na próxima semana, você irá detalhar os campos de cada coleção (tipos de dados, validações)
+                e preparar a documentação necessária para criar as coleções no Firebase na Semana 6.</p>
         </section>
 
         <section id='caso-sem4'>
@@ -338,26 +335,26 @@
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 4</strong>
                         </div>
                         <div>
-                            <p><strong>Entidades identificadas:</strong></p>
+                            <p><strong>Coleções identificadas:</strong></p>
                             <ul>
-                                <li><strong>auth.users</strong> (Supabase Auth) — gerenciado automaticamente
+                                <li><strong>Firebase Authentication</strong> — gerenciado automaticamente
                                     (e-mail, senha, UID)</li>
-                                <li><strong>Categoria</strong> (id, nome, icone, cor)</li>
-                                <li><strong>Transação</strong> (id, <strong>tipo</strong>, descricao, valor, data,
-                                    usuario_id FK, categoria_id FK, created_at)</li>
+                                <li><strong>categorias</strong> (nome, icone, cor)</li>
+                                <li><strong>transacoes</strong> (<strong>tipo</strong>, descricao, valor, data,
+                                    usuario_uid, categoria_ref, created_at)</li>
                             </ul>
                             <p><strong>Relacionamentos:</strong></p>
                             <ul>
-                                <li>1 <strong>auth.users</strong> possui N <strong>Transações</strong> (1:N)</li>
+                                <li>1 <strong>Usuário (UID)</strong> possui N <strong>Transações</strong> (1:N)</li>
                                 <li>1 <strong>Categoria</strong> classifica N <strong>Transações</strong> (1:N)</li>
                             </ul>
-                            <p><strong>Decisão do grupo:</strong> usar uma única tabela
+                            <p><strong>Decisão do grupo:</strong> usar uma única coleção
                                 <code>transacoes</code> com o campo <code>tipo</code>
                                 (<em>'Renda'</em> ou <em>'Despesa'</em>) em vez de criar
-                                tabelas separadas. O Dropdown de tipo no formulário permite
+                                coleções separadas. O Dropdown de tipo no formulário permite
                                 ao usuário escolher o tipo ao registrar.
                             </p>
-                            <p><strong>Distribuição dos CRUDs (definida nesta semana, após o DER):</strong></p>
+                            <p><strong>Distribuição dos CRUDs (definida nesta semana, após o modelo):</strong></p>
                             <ul>
                                 <li><strong>Ana</strong> → Tela de listagem de transações (com filtros)</li>
                                 <li><strong>Bruno</strong> → Formulário de nova transação / edição</li>
