@@ -204,6 +204,43 @@ service cloud.firestore {
                     </td>
                 </tr>
             </table>
+
+            <h3>Regras de Segurança Baseadas em Papéis (Role-Based Access Control)</h3>
+            <p>Em sistemas mais completos, algumas coleções ou funcionalidades não são liberadas para todos os usuários
+                autenticados, mas apenas para <strong>Administradores</strong>. Essa abordagem é chamada de
+                <strong>Role-Based Access Control (RBAC)</strong> ou Controle de Acesso Baseado em Papéis.
+            </p>
+            <p>No Firestore, a forma mais imediata de implementar isso (sem uso do Cloud Functions) é criando uma
+                coleção <code>usuarios</code> que possui um campo <code>role</code> (papel) definido como
+                <code>'admin'</code> ou <code>'user'</code>. Nas regras, você faz a leitura deste documento do próprio
+                usuário para decidir a permissão.
+            </p>
+
+            <figure class='figure'>
+                <img src='../images/fig09_2_role_rules.png'
+                    alt='Diagrama demonstrando o bloqueio de edição para um usuário comum e o acesso liberado para um usuário Administrador no banco de dados'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 9.2 — </strong>Role-Based Access Control: O banco de
+                    dados consulta o "papel" do usuário antes de liberar operações administrativas.</figcaption>
+            </figure>
+
+            <figure class='listing'>
+                <figcaption class='listing-title'><strong>Código 9.2 - </strong>Exemplo Simples de Regra com Função RBAC
+                </figcaption>
+                <pre class='code'>
+// Função que verifica na coleção 'usuarios' se o atual tem role igual a 'admin'
+function isAdministrador() {
+  return request.auth != null && 
+         get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == 'admin';
+}
+
+match /conteudoRestrito/{documentId} {
+  allow read: if request.auth != null; // todos leem
+  allow write: if isAdministrador();   // só administradores editam
+}
+                </pre>
+            </figure>
+
         </section>
 
         <section id='sec9-4'>

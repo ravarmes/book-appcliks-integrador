@@ -73,11 +73,6 @@
                                     usaremos a partir da <strong>Semana 6</strong>. Gratuito no plano
                                     Spark, visual, escalável e com autenticação integrada.
                                 </li>
-                                <li><strong>Supabase (nuvem):</strong> banco de dados PostgreSQL real,
-                                    também integrado ao FlutterFlow. É uma alternativa relacional (SQL),
-                                    mas neste projeto optamos pelo Firebase por sua integração mais
-                                    direta com o FlutterFlow e por não exigir conhecimento de SQL.
-                                </li>
                             </ul>
                             <p>Por isso, a estratégia adotada neste projeto é: <strong>planejar a
                                     estrutura das coleções nesta semana</strong> (campos, tipos, referências)
@@ -137,15 +132,15 @@
                 enviando e recebendo dados nestes formatos. Entender como cada campo se mapeia para um
                 campo de formulário (widget) é a chave para construir o CRUD corretamente.
             </p>
-            <p>A <strong>Figura 5.2</strong> mostra o fluxo completo de dados entre o app FlutterFlow e
+            <p>A <strong>Figura 5.1</strong> mostra o fluxo completo de dados entre o app FlutterFlow e
                 o banco de dados Firestore, evidenciando como as Actions de escrita (Create Document) e
                 as Queries de leitura (Query Collection) transitam pela SDK do Firebase.</p>
 
             <figure class='figure'>
-                <img src='../images/fig05_2_firebase_fluxo.png'
+                <img src='../images/fig05_1_firebase_fluxo.png'
                     alt='Diagrama de arquitetura em três camadas mostrando o fluxo de dados entre FlutterFlow (frontend), Firebase SDK e Firestore (banco de dados)'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
+                <figcaption class='figure-caption'><strong>Figura 5.1 — </strong>Fluxo de dados entre FlutterFlow e
                     Firestore: cada campo do formulário se traduz em um campo no documento da coleção.</figcaption>
             </figure>
         </section>
@@ -254,14 +249,14 @@ Coleção: transacoes
                 a campo quais validações serão aplicadas. Esse documento será o guia de referência
                 na hora de configurar os formulários no FlutterFlow na Semana 6.</p>
 
-            <p>A <strong>Figura 5.1</strong> exemplifica uma tabela de planejamento completa para o
+            <p>A <strong>Figura 5.2</strong> exemplifica uma tabela de planejamento completa para o
                 formulário "Nova Transação" do app FinanCampus, mostrando campo, tipo de widget,
                 regra de validação e mensagem de erro esperada.</p>
 
             <figure class='figure'>
-                <img src='../images/fig05_1_validacao.png'
+                <img src='../images/fig05_2_validacao.png'
                     alt='Tabela de planejamento de validações do formulário Nova Transação' class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 5.1 — </strong>Tabela de planejamento de validações
+                <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Tabela de planejamento de validações
                     para o formulário "Nova Transação" (FinanCampus).</figcaption>
             </figure>
 
@@ -337,6 +332,15 @@ Coleção: transacoes
                     </td>
                 </tr>
             </table>
+
+            <figure class='figure'>
+                <img src='../images/fig05_3_auth_validation.png'
+                    alt='Fluxograma da validação do Firebase Auth, do frontend no FlutterFlow até a resposta no servidor Firebase'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 5.3 — </strong>Validação Completa: O frontend prevê
+                    erros básicos (como formato do e-mail), mas o Firebase Auth garante a autenticação real e segura.
+                </figcaption>
+            </figure>
         </section>
 
         <section id='sec5-4'>
@@ -455,15 +459,15 @@ Coleção: transacoes
                 </tr>
             </table>
 
-            <p>A <strong>Figura 5.2</strong> apresenta o fluxo de dados entre o FlutterFlow
+            <p>A <strong>Figura 5.4</strong> apresenta o fluxo de dados entre o FlutterFlow
                 e o Firestore, mostrando como os formulários do app se traduzem em documentos
                 nas coleções do banco.</p>
 
             <figure class='figure'>
-                <img src='../images/fig05_2_firebase_fluxo.png'
+                <img src='../images/fig05_1_firebase_fluxo.png'
                     alt='Diagrama de arquitetura mostrando o fluxo de dados entre FlutterFlow e Firestore'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 5.2 — </strong>Fluxo de dados entre FlutterFlow e
+                <figcaption class='figure-caption'><strong>Figura 5.4 — </strong>Fluxo de dados entre FlutterFlow e
                     Firestore: cada campo do formulário se traduz em um campo no documento da coleção.</figcaption>
             </figure>
         </section>

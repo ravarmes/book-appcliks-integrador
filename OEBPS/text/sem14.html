@@ -124,15 +124,15 @@
                 código testado e aprovado chegue aos usuários. Mesmo em projetos acadêmicos, seguir
                 essa lógica introduz uma disciplina profissional essencial para o mercado de trabalho.
             </p>
-            <p>A <strong>Figura 14.2</strong> ilustra as 5 etapas do pipeline de release
+            <p>A <strong>Figura 14.1</strong> ilustra as 5 etapas do pipeline de release
                 de um app mobile — da branch de desenvolvimento até a publicação em produção na
                 Google Play Store.</p>
 
             <figure class='figure'>
-                <img src='../images/fig14_2_release_pipeline.png'
+                <img src='../images/fig14_1_release_pipeline.png'
                     alt='Pipeline de release com 5 etapas: Desenvolvimento, Code Review, Build, Teste Alfa/Beta e Produção na Google Play'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 14.2 — </strong>Pipeline de Release: 5 etapas do
+                <figcaption class='figure-caption'><strong>Figura 14.1 — </strong>Pipeline de Release: 5 etapas do
                     desenvolvimento à Google Play, com controle de versão semântico (SemVer).</figcaption>
             </figure>
 
@@ -146,6 +146,23 @@
                 <li>Aguarde o processo de build (pode levar alguns minutos).</li>
                 <li>Baixe o arquivo gerado e teste em um dispositivo real antes de enviar para a Play Store.</li>
             </ol>
+
+            <h3>Por Baixo dos Panos: Como o Build Funciona</h3>
+            <p>Ao clicar no botão de construir o APK ou AAB, o FlutterFlow (que roda na nuvem) converte sua interface
+                visual ("No-Code/Low-Code") na linguagem <strong>Dart</strong> usando o framework
+                <strong>Flutter</strong>. Esse código fonte invisível sofre um processo de compilação em servidores
+                automatizados que agrupam imagens, ícones, o motor de renderização e as regras de segurança, resultando
+                no pacote final executável.
+            </p>
+
+            <figure class='figure'>
+                <img src='../images/fig14_2_build_timeline.png'
+                    alt='Linha do tempo visual mostrando UI visual sendo convertida em código Dart e depois compilada em APK/AAB'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 14.2 — </strong>Processo Automático de Build: da
+                    interface gráfica (Low-Code) ao pacote nativo pronto para distribuição através do SDK do Flutter.
+                </figcaption>
+            </figure>
 
             <table class="box-table warning-table">
                 <tr>
@@ -167,12 +184,12 @@
             <h2>14.3 Versionamento Semântico</h2>
             <p>O <strong>versionamento semântico</strong> (SemVer) é o padrão mais usado para numerar
                 versões de software. Segue o formato <code>MAJOR.MINOR.PATCH</code>, conforme
-                ilustrado na <strong>Figura 14.1</strong>:</p>
+                ilustrado na <strong>Figura 14.3</strong>:</p>
 
             <figure class='figure'>
-                <img src='../images/fig14_1_semver.png'
+                <img src='../images/fig14_3_semver.png'
                     alt='Infográfico explicando o versionamento semântico MAJOR.MINOR.PATCH' class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 14.1 — </strong>Versionamento Semântico (SemVer):
+                <figcaption class='figure-caption'><strong>Figura 14.3 — </strong>Versionamento Semântico (SemVer):
                     significado de MAJOR, MINOR e PATCH.</figcaption>
             </figure>
 

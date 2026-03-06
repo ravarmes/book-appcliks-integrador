@@ -65,7 +65,7 @@
                             <p>O FlutterFlow <strong>não possui suporte a banco de dados local
                                     relacional</strong> (como SQLite) sem código personalizado avançado.
                                 As únicas opções nativas para persistência de dados são serviços na
-                                nuvem: Firebase, Supabase ou uma API REST. Para este projeto, o Firebase
+                                nuvem como o Firebase ou uma sua própria API REST. Para este projeto, o Firebase
                                 é a escolha ideal — é gratuito (plano Spark), visual, integrado
                                 nativamente ao FlutterFlow e não exige conhecimento de SQL.</p>
                         </div>
@@ -142,6 +142,14 @@
                 <li>O FlutterFlow criará automaticamente as coleções no Firestore e disponibilizará
                     as Actions de CRUD (Create Document, Update Document, Delete Document, Query Collection).</li>
             </ol>
+
+            <figure class='figure'>
+                <img src='../images/fig06_1_firebase_console_crud.png'
+                    alt='Screenshot de painel de administração do Firebase exibindo coleção transacoes'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 6.1 — </strong>Visão do Servidor: Assim ficam os dados
+                    da coleção <code>transacoes</code> dentro do console real do Firebase Firestore.</figcaption>
+            </figure>
 
             <table class="box-table tip-table">
                 <tr>
@@ -279,14 +287,14 @@
                 </tr>
             </table>
 
-            <p>A <strong>Figura 6.1</strong> detalha o fluxo completo de autenticação, incluindo
+            <p>A <strong>Figura 6.2</strong> detalha o fluxo completo de autenticação, incluindo
                 a verificação de sessão na Splash Screen e o redirecionamento automático.</p>
 
             <figure class='figure'>
-                <img src='../images/fig09_2_fluxo_auth.png'
+                <img src='../images/fig06_2_fluxo_auth.png'
                     alt='Fluxograma de autenticação: Splash Screen verifica sessão, vai para Login ou Home'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 6.1 — </strong>Fluxo de autenticação:
+                <figcaption class='figure-caption'><strong>Figura 6.2 — </strong>Fluxo de autenticação:
                     verificação de sessão na Splash Screen, Login com Firebase Auth e redirecionamento
                     automático para a Home.</figcaption>
             </figure>
@@ -349,12 +357,12 @@
                 com os dados. O <strong>CRUD</strong> (Create, Read, Update, Delete) representa as
                 quatro operações fundamentais sobre qualquer coleção. No FlutterFlow, cada operação
                 corresponde a uma <em>Action</em> específica que se comunica com o Firestore via
-                a SDK do Firebase, como ilustrado na <strong>Figura 6.1</strong>.</p>
+                a SDK do Firebase, como ilustrado na <strong>Figura 6.3</strong>.</p>
 
             <figure class='figure'>
-                <img src='../images/fig06_1_crud_ciclo.png' alt='Diagrama do ciclo CRUD entre FlutterFlow e Firestore'
+                <img src='../images/fig06_3_crud_ciclo.png' alt='Diagrama do ciclo CRUD entre FlutterFlow e Firestore'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 6.1 — </strong>Ciclo CRUD: cada Action do FlutterFlow
+                <figcaption class='figure-caption'><strong>Figura 6.3 — </strong>Ciclo CRUD: cada Action do FlutterFlow
                     corresponde a uma operação no Firestore.</figcaption>
             </figure>
             <p>Nesta semana você implementa os fluxos de <strong>escrita</strong> de dados: criar um
@@ -590,15 +598,15 @@
             <h3>O Padrão de Cadeia de Actions (Action Chain)</h3>
             <p>Uma boa prática no FlutterFlow é sempre encadear as Actions na ordem correta,
                 garantindo que erros sejam tratados antes de chamar o banco de dados. A
-                <strong>Figura 6.2</strong> ilustra a sequência exata para o fluxo de Create —
+                <strong>Figura 6.4</strong> ilustra a sequência exata para o fluxo de Create —
                 o mesmo padrão se aplica ao Update.
             </p>
 
             <figure class='figure'>
-                <img src='../images/fig06_2_action_chain.png'
+                <img src='../images/fig06_4_action_chain.png'
                     alt='Fluxograma da cadeia de actions: preencher formulário, Validate Form, Create Document no Firestore, Navigate Back'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 6.2 — </strong>Cadeia de Actions para o fluxo de
+                <figcaption class='figure-caption'><strong>Figura 6.4 — </strong>Cadeia de Actions para o fluxo de
                     Create: Validate Form → Create Document → Navigate. O caminho de erro exibe uma mensagem e
                     interrompe a
                     cadeia.</figcaption>

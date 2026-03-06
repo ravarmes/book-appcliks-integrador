@@ -105,7 +105,7 @@
             <h3>Os 4 Estados de Tela — Design de UX de Qualidade</h3>
             <p>Uma tela profissional não tem apenas o estado "funcionando com dados". Ela trata
                 explicitamente todos os estados que o usuário pode encontrar. A
-                <strong>Figura 12.2</strong> ilustra os 4 estados obrigatórios que devem ser
+                <strong>Figura 12.1</strong> ilustra os 4 estados obrigatórios que devem ser
                 implementados em toda tela com dados dinâmicos no FlutterFlow:
             </p>
             <ol>
@@ -121,21 +121,21 @@
                 dos widgets, utilizando variáveis booleanas de estado da página (<em>Page State</em>).</p>
 
             <figure class='figure'>
-                <img src='../images/fig12_2_estados_tela.png'
+                <img src='../images/fig12_1_estados_tela.png'
                     alt='Quatro mockups de tela mobile representando os estados Loading, Data, Empty State e Error'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 12.2 — </strong>Os 4 estados de tela que toda lista
+                <figcaption class='figure-caption'><strong>Figura 12.1 — </strong>Os 4 estados de tela que toda lista
                     dinâmica deve implementar: Loading, Sucesso, Vazio e Erro.</figcaption>
             </figure>
 
-            <p>A <strong>Figura 12.1</strong> mostra o padrão de tratamento de erros no FlutterFlow:
+            <p>A <strong>Figura 12.2</strong> mostra o padrão de tratamento de erros no FlutterFlow:
                 cada Action pode ter dois desfechos — sucesso ou erro — e cada tipo de erro
                 exige uma resposta diferente para o usuário.</p>
 
             <figure class='figure'>
-                <img src='../images/fig12_1_error_handling.png'
+                <img src='../images/fig12_2_error_handling.png'
                     alt='Fluxo de tratamento de erros no FlutterFlow com 4 estados possíveis' class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 12.1 — </strong>Padrão de tratamento de erros:
+                <figcaption class='figure-caption'><strong>Figura 12.2 — </strong>Padrão de tratamento de erros:
                     sucesso, sem conexão, erro de servidor e empty state.</figcaption>
             </figure>
 
@@ -148,6 +148,22 @@
                 </li>
                 <li>Evite exibir mensagens técnicas (como stack traces) para o usuário final.</li>
             </ol>
+
+            <h3>Monitoramento Contínuo com Firebase Crashlytics</h3>
+            <p>Além de tratar os erros previstos via FlutterFlow, é crucial monitorar as falhas inesperadas (crashes
+                nativos) que fecham o aplicativo de vez. Ao integrar o <strong>Firebase Crashlytics</strong> no seu
+                projeto, toda vez que o app apresentar um problema crítico e fechar no celular de um usuário, um
+                relatório detalhado será enviado automaticamente para o seu painel do Firebase.</p>
+
+            <figure class='figure'>
+                <img src='../images/fig12_3_crashlytics.png'
+                    alt='Mockup do painel Firebase Crashlytics mostrando gráficos de estabilidade do app e lista de problemas prioritários'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 12.3 — </strong>O painel do Firebase Crashlytics:
+                    ferramenta essencial para desenvolvedores acompanharem a "saúde" do aplicativo rastreando exceções
+                    não tratadas.</figcaption>
+            </figure>
+
         </section>
 
         <section id='sec12-2'>

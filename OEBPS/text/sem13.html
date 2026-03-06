@@ -92,17 +92,32 @@
                 <li><strong>Segurança:</strong> proteger os dados com medidas técnicas adequadas.</li>
             </ul>
 
-            <p>A <strong>Figura 13.2</strong> resume visualmente os 6 princípios da LGPD mais
+            <p>A <strong>Figura 13.1</strong> resume visualmente os 6 princípios da LGPD mais
                 relevantes para apps mobile, facilitando sua aplicação prática durante o
                 desenvolvimento e nos slides de apresentação do projeto.</p>
 
             <figure class='figure'>
-                <img src='../images/fig13_2_lgpd_principios.png'
+                <img src='../images/fig13_1_lgpd_principios.png'
                     alt='Hexágonos com os 6 princípios da LGPD: Finalidade, Segurança, Transparência, Consentimento, Exclusão e Minimização'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 13.2 — </strong>Os 6 princípios da LGPD para apps
+                <figcaption class='figure-caption'><strong>Figura 13.1 — </strong>Os 6 princípios da LGPD para apps
                     mobile responsáveis: guia rápido para aplicar no desenvolvimento.</figcaption>
             </figure>
+
+            <h3>O Direito ao Esquecimento: Exclusão de Conta</h3>
+            <p>Um dos direitos assegurados pela LGPD é o de exclusão dos dados. No seu aplicativo, o usuário deve ter a
+                opção clara de excluir sua conta. Do ponto de vista técnico em nossa stack, isso exige uma operação
+                dupla e síncrona: excluir o registro de autenticação (Firebase Auth) e apagar o documento do usuário
+                junto com suas coleções aninhadas (Firestore).</p>
+
+            <figure class='figure'>
+                <img src='../images/fig13_2_lgpd_delete.png'
+                    alt='Diagrama de fluxo demonstrando a exclusão de conta via Action no FlutterFlow que apaga dados no Auth e Firestore'
+                    class='figure-img' />
+                <figcaption class='figure-caption'><strong>Figura 13.2 — </strong>Fluxo de Exclusão de Conta: A exclusão
+                    deve ser completa, garantindo o "Direito ao Esquecimento" exigido pela LGPD.</figcaption>
+            </figure>
+
         </section>
 
         <section id='sec13-2'>
@@ -162,15 +177,15 @@
             <h2>13.3 Publicação: Alfa, Beta e Produção</h2>
             <p>A Google Play Console oferece três trilhas de publicação, permitindo testar o app com
                 um número controlado de usuários antes do lançamento público. A
-                <strong>Figura 13.1</strong> ilustra a progressão das trilhas, do grupo mais restrito
+                <strong>Figura 13.3</strong> ilustra a progressão das trilhas, do grupo mais restrito
                 ao público geral.
             </p>
 
             <figure class='figure'>
-                <img src='../images/fig13_1_publicacao_trilhas.png'
+                <img src='../images/fig13_3_publicacao_trilhas.png'
                     alt='Funil das trilhas de publicação na Google Play: Teste Interno, Alfa, Beta e Produção'
                     class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 13.1 — </strong>Trilhas de publicação no Google Play
+                <figcaption class='figure-caption'><strong>Figura 13.3 — </strong>Trilhas de publicação no Google Play
                     Console: do teste interno até a produção pública.</figcaption>
             </figure>
 
