@@ -19,11 +19,11 @@
         </header>
         <hr />
 
-        <p>Na <strong>Semana 6</strong> você criou o projeto no Firebase, implementou a autenticação
-            e o CRUD. Naquela etapa, as Security Rules estavam no <strong>modo de teste</strong>
-            (qualquer pessoa autenticada podia ler/escrever). Agora é o momento de <strong>configurar
-                a segurança real</strong>: definir regras que garantam que cada usuário acesse apenas
-            seus próprios dados.</p>
+        <p>Até a <strong>Semana 6</strong>, seu banco de dados operava de "portas abertas" (modo de teste), permitindo
+            que qualquer pessoa autenticada manipulasse qualquer dado. Esse é um risco imenso no mundo real. Agora, você
+            implementará a filosofia de <strong>Portas Fechadas por Padrão</strong> usando as <em>Security Rules</em>: o
+            banco bloqueia tudo inicialmente, e você abre apenas brechas cirúrgicas protegidas por contexto (exemplo:
+            "este usuário só lê o que for dele").</p>
 
         <table class="box-table tip-table">
             <tr>
@@ -275,6 +275,23 @@ match /conteudoRestrito/{documentId} {
                                 <li><strong>Screenshot</strong> do console do Firebase mostrando as
                                     Security Rules publicadas.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s9">
+                        <div id="prompt-s9" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 9.1 — Elaboração Inicial de Security Rules com IA</strong>
+                        </div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Preciso criar regras de segurança (Security Rules) para o Firebase Firestore. Terei
+                                    uma coleção [nome da coleção] onde o campo 'id_criador' armazena o ID do usuário
+                                    logado. Escreva a regra que permita aos usuários apenas ler, criar, atualizar e
+                                    excluir os seus próprios documentos."</em></p>
                         </div>
                     </td>
                 </tr>

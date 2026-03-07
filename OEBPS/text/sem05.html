@@ -198,12 +198,17 @@ Coleção: transacoes
 
         <section id='sec5-3'>
             <h2>5.3 Planejamento das Validações de Formulário</h2>
-            <p>A <strong>validação</strong> garante que os dados inseridos pelo usuário estejam corretos
-                antes de serem salvos no banco. No FlutterFlow, a validação é configurada nos campos
-                do formulário via <strong>Form Validation</strong> — mas como as coleções ainda
-                serão criadas na <strong>Semana 6</strong>, o trabalho desta semana é <em>planejar e
-                    documentar</em> as validações de cada campo, para que a implementação seja feita
-                diretamente com os widgets já vinculados às coleções reais.</p>
+            <p>A <strong>validação</strong> atua como um escudo: garante que apenas dados consistentes e formatados
+                corretamente
+                cheguem ao banco de dados. Além disso, o feedback visual de uma validação falha informa ao usuário,
+                geralmente por alertas e textos avermelhados (no próprio campo ou via <em>Snackbars</em>), exatamente o
+                que
+                ele precisa corrigir, evitando frustração.</p>
+            <p>No FlutterFlow, lidamos com isso usando a ação de <strong>Form Validation</strong> juntamente com a
+                manutenção
+                do estado (<strong>State</strong>) das variáveis do formulário. O objetivo desta semana é <em>mapear as
+                    regras de
+                    validação</em> para traduzi-las mais tarde em checagens dentro do aplicativo.</p>
 
             <h3>Tipos de Validação Comuns</h3>
             <table class='content-table'>
@@ -491,6 +496,22 @@ Coleção: transacoes
                                     e mensagem de erro). A implementação no FlutterFlow acontecerá
                                     na Semana 6, quando as coleções estiverem conectadas.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s5">
+                        <div id="prompt-s5" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 5.1 — Planejamento de Validações com IA</strong></div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Para um formulário de [ex: Cadastro de Produto] no meu aplicativo, liste todos os
+                                    campos necessários. Para cada campo, indique o tipo de widget ideal (TextField,
+                                    Dropdown, Checkbox) e sugira as principais regras de validação de frontend para
+                                    evitar dados inválidos."</em></p>
                         </div>
                     </td>
                 </tr>

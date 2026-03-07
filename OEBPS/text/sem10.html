@@ -73,42 +73,27 @@
                 </tr>
             </table>
 
-            <h3>Operações do Firestore no FlutterFlow</h3>
+            <h3>Operações Simplificadas no FlutterFlow</h3>
             <table class='content-table'>
-                <caption><strong>Tabela 10.1 - </strong>Operações do Firestore correspondentes às Actions do
-                    FlutterFlow.</caption>
+                <caption><strong>Tabela 10.1 - </strong>Correspondência prática das operações no FlutterFlow.</caption>
                 <thead>
                     <tr>
-                        <th>Operação</th>
-                        <th>Action FlutterFlow</th>
-                        <th>Firestore SDK</th>
+                        <th>Objetivo no App</th>
+                        <th>O que usar no FlutterFlow</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ler todos os documentos</td>
-                        <td>Query Collection</td>
-                        <td><code>collection('transacoes').get()</code></td>
+                        <td>Exibir lista (buscar banco)</td>
+                        <td>Backend Query &gt; Query Collection (com/sem filtros)</td>
                     </tr>
                     <tr>
-                        <td>Filtrar por usuário</td>
-                        <td>Query Collection (com filtro)</td>
-                        <td><code>where('usuario_uid', '==', uid)</code></td>
+                        <td>Gravar novo dado</td>
+                        <td>Action &gt; Create Document</td>
                     </tr>
                     <tr>
-                        <td>Inserir documento</td>
-                        <td>Create Document</td>
-                        <td><code>collection('transacoes').add(data)</code></td>
-                    </tr>
-                    <tr>
-                        <td>Atualizar documento</td>
-                        <td>Update Document</td>
-                        <td><code>doc('transacoes/id').update(data)</code></td>
-                    </tr>
-                    <tr>
-                        <td>Excluir documento</td>
-                        <td>Delete Document</td>
-                        <td><code>doc('transacoes/id').delete()</code></td>
+                        <td>Modificar ou excluir dado</td>
+                        <td>Action &gt; Update / Delete Document</td>
                     </tr>
                 </tbody>
             </table>
@@ -297,6 +282,23 @@
                                 <li><strong>Vídeo ou screenshots</strong> demonstrando o app funcionando
                                     com dados reais no Firebase.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s10">
+                        <div id="prompt-s10" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 10.1 — Casos de Teste de UX e Integração com IA</strong>
+                        </div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Atuando como um Analista de QA (Quality Assurance), liste 5 cenários de testes
+                                    sistêmicos ('caminho feliz' e 'caminhos de exceção') focados na funcionalidade de
+                                    [ex: Login ou Criação de Item] do meu aplicativo. Descreva os passos de entrada e o
+                                    resultado esperado em cada caso."</em></p>
                         </div>
                     </td>
                 </tr>

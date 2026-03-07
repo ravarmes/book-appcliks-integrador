@@ -19,17 +19,16 @@
         </header>
         <hr />
 
-        <p>Na <strong>Semana 6</strong> você usou <em>Navigate Back</em> e <em>Navigate To</em> dentro
-            dos fluxos de Create, Update e Delete — apenas para redirecionar o usuário após uma operação
-            (ex.: voltar à listagem após salvar). Essa é uma navegação <strong>pontual e funcional</strong>,
-            embutida em uma Action.</p>
+        <p>Até agora, nossa navegação foi apenas <strong>pontual</strong>. Na <strong>Semana 6</strong>, você usou
+            <em>Navigate Back</em> e <em>Navigate To</em> dentro dos fluxos de Create, Update e Delete para redirecionar
+            o usuário após uma operação rápida. Isso atende a funções isoladas, mas não define a estrutura geral do app.
+        </p>
 
-        <p>Agora, na <strong>Semana 7</strong>, o foco é diferente: você vai <strong>arquitetar a
-                navegação do app como um todo</strong>. Isso significa decidir quantas telas o app terá,
-            como elas se organizam (Bottom Navigation Bar, fluxo de autenticação, telas de detalhe),
-            e desenhar um diagrama que representa todos esses caminhos. Em seguida, você implementa
-            as <strong>listas dinâmicas</strong> — telas que buscam e exibem dados do banco em
-            tempo real usando <em>ListView</em> com <em>Backend Query</em>.</p>
+        <p>Nesta <strong>Semana 7</strong>, vamos elevar o padrão: você vai estruturar a <strong>Arquitetura de
+                Navegação</strong> do app como um todo. Precisamos definir todas as telas, organizar os caminhos globais
+            (como a Bottom Navigation Bar e fluxos de login) e desenhar um diagrama que será o roteiro do seu projeto.
+            Com esse mapa pronto, passaremos a exibir dados reais do banco construindo <strong>listas dinâmicas</strong>
+            através de <em>ListView</em> e <em>Backend Query</em>.</p>
 
         <p>Um app com boa experiência de usuário precisa ter uma <strong>navegação clara e previsível</strong>.
             Mapear todas as telas antes de implementar evita problemas de fluxo e garante que o usuário
@@ -386,6 +385,21 @@
                                 <li><strong>Storyboard validado</strong> — screenshot mostrando que todas
                                     as telas estão conectadas corretamente.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s7">
+                        <div id="prompt-s7" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 7.1 — Hierarquia de Navegação com IA</strong></div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Como um Especialista em UX/UI Mobile, sugira a arquitetura de navegação (quais itens
+                                    devem ir para a Bottom Navigation Bar e quais devem ficar ocultos em um Drawer/Menu
+                                    Lateral) para um aplicativo de [descreva as principais funçōes do app]."</em></p>
                         </div>
                     </td>
                 </tr>

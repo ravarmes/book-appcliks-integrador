@@ -46,10 +46,12 @@
         </table>
 
         <section id='sec14-1'>
-            <h2>14.1 Documentação Técnica do Projeto</h2>
-            <p>O <strong>documento técnico final</strong> consolida todas as decisões tomadas durante
-                o projeto. Ele deve ser claro o suficiente para que alguém que não participou do projeto
-                consiga entender a arquitetura e dar manutenção.</p>
+            <h2>14.1 O Olhar do Avaliador na Documentação Técnica</h2>
+            <p>A <strong>documentação técnica final</strong> não é apenas um formalismo acadêmico; é a principal
+                "vitrine" avaliada pela banca de apresentação e por futuros mantenedores de código (como no mercado
+                real). Um bom avaliador buscará de imediato clareza na sua arquitetura, a exatidão das Security Rules
+                reportadas e, acima de tudo, se a estrutura permite a fácil configuração e inicialização do projeto por
+                outro desenvolvedor sem fricção.</p>
 
             <h3>Estrutura do Documento Técnico Final</h3>
             <ol>
@@ -180,46 +182,47 @@
             </table>
         </section>
 
-        <section id='sec14-3'>
-            <h2>14.3 Versionamento Semântico</h2>
-            <p>O <strong>versionamento semântico</strong> (SemVer) é o padrão mais usado para numerar
-                versões de software. Segue o formato <code>MAJOR.MINOR.PATCH</code>, conforme
-                ilustrado na <strong>Figura 14.3</strong>:</p>
+        <h2>14.3 Versionamento na Prática</h2>
+        <p>Em projetos práticos e dinâmicos, não estoure a carga cognitiva com regras excessivas sobre nomes de versão.
+            O conceito fundamental de rastreabilidade (semelhante ao SemVer <code>MAJOR.MINOR.PATCH</code>) só exige de
+            fato uma convenção pragmática (exemplo: iniciar em <code>v1.0.0</code>). O essencial é aplicar este nome do
+            Build consistentemente através das documentações geradas no Notion e na loja, atestando organização extrema
+            diante da banca, conforme ilustrado na <strong>Figura 14.3</strong>:</p>
 
-            <figure class='figure'>
-                <img src='../images/fig14_3_semver.png'
-                    alt='Infográfico explicando o versionamento semântico MAJOR.MINOR.PATCH' class='figure-img' />
-                <figcaption class='figure-caption'><strong>Figura 14.3 — </strong>Versionamento Semântico (SemVer):
-                    significado de MAJOR, MINOR e PATCH.</figcaption>
-            </figure>
+        <figure class='figure'>
+            <img src='../images/fig14_3_semver.png'
+                alt='Infográfico explicando o versionamento semântico MAJOR.MINOR.PATCH' class='figure-img' />
+            <figcaption class='figure-caption'><strong>Figura 14.3 — </strong>Versionamento Semântico (SemVer):
+                significado de MAJOR, MINOR e PATCH.</figcaption>
+        </figure>
 
-            <table class='content-table'>
-                <caption><strong>Tabela 14.2 - </strong>Significado dos números no versionamento semântico.</caption>
-                <thead>
-                    <tr>
-                        <th>Parte</th>
-                        <th>Quando incrementar</th>
-                        <th>Exemplo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>MAJOR</strong></td>
-                        <td>Mudança incompatível ou grande reformulação</td>
-                        <td>1.0.0 → 2.0.0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>MINOR</strong></td>
-                        <td>Nova funcionalidade adicionada</td>
-                        <td>1.0.0 → 1.1.0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>PATCH</strong></td>
-                        <td>Correção de bug</td>
-                        <td>1.0.0 → 1.0.1</td>
-                    </tr>
-                </tbody>
-            </table>
+        <table class='content-table'>
+            <caption><strong>Tabela 14.2 - </strong>Significado dos números no versionamento semântico.</caption>
+            <thead>
+                <tr>
+                    <th>Parte</th>
+                    <th>Quando incrementar</th>
+                    <th>Exemplo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MAJOR</strong></td>
+                    <td>Mudança incompatível ou grande reformulação</td>
+                    <td>1.0.0 → 2.0.0</td>
+                </tr>
+                <tr>
+                    <td><strong>MINOR</strong></td>
+                    <td>Nova funcionalidade adicionada</td>
+                    <td>1.0.0 → 1.1.0</td>
+                </tr>
+                <tr>
+                    <td><strong>PATCH</strong></td>
+                    <td>Correção de bug</td>
+                    <td>1.0.0 → 1.0.1</td>
+                </tr>
+            </tbody>
+        </table>
         </section>
 
         <section id='sec14-4'>
@@ -238,6 +241,23 @@
                                 <li><strong>App publicado</strong> ou em processo de revisão na trilha de
                                     produção da Play Store.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s14">
+                        <div id="prompt-s14" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 14.1 — Estrutura de Documentação Técnica com IA</strong>
+                        </div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Como um Tech Lead, ajude a estruturar o índice (sumário) de documentação técnica
+                                    para o encerramento do meu projeto escolar de aplicativo em FlutterFlow e Firebase.
+                                    A documentação precisa deixar legível para um novo desenvolvedor como o app está
+                                    organizado e o que ele faz."</em></p>
                         </div>
                     </td>
                 </tr>

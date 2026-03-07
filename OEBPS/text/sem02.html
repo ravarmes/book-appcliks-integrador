@@ -59,9 +59,19 @@
 
         <section id='sec2-1'>
             <h2>2.1 Visão Geral do Sistema</h2>
-            <p>A <strong>visão do sistema</strong> é um documento breve que resume o propósito do app, seus
-                principais usuários e as funcionalidades centrais. Ela serving como "bússola" para toda a equipe
-                durante o projeto.</p>
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s2-visao">
+                        <div id="def-s2-visao" class="box-title"><img src="../images/icon-definicao.png"
+                                class="icon-img" alt="Definição"><strong>Definição: Visão do Sistema</strong></div>
+                        <div>
+                            <p><strong>Visão do Sistema</strong> é um documento breve que resume o propósito do app,
+                                seus principais usuários e as funcionalidades centrais. Ela serve como "bússola"
+                                para toda a equipe durante o projeto.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
             <h3>Estrutura da Visão do Sistema</h3>
             <p>A visão pode ser expressa numa única frase usando o modelo a seguir:</p>
@@ -85,9 +95,8 @@
             <h3>Exemplo</h3>
             <p>Para estudantes universitários que têm dificuldade em controlar os gastos mensais, o
                 <strong>FinanCampus</strong> é um aplicativo mobile que registra transações financeiras (rendas e
-                despesas) de forma
-                simples e visual. Diferentemente de planilhas e aplicativos complexos, nosso produto oferece
-                categorização automática e alertas de orçamento com interface intuitiva.
+                despesas) de forma simples e visual. Diferentemente de planilhas e aplicativos complexos, nosso produto
+                oferece categorização automática e alertas de orçamento com interface intuitiva.
             </p>
         </section>
 
@@ -156,6 +165,20 @@
 
             <table class="box-table tip-table">
                 <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="tip-s2-rf-nota">
+                        <div id="tip-s2-rf-nota" class="box-title"><img src="../images/icon-observacao.png"
+                                class="icon-img" alt="Observação"><strong>Observação</strong></div>
+                        <div>
+                            <p>A tabela acima é apenas uma <strong>amostra</strong>. No seu projeto, o entregável
+                                exige no mínimo <strong>8 requisitos funcionais</strong>. Adapte os exemplos ao
+                                domínio do seu aplicativo.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
                     <td class="box-content tip" role="note" aria-labelledby="tip-s2-rf">
                         <div id="tip-s2-rf" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
                                 alt="Dica"><strong>Dica</strong></div>
@@ -179,6 +202,13 @@
                 <strong>"Como</strong> [tipo de usuário], <strong>quero</strong> [ação], <strong>para</strong>
                 [objetivo/benefício]."
             </p>
+
+            <h3>Exemplo</h3>
+            <p><em>"Como universitária, quero registrar uma transação financeira, para controlar meus
+                    gastos mensais."</em></p>
+            <p>Essa User Story origina o requisito funcional: <strong>RF02 — O sistema deve permitir
+                    registrar uma transação com tipo, valor, categoria e data.</strong></p>
+
             <p>Cada User Story pode originar um ou mais Requisitos Funcionais formais. A
                 <strong>Figura 2.2</strong> mostra como uma User Story se transforma no RF documentado.
             </p>
@@ -248,10 +278,15 @@
                     </tr>
                     <tr>
                         <td><strong>Disponibilidade</strong></td>
-                        <td>O sistema deve estar disponível 99% do tempo (banco de dados Firebase).</td>
+                        <td>O sistema deve estar disponível 99% do tempo (serviços Firestore e Firebase Auth).</td>
                     </tr>
                 </tbody>
             </table>
+
+            <h3>Como Escrever um Requisito Não Funcional</h3>
+            <p>Use o formato: <strong>"O sistema deve [critério de qualidade] [métrica ou condição
+                    mensurável]."</strong>
+                Um bom RNF sempre contém um valor que pode ser testado (tempo, percentual, versão mínima, etc.).</p>
 
             <table class="box-table warning-table">
                 <tr>
@@ -260,9 +295,16 @@
                                 alt="Importante"><strong>Importante</strong></div>
                         <div>
                             <p>Nunca confunda o <strong>que</strong> com o <strong>como</strong>. Um requisito
-                                funcional descreve uma funcionalidade ("o usuário pode cadastrar transações").
-                                Um requisito não funcional define a qualidade desse comportamento ("o cadastro
-                                deve ser concluído em menos de 3 segundos").</p>
+                                funcional descreve uma funcionalidade; um requisito não funcional define a qualidade
+                                desse comportamento. Veja dois exemplos:</p>
+                            <ul>
+                                <li><strong>RF:</strong> "O sistema deve permitir cadastrar transações." →
+                                    <strong>RNF:</strong> "O cadastro deve ser concluído em menos de 3 segundos."
+                                </li>
+                                <li><strong>RF:</strong> "O sistema deve permitir login com e-mail e senha." →
+                                    <strong>RNF:</strong> "As senhas devem ser armazenadas com criptografia."
+                                </li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
@@ -283,7 +325,25 @@
                                 <li><strong>Lista de Requisitos Funcionais</strong> (mínimo 8 RFs, com ID e
                                     prioridade).</li>
                                 <li><strong>Lista de Requisitos Não Funcionais</strong> (mínimo 4 RNFs).</li>
+                                <li><strong>Ao menos 3 User Stories</strong> que originaram seus requisitos
+                                    funcionais principais.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s2">
+                        <div id="prompt-s2" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 2.1 — Levantamento de Requisitos com IA</strong></div>
+                        <div>
+                            <p>Use o prompt abaixo para gerar uma lista inicial de requisitos com ajuda da IA:</p>
+                            <p><em>"Estou desenvolvendo o app [nome do app] para [público-alvo]. O app resolve o
+                                    problema de [problema]. Liste 10 requisitos funcionais e 5 requisitos não funcionais
+                                    no formato 'O sistema deve…'. Classifique cada RF com prioridade Alta, Média ou
+                                    Baixa."</em></p>
                         </div>
                     </td>
                 </tr>
@@ -315,23 +375,22 @@
                             <ul>
                                 <li>RF01 — O sistema deve permitir cadastro e login por e-mail e senha.</li>
                                 <li>RF02 — O sistema deve permitir registrar uma transação (tipo, valor, categoria,
-                                    data,
-                                    descrição).</li>
+                                    data, descrição).</li>
                                 <li>RF03 — O sistema deve listar todas as transações do mês atual do usuário logado.
                                 </li>
                                 <li>RF04 — O sistema deve exibir o saldo do mês (rendas − despesas).</li>
-                                <li>RF05 — Gráfico de transações por categoria.</li>
+                                <li>RF05 — O sistema deve exibir um gráfico de transações por categoria.</li>
                             </ul>
                             <p><strong>Requisitos Funcionais (RF) — Média/Baixa Prioridade:</strong></p>
                             <ul>
-                                <li>RF06 — Definir orçamento mensal por categoria.</li>
-                                <li>RF07 — Notificação ao atingir 80% do orçamento.</li>
-                                <li>RF08 — Exportar extrato mensal em PDF.</li>
+                                <li>RF06 — O sistema deve permitir definir orçamento mensal por categoria.</li>
+                                <li>RF07 — O sistema deve enviar notificação ao atingir 80% do orçamento.</li>
+                                <li>RF08 — O sistema deve permitir exportar extrato mensal em PDF.</li>
                             </ul>
                             <p><strong>Requisitos Não Funcionais (RNF):</strong></p>
                             <ul>
                                 <li>RNF01 — Desempenho: tela principal deve carregar em menos de 2 segundos.</li>
-                                <li>RNF02 — Segurança: senhas armazenadas com hash (Firebase Auth — bcrypt).</li>
+                                <li>RNF02 — Segurança: senhas gerenciadas pelo Firebase Authentication.</li>
                                 <li>RNF03 — Compatibilidade: Android 8.0 ou superior.</li>
                                 <li>RNF04 — Usabilidade: novo usuário registra primeira transação em menos de 1 minuto.
                                 </li>

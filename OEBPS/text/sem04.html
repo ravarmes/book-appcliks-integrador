@@ -55,11 +55,12 @@
                         <div id="def-s4-ent" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
                                 alt="Definição"><strong>Definição</strong></div>
                         <div>
-                            <p><strong>Entidade:</strong> representa um objeto do mundo real sobre o qual queremos
-                                armazenar informações. Exemplos: <em>Transação</em>,
-                                <em>Categoria</em>. Em bancos <strong>NoSQL Orientados a Documentos</strong> como o
-                                Firestore, cada entidade vira uma <strong>coleção
-                                    (collection)</strong>, e cada registro vira um <strong>documento JSON</strong>.
+                            <p><strong>Entidade:</strong> representa um objeto do mundo real sobre o qual precisamos
+                                armazenar informações. Exemplos: <em>Transação</em>, <em>Categoria</em>. Em bancos
+                                <strong>NoSQL Orientados a Documentos</strong> como o Firestore, abandone a ideia de
+                                "tabelas rígidas". Aqui, cada entidade
+                                torna-se uma <strong>coleção (collection)</strong>, composta por um conjunto de
+                                registros estruturados e flexíveis chamados de <strong>documentos JSON</strong>.
                             </p>
                         </div>
                     </td>
@@ -289,13 +290,14 @@
                 </tr>
             </table>
 
-            <h3>Por Que Separar os Dados em Coleções? — Normalização</h3>
-            <p>Um dos objetivos da modelagem é garantir que os dados não se repitam desnecessariamente no banco.
-                Esse processo se chama <strong>normalização</strong>. Imagine uma coleção única que
-                armazenasse, em cada documento de transação, o nome e o e-mail do usuário e o nome da categoria.
-                Se a categoria "Alimentação" for renomeada para "Comida", você teria que atualizar centenas
-                de documentos. Ao separá-la em uma coleção própria e usar uma referência, basta alterar um
-                único documento.</p>
+            <h3>Evitando Redundâncias: Coleções Separadas e Referências</h3>
+            <p>Em projetos NoSQL, embora exista tolerância para desnormalização (duplicação estratégica de dados para
+                otimizar leitura), devemos evitar redundâncias críticas para simplificar atualizações. Imagine uma
+                estrutura onde cada <em>transação</em> salvasse o nome da categoria em texto plano.
+                Se a categoria "Alimentação" fosse renomeada para "Comida", você precisaria atualizar centenas
+                de documentos. Ao isolar as categorias em uma <strong>coleção própria</strong> e vinculá-las via
+                <strong>referência de documento</strong>, você centraliza os dados. A alteração do nome ocorre num único
+                documento e reflete-se globalmente.</p>
             <p>A <strong>Figura 4.3</strong> compara um design sem normalização ("coleção plana") com o
                 design normalizado equivalente, mostrando como as referências eliminam a redundância.</p>
 
@@ -329,6 +331,22 @@
                                     completamente — do banco de dados até as telas de listagem, criação,
                                     edição e exclusão — nas semanas seguintes.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s4">
+                        <div id="prompt-s4" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 4.1 — Modelagem Inicial de Entidades com IA</strong></div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Atuando como Arquiteto de Banco de Dados NoSQL, sugira um modelo de coleções para um
+                                    aplicativo focado em [descreva o app]. Liste as coleções principais, as propriedades
+                                    de cada uma com seus tipos de dados (String, Integer, Boolean, Timestamp) e como
+                                    elas se relacionam."</em></p>
                         </div>
                     </td>
                 </tr>

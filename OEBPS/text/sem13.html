@@ -105,10 +105,12 @@
             </figure>
 
             <h3>O Direito ao Esquecimento: Exclusão de Conta</h3>
-            <p>Um dos direitos assegurados pela LGPD é o de exclusão dos dados. No seu aplicativo, o usuário deve ter a
-                opção clara de excluir sua conta. Do ponto de vista técnico em nossa stack, isso exige uma operação
-                dupla e síncrona: excluir o registro de autenticação (Firebase Auth) e apagar o documento do usuário
-                junto com suas coleções aninhadas (Firestore).</p>
+            <p>Um dos direitos assegurados pela LGPD é o de exclusão dos dados (direito ao esquecimento). No seu
+                aplicativo, isso é inegociável: o usuário deve ter a opção clara de excluir sua conta com um único
+                clique. Do ponto de vista técnico, você deve garantir uma <strong>exclusão em cascata (cascade
+                    delete)</strong> rígida e síncrona: além de apagar o login do Firebase Auth, é preciso excluir
+                completamente e de forma automática o documento do usuário junto com todas as subcoleções Firestore a
+                ele atreladas.</p>
 
             <figure class='figure'>
                 <img src='../images/fig13_2_lgpd_delete.png'
@@ -256,6 +258,21 @@
                                 <li><strong>APK ou AAB gerado</strong> pelo FlutterFlow e enviado para a Play
                                     Console.</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s13">
+                        <div id="prompt-s13" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 13.1 — Checklist de Acessibilidade com IA</strong></div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
+                            <p><em>"Liste um checklist prático com os 5 principais erros de acessibilidade estrutural e
+                                    visual cometidos em aplicativos mobile. Foque em aspectos tangíveis de cores,
+                                    alinhamentos e formulários, atuando como um consultor de UX inclusivo."</em></p>
                         </div>
                     </td>
                 </tr>

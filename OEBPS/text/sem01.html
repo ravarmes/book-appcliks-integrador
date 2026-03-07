@@ -32,17 +32,18 @@
                     <div>
                         <ul>
                             <li>A maioria dos projetos de software fracassa não por falta de tecnologia, mas por
-                                <strong>falta de alinhamento</strong> entre a equipe e os objetivos do produto.
+                                <strong>falta de alinhamento</strong> entre a equipe e os objetivos do produto
+                                (Standish Group, 2020).
                             </li>
                             <li>Metodologias ágeis como <strong>Extreme Programming (XP)</strong> valorizam a
-                                comunicação rápida, feedbacks curtos e a prática de <strong>Programming in Pair
-                                    (Programação em Par)</strong>.</li>
-                            <li>Definir o público-alvo antes do desenvolvimento reduz retrabalho em até
-                                <strong>50%</strong>, segundo pesquisas de UX.
+                                comunicação rápida, feedbacks curtos e a prática de <strong>Pair Programming
+                                    (Programação em Par)</strong>
+                                (Beck, 2004).</li>
+                            <li>Definir o público-alvo antes do desenvolvimento reduz significativamente o
+                                retrabalho, pois decisões de design são tomadas com base em dados reais
+                                (Nielsen Norman Group, 2021).
                             </li>
                         </ul>
-                        <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Agile
-                            Manifesto (2001), Kent Beck e Nielsen Norman Group.</p>
                     </div>
                 </td>
             </tr>
@@ -50,8 +51,9 @@
 
         <section id='sec1-1'>
             <h2>1.1 Formação dos Grupos</h2>
-            <p>O Projeto Integrador é desenvolvido em equipe. A colaboração é uma competência essencial no mercado
-                de trabalho, e este projeto simula o ambiente real de desenvolvimento de software.</p>
+            <p>O Projeto Integrador é desenvolvido em equipe de <strong>quatro integrantes</strong>.
+                A colaboração é uma competência essencial no mercado de trabalho, e este projeto simula
+                o ambiente real de desenvolvimento de software.</p>
 
             <table class="box-table tip-table">
                 <tr>
@@ -89,7 +91,7 @@
                 <tbody>
                     <tr>
                         <td><strong>Concepção e Design</strong></td>
-                        <td>Gera o problema, contexto e aprova as ideias.</td>
+                        <td>Define o problema, o contexto e aprova as ideias.</td>
                         <td>Sugere personas, cores, fluxos e valida protótipos.</td>
                     </tr>
                     <tr>
@@ -98,15 +100,16 @@
                         <td>Sugere expressões lógicas, lógicas condicionais e pequenos scripts.</td>
                     </tr>
                     <tr>
-                        <td><strong>Banco de Dados (Firebase)</strong></td>
-                        <td>Cria coleções, regras de segurança iniciais e gerencia o console.</td>
-                        <td>Planeja as estruturas NoSQL, escreve regras avançadas de segurança e checa limites de cota.
-                        </td>
+                        <td><strong>Banco de Dados (Firestore)</strong></td>
+                        <td>Cria coleções no Firestore, configura regras de segurança iniciais e gerencia o console
+                            Firebase.</td>
+                        <td>Planeja as estruturas de documentos/coleções, escreve regras avançadas de segurança e checa
+                            limites de cota.</td>
                     </tr>
                     <tr>
                         <td><strong>Revisão e Refatoração</strong></td>
                         <td>Lê o código resultante, atesta que resolve o problema.</td>
-                        <td>Caça bugs, encontra redundâncias e simplifica consultas Firebase.</td>
+                        <td>Caça bugs, encontra redundâncias e simplifica consultas ao Firestore.</td>
                     </tr>
                 </tbody>
             </table>
@@ -138,18 +141,31 @@
             <h3>Trabalhando com Ciclos Curtos e MVP</h3>
             <p>O Projeto Integrador segue ciclos curtos de desenvolvimento: cada semana você deve alcançar um objetivo
                 claro e gerar um incremento que funcione. Ao final do ciclo, ocorre uma revisão rápida (feedback) e
-                ajustes
-                caso necessário.</p>
-            <p>Isso está diretamente ligado ao conceito de <strong>MVP (Produto Mínimo Viável)</strong>: entregar
-                a menor versão do produto que ainda gera valor para o usuário. Com a ajuda da IA, você deve focar
-                primeiro
-                nos requisitos de <strong>Alta Prioridade</strong> e iterar sem se estender no longo prazo.</p>
+                ajustes caso necessário.</p>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="def-s1-mvp">
+                        <div id="def-s1-mvp" class="box-title"><img src="../images/icon-definicao.png" class="icon-img"
+                                alt="Definição"><strong>Definição: MVP (Produto Mínimo Viável)</strong></div>
+                        <div>
+                            <p><strong>MVP</strong> é a versão mais simples de um produto que ainda entrega valor
+                                real ao usuário. Em vez de construir todas as funcionalidades de uma vez, você
+                                lança o essencial, coleta feedback e melhora o produto em ciclos iterativos.</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Com a ajuda da IA, você deve focar primeiro nos requisitos de <strong>Alta Prioridade</strong> e iterar
+                sem se estender no longo prazo.</p>
         </section>
 
         <section id='sec1-2'>
             <h2>1.2 Escolha do Tema do Aplicativo</h2>
             <p>A escolha do tema é uma das decisões mais importantes do projeto. Um bom tema deve equilibrar
-                <strong>viabilidade técnica</strong> (o que é possível desenvolver no prazo) com
+                <strong>viabilidade técnica</strong> — ou seja, se é possível implementar o app com as ferramentas
+                disponíveis (FlutterFlow + Firebase) e dentro do prazo de 16 semanas — com
                 <strong>relevância</strong> (o que realmente é útil para pessoas).
             </p>
 
@@ -192,12 +208,20 @@
             <p>Se o grupo ainda não tem ideia, considere estas categorias como ponto de partida:</p>
             <ul>
                 <li><strong>Saúde e bem-estar:</strong> rastreador de exercícios, diário de saúde mental, controle
-                    de medicamentos.</li>
-                <li><strong>Educação:</strong> organizador de estudos, quiz de matérias, caderno digital.</li>
-                <li><strong>Comunidade:</strong> app de evento local, fórum de bairro, voluntariado.</li>
+                    de medicamentos. <em>Problema:</em> muitas pessoas esquecem de tomar remédios no horário correto.
+                </li>
+                <li><strong>Educação:</strong> organizador de estudos, quiz de matérias, caderno digital.
+                    <em>Problema:</em> estudantes têm dificuldade em organizar prazos de múltiplas disciplinas.
+                </li>
+                <li><strong>Comunidade:</strong> app de evento local, fórum de bairro, voluntariado.
+                    <em>Problema:</em> moradores não sabem quais eventos acontecem perto de casa.
+                </li>
                 <li><strong>Produtividade:</strong> gerenciador de tarefas, controle financeiro pessoal, lista de
-                    compras compartilhada.</li>
-                <li><strong>Sustentabilidade:</strong> rastreador de carbono, app de reciclagem, horta urbana.</li>
+                    compras compartilhada. <em>Problema:</em> dividir despesas entre colegas de república gera
+                    conflitos.</li>
+                <li><strong>Sustentabilidade:</strong> rastreador de carbono, app de reciclagem, horta urbana.
+                    <em>Problema:</em> pessoas querem reciclar, mas não sabem onde descartar cada tipo de material.
+                </li>
             </ul>
 
             <table class="box-table warning-table">
@@ -239,7 +263,8 @@
             <h3>Como Criar uma Persona</h3>
             <p>Siga os passos abaixo para construir a persona do seu projeto:</p>
             <ol>
-                <li><strong>Pesquise:</strong> converse com ao menos 3 pessoas que representam seu público-alvo.</li>
+                <li><strong>Pesquise:</strong> converse com pessoas que representam seu público-alvo, pesquise em
+                    fóruns e redes sociais, ou utilize IA para simular perfis de usuários e levantar necessidades.</li>
                 <li><strong>Identifique padrões:</strong> quais são as necessidades e frustrações mais comuns?</li>
                 <li><strong>Crie o perfil:</strong> preencha o template com nome, foto (pode ser ilustração),
                     dados demográficos, objetivos e dores.</li>
@@ -301,14 +326,32 @@
                                 alt="Resumo"><strong>Resumo da Semana</strong></div>
                         <div>
                             <ul>
-                                <li><strong>Grupo formado</strong> (ou equipe de um só) e alinhado
+                                <li><strong>Grupo formado</strong> (quatro integrantes) e alinhado
                                     com a filosofia de Extreme Programming utilizando IA como Par.</li>
                                 <li><strong>Tema escolhido</strong> com justificativa (por que este app?
                                     Qual problema resolve?).</li>
                                 <li><strong>Persona criada</strong> com nome, perfil e necessidades do
                                     usuário principal.</li>
-                                <li><strong>Nome provisório</strong> do aplicativo.</li>
+                                <li><strong>Nome provisório</strong> do aplicativo — escolha um nome
+                                    curto, fácil de lembrar e que remeta ao propósito do app
+                                    (ex: <em>FinanCampus</em>, <em>MedAlert</em>, <em>EcoDescarte</em>).</li>
                             </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="box-table tip-table">
+                <tr>
+                    <td class="box-content tip" role="note" aria-labelledby="prompt-s1">
+                        <div id="prompt-s1" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
+                                alt="Prompt"><strong>Prompt 1.1 — Brainstorming de Tema com IA</strong></div>
+                        <div>
+                            <p>Use o prompt abaixo como ponto de partida para gerar ideias de tema com uma IA:</p>
+                            <p><em>"Sou estudante universitário e preciso criar um aplicativo mobile com FlutterFlow
+                                    e Firebase em 16 semanas. O app deve resolver um problema real para [público-alvo].
+                                    Sugira 5 ideias de app com nome, problema que resolve e funcionalidades
+                                    principais."</em></p>
                         </div>
                     </td>
                 </tr>
