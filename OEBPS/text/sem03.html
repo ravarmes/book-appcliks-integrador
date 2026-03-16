@@ -33,13 +33,14 @@
                             <li>Testar um protótipo de papel com 5 usuários encontra aproximadamente
                                 <strong>85% dos problemas</strong> de usabilidade de uma interface.
                             </li>
-                            <li>O <strong>Figma</strong> é a ferramenta de design de interface mais usada no mundo,
-                                com mais de 4 milhões de usuários ativos.</li>
+                            <li>O <strong>Balsamiq</strong> é uma das ferramentas mais populares para criação de
+                                wireframes de baixa fidelidade, com recursos de geração por IA que aceleram
+                                a ideação inicial.</li>
                             <li>Protótipos de baixa fidelidade economizam até <strong>10 vezes mais tempo</strong>
                                 durante a fase de iteração de design.</li>
                         </ul>
                         <p class="small" style="margin-top: 1em; color: #666; font-style: italic;">Fonte: Nielsen
-                            Norman Group; Figma Report 2023.</p>
+                            Norman Group.</p>
                     </div>
                 </td>
             </tr>
@@ -183,22 +184,22 @@
                 <tbody>
                     <tr>
                         <td><strong><a href="https://balsamiq.com/" target="_blank">Balsamiq</a></strong></td>
-                        <td>Digital (desktop/online)</td>
+                        <td>Digital (desktop/online) — Baixa fidelidade</td>
                         <td>Gratuito (trial 30 dias)</td>
                     </tr>
                     <tr>
-                        <td><strong>Figma</strong></td>
-                        <td>Digital (online, colaborativo)</td>
-                        <td>Gratuito (plano educação)</td>
+                        <td><strong><a href="https://www.flutterflow.io/" target="_blank">FlutterFlow</a></strong></td>
+                        <td>Digital (online) — Alta fidelidade</td>
+                        <td>Gratuito (plano estudante)</td>
                     </tr>
                     <tr>
                         <td><strong>Draw.io (diagrams.net)</strong></td>
-                        <td>Digital (online)</td>
+                        <td>Digital (online) — Baixa fidelidade</td>
                         <td>Gratuito</td>
                     </tr>
                     <tr>
                         <td><strong>Papel e caneta</strong></td>
-                        <td>Analógico</td>
+                        <td>Analógico — Baixa fidelidade</td>
                         <td>Gratuito</td>
                     </tr>
                 </tbody>
@@ -208,11 +209,15 @@
                 <tr>
                     <td class="box-content tip" role="note" aria-labelledby="tip-s3-fig">
                         <div id="tip-s3-fig" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
-                                alt="Dica"><strong>Dica: Usando o Figma</strong></div>
+                                alt="Dica"><strong>Dica: Fluxo de Prototipação</strong></div>
                         <div>
-                            <p>Acesse <strong>figma.com</strong> e crie uma conta gratuita com seu e-mail
-                                institucional. Use o template <em>"Mobile Wireframe Kit"</em> disponível na
-                                comunidade do Figma para agilizar a criação das telas do seu app.</p>
+                            <p>Utilize o <strong>Balsamiq</strong> para criar os wireframes de <strong>baixa
+                                    fidelidade</strong>. O Balsamiq possui um recurso de <em>geração por IA</em> que
+                                permite criar uma primeira versão das telas a partir de prompts de texto — 
+                                basta descrever a tela desejada e ajustar o resultado. Depois, quando chegar a
+                                hora de construir o protótipo de <strong>alta fidelidade</strong>, utilize o
+                                próprio <strong>FlutterFlow</strong>, que já será a ferramenta de desenvolvimento
+                                final do app.</p>
                         </div>
                     </td>
                 </tr>
@@ -283,18 +288,49 @@
                         <div id="prompt-s3" class="box-title"><img src="../images/icon-observacao.png" class="icon-img"
                                 alt="Prompt"><strong>Prompt 3.1 — Ideação de Telas com IA</strong></div>
                         <div>
-                            <p>Use o prompt abaixo como ponto de partida para usar a IA como seu par nesta semana:</p>
-                            <p><em>"Atuando como um UX Designer sênior, liste as telas essenciais para um aplicativo
-                                    cujo objetivo é [descreva o problema] para [público-alvo]. Para cada tela sugerida,
-                                    indique 3 elementos visuais ou interativos que não podem faltar para garantir uma
-                                    boa experiência de uso."</em></p>
+                            <p>Use o prompt abaixo no recurso de <strong>geração por IA do Balsamiq</strong> para
+                                criar a primeira versão dos wireframes. Depois, ajuste o resultado conforme
+                                necessário. Você também pode usar esse prompt em um chatbot de IA (como ChatGPT
+                                ou Gemini) para obter sugestões detalhadas de layout antes de desenhar.</p>
+                            <p><em>"Atuando como um UX Designer sênior, crie wireframes de baixa fidelidade para
+                                    um aplicativo mobile de controle financeiro pessoal voltado para estudantes
+                                    universitários. O app deve conter as seguintes telas:</em></p>
+                            <p><em><strong>1. Login:</strong> campos de e-mail e senha; botão "Entrar"; link
+                                    "Criar conta" para novos usuários; opção de "Esqueci minha senha".</em></p>
+                            <p><em><strong>2. Listagem de Transações:</strong> barra superior com título da tela
+                                    e filtro por mês; lista rolável de transações exibindo: ícone da categoria,
+                                    descrição, valor (verde para renda, vermelho para despesa) e data; botão
+                                    flutuante (+) para adicionar nova transação; barra de navegação inferior com
+                                    abas (Transações, Categorias, Gráficos, Configurações).</em></p>
+                            <p><em><strong>3. Listagem de Categorias:</strong> lista de categorias mostrando ícone
+                                    e nome de cada uma; botão flutuante (+) para adicionar nova categoria; cada
+                                    item deve permitir toque para editar; opção de exclusão por deslizar ou menu
+                                    de contexto.</em></p>
+                            <p><em><strong>4. Inserir/Alterar Transação:</strong> formulário com: tipo (Dropdown
+                                    ou segmentado: Renda/Despesa), valor (campo numérico com máscara monetária),
+                                    categoria (Dropdown com ícones), data (DatePicker com valor padrão = data
+                                    atual), descrição (campo de texto opcional); botões "Salvar" e "Cancelar";
+                                    em modo de edição, exibir botão "Excluir" adicional.</em></p>
+                            <p><em><strong>5. Inserir/Alterar Categoria:</strong> formulário com: nome da
+                                    categoria (campo de texto obrigatório), seletor de ícone (grade com ícones
+                                    pré-definidos, como alimentação, transporte, lazer, saúde, educação, moradia,
+                                    etc.); botões "Salvar" e "Cancelar".</em></p>
+                            <p><em><strong>6. Gráfico de Transações por Categoria:</strong> gráfico de pizza ou
+                                    rosca mostrando a distribuição das despesas por categoria no mês atual;
+                                    filtro de mês na barra superior; legenda com nome da categoria, valor total
+                                    e percentual; ao tocar em uma fatia, exibir detalhamento.</em></p>
+                            <p><em><strong>7. Orçamento Mensal por Categoria:</strong> lista de categorias com
+                                    barra de progresso mostrando gasto atual vs. orçamento definido; indicador
+                                    visual (verde/amarelo/vermelho) conforme percentual utilizado; botão para
+                                    editar o valor do orçamento de cada categoria; resumo no topo com total
+                                    orçado vs. total gasto no mês."</em></p>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <p>Na próxima semana, você irá dar início à modelagem do banco de dados do projeto, criando
-                o Diagrama Entidade-Relacionamento (DER) e o Modelo Entidade-Relacionamento (MER).</p>
+            <p>Na próxima semana, você irá dar início à modelagem do banco de dados do projeto,
+                definindo as entidades, seus atributos e os relacionamentos entre elas.</p>
         </section>
 
         <section id='caso-sem3'>
@@ -309,24 +345,30 @@
                                 class="icon-img" alt="Estudo de Caso"><strong>📱 Estudo de Caso — Semana 3</strong>
                         </div>
                         <div>
-                            <p><strong>Wireframes criados no Figma (6 telas):</strong></p>
+                            <p><strong>Wireframes de baixa fidelidade criados no Balsamiq (7 telas):</strong></p>
                             <ol>
-                                <li><strong>Login / Cadastro:</strong> campos de e-mail e senha, botão de entrar e
-                                    link para criar conta.</li>
-                                <li><strong>Home / Dashboard:</strong> saldo do mês em destaque, últimas 3 transações
-                                    e botão flutuante (+) para nova transação.</li>
-                                <li><strong>Lista de Transações:</strong> ListView com filtro por mês, tipo e categoria;
-                                    cada item exibe ícone, tipo, descrição, valor e data.</li>
-                                <li><strong>Nova Transação:</strong> formulário com campos de tipo (Dropdown
-                                    Renda/Despesa), valor (numérico),
-                                    categoria (Dropdown), data (DatePicker) e descrição (opcional).</li>
-                                <li><strong>Detalhe / Editar Transação:</strong> exibe os dados da transação com botões
-                                    de editar e excluir.</li>
-                                <li><strong>Configurações:</strong> e-mail do usuário e botão de logout.</li>
+                                <li><strong>Login:</strong> campos de e-mail e senha, botão de entrar,
+                                    link para criar conta e opção "Esqueci minha senha".</li>
+                                <li><strong>Listagem de Transações:</strong> lista com filtro por mês;
+                                    cada item exibe ícone da categoria, descrição, valor e data;
+                                    botão flutuante (+) para nova transação.</li>
+                                <li><strong>Listagem de Categorias:</strong> lista de categorias com ícone
+                                    e nome; botão flutuante (+) para nova categoria.</li>
+                                <li><strong>Inserir/Alterar Transação:</strong> formulário com campos de tipo
+                                    (Dropdown Renda/Despesa), valor (numérico), categoria (Dropdown), data
+                                    (DatePicker) e descrição (opcional).</li>
+                                <li><strong>Inserir/Alterar Categoria:</strong> formulário com campo de nome
+                                    e seletor de ícone (grade de ícones pré-definidos).</li>
+                                <li><strong>Gráfico por Categoria:</strong> gráfico de pizza/rosca com
+                                    distribuição de despesas por categoria, legenda e filtro de mês.</li>
+                                <li><strong>Orçamento Mensal:</strong> lista de categorias com barra de progresso
+                                    (gasto vs. orçamento) e indicador visual de consumo.</li>
                             </ol>
-                            <p><strong>Documento de Requisitos v1.0</strong> entregue com 8 páginas incluindo:
-                                frase de visão, persona da Mariana, 8 RFs, 4 RNFs e prints dos 6 wireframes
-                                do Figma.</p>
+                            <p><strong>Protótipo de alta fidelidade:</strong> as telas foram recriadas
+                                diretamente no <strong>FlutterFlow</strong>, que será a ferramenta de
+                                desenvolvimento final do app.</p>
+                            <p><strong>Documento de Requisitos v1.0</strong> entregue com 9 RFs, 4 RNFs,
+                                frase de visão, persona da Mariana e prints dos 7 wireframes do Balsamiq.</p>
                             <p><strong>Heurística aplicada:</strong> o grupo adicionou uma mensagem de
                                 <em>feedback visual</em> (SnackBar de sucesso) após salvar uma transação —
                                 aplicando a heurística de <em>Visibilidade do Status do Sistema</em>.
