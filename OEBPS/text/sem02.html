@@ -136,33 +136,49 @@
                 <tbody>
                     <tr>
                         <td>RF01</td>
-                        <td>O sistema deve permitir o cadastro de novos usuários com nome, e-mail e senha.</td>
+                        <td>O sistema deve permitir cadastro e login por e-mail e senha.</td>
                         <td>Alta</td>
                     </tr>
                     <tr>
                         <td>RF02</td>
-                        <td>O sistema deve permitir o registro de uma transação com tipo (Renda/Despesa), valor,
-                            categoria e data.</td>
+                        <td>O sistema deve listar todas as transações do mês atual do usuário logado
+                            (exibindo saldo de mês: rendas − despesas).</td>
                         <td>Alta</td>
                     </tr>
                     <tr>
                         <td>RF03</td>
-                        <td>O sistema deve permitir o cadastro, edição e exclusão de categorias com nome e ícone.</td>
+                        <td>O sistema deve listar todas as categorias do usuário logado.</td>
                         <td>Alta</td>
                     </tr>
                     <tr>
                         <td>RF04</td>
-                        <td>O sistema deve exibir um gráfico de transações por categoria no mês atual.</td>
-                        <td>Média</td>
+                        <td>O sistema deve permitir inserir/alterar uma transação (tipo, valor, categoria,
+                            data, descrição).</td>
+                        <td>Alta</td>
                     </tr>
                     <tr>
                         <td>RF05</td>
-                        <td>O sistema deve enviar uma notificação quando o limite de orçamento for atingido.</td>
-                        <td>Baixa</td>
+                        <td>O sistema deve permitir inserir/alterar uma categoria (nome e ícone).</td>
+                        <td>Alta</td>
                     </tr>
                     <tr>
                         <td>RF06</td>
-                        <td>O sistema deve permitir exportar o extrato mensal em formato PDF.</td>
+                        <td>O sistema deve exibir um gráfico de transações por categoria.</td>
+                        <td>Média</td>
+                    </tr>
+                    <tr>
+                        <td>RF07</td>
+                        <td>O sistema deve permitir definir orçamento mensal por categoria.</td>
+                        <td>Média</td>
+                    </tr>
+                    <tr>
+                        <td>RF08</td>
+                        <td>O sistema deve enviar notificação ao atingir 80% do orçamento.</td>
+                        <td>Baixa</td>
+                    </tr>
+                    <tr>
+                        <td>RF09</td>
+                        <td>O sistema deve permitir exportar extrato mensal em PDF.</td>
                         <td>Baixa</td>
                     </tr>
                 </tbody>
@@ -211,8 +227,8 @@
             <h3>Exemplo</h3>
             <p><em>"Como universitária, quero registrar uma transação financeira, para controlar meus
                     gastos mensais."</em></p>
-            <p>Essa User Story origina o requisito funcional: <strong>RF02 — O sistema deve permitir
-                    registrar uma transação com tipo, valor, categoria e data.</strong></p>
+            <p>Essa User Story origina o requisito funcional: <strong>RF04 — O sistema deve permitir
+                    inserir/alterar uma transação (tipo, valor, categoria, data, descrição).</strong></p>
 
             <p>Cada User Story pode originar um ou mais Requisitos Funcionais formais. A
                 <strong>Figura 2.2</strong> mostra como uma User Story se transforma no RF documentado.
@@ -379,17 +395,17 @@
                             <p><strong>Requisitos Funcionais (RF) — Alta Prioridade:</strong></p>
                             <ul>
                                 <li>RF01 — O sistema deve permitir cadastro e login por e-mail e senha.</li>
-                                <li>RF02 — O sistema deve permitir registrar uma transação (tipo, valor, categoria,
-                                    data, descrição).</li>
-                                <li>RF03 — O sistema deve permitir o cadastro, edição e exclusão de categorias
-                                    com nome e ícone.</li>
-                                <li>RF04 — O sistema deve listar todas as transações do mês atual do usuário logado.
+                                <li>RF02 — O sistema deve listar todas as transações do mês atual do usuário logado
+                                    (exibindo saldo de mês: rendas − despesas).</li>
+                                <li>RF03 — O sistema deve listar todas as categorias do usuário logado.</li>
+                                <li>RF04 — O sistema deve permitir inserir/alterar uma transação (tipo, valor,
+                                    categoria, data, descrição).</li>
+                                <li>RF05 — O sistema deve permitir inserir/alterar uma categoria (nome e ícone).
                                 </li>
-                                <li>RF05 — O sistema deve exibir o saldo do mês (rendas − despesas).</li>
-                                <li>RF06 — O sistema deve exibir um gráfico de transações por categoria.</li>
                             </ul>
                             <p><strong>Requisitos Funcionais (RF) — Média/Baixa Prioridade:</strong></p>
                             <ul>
+                                <li>RF06 — O sistema deve exibir um gráfico de transações por categoria.</li>
                                 <li>RF07 — O sistema deve permitir definir orçamento mensal por categoria.</li>
                                 <li>RF08 — O sistema deve enviar notificação ao atingir 80% do orçamento.</li>
                                 <li>RF09 — O sistema deve permitir exportar extrato mensal em PDF.</li>
@@ -401,6 +417,15 @@
                                 <li>RNF03 — Compatibilidade: Android 8.0 ou superior.</li>
                                 <li>RNF04 — Usabilidade: novo usuário registra primeira transação em menos de 1 minuto.
                                 </li>
+                            </ul>
+                            <p><strong>User Stories que originaram os RFs principais:</strong></p>
+                            <ul>
+                                <li>Como estudante universitário, quero criar minha conta e fazer login com e-mail e
+                                    senha, para acessar meus dados financeiros com segurança. (RF01)</li>
+                                <li>Como usuário logado, quero visualizar todas as transações do mês atual com saldo
+                                    consolidado, para entender rapidamente minha situação financeira. (RF02)</li>
+                                <li>Como estudante, quero registrar e editar transações com tipo, valor, categoria,
+                                    data e descrição, para manter meu controle financeiro sempre atualizado. (RF04)</li>
                             </ul>
                         </div>
                     </td>
