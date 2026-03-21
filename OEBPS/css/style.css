@@ -642,3 +642,46 @@ pre.code.sql .op { color: #fd971f; } /* operators */
 /* Variante compacta/estreita para tabelas em blocos de exercício */
 .content-table.compact th, .content-table.compact td { padding: 0.4rem 0.5rem; font-size: 0.95rem; }
 .content-table.narrow { width: auto; max-width: 780px; margin: 0.25rem auto; }
+
+/* Grade de wireframes: 3 telas por linha */
+.figure-grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.5rem 0 1rem;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+.figure-grid-item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 calc(33.333% - 0.35rem);
+    flex: 0 0 calc(33.333% - 0.35rem);
+    max-width: calc(33.333% - 0.35rem);
+    text-align: center;
+}
+.figure-grid-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+.figure-grid-item .grid-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.25rem;
+    display: block;
+}
+@media (max-width: 500px) {
+    .figure-grid-item {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
